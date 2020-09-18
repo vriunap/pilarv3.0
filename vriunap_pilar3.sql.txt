@@ -1,0 +1,1034 @@
+-- phpMyAdmin SQL Dump
+-- version 4.2.12deb2+deb8u2
+-- http://www.phpmyadmin.net
+--
+-- Servidor: localhost
+-- Versión de PHP: 5.6.30-0+deb8u1
+
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+--
+-- Base de datos: `vriunap_pilar3`
+--
+
+-- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `dicAmpliaciones` (
+`Id` int(11) NOT NULL,
+  `IdTram` int(11) NOT NULL,
+  `FechaApro` datetime NOT NULL,
+  `FechaPre` datetime NOT NULL,
+  `Dias` int(11) NOT NULL,
+  `Doc` varchar(150) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS `dicEstadTram` (
+  `Id` int(11) NOT NULL,
+  `Nombre` varchar(150) CHARACTER SET latin1 NOT NULL,
+  `Descrip` varchar(800) CHARACTER SET latin1 NOT NULL,
+  `Estado` tinyint(1) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `docEstudios` (
+`Id` int(11) NOT NULL,
+  `IdDocente` int(5) NOT NULL,
+  `Universidad` varchar(99) CHARACTER SET utf8 NOT NULL,
+  `IdGrado` int(11) NOT NULL DEFAULT '1',
+  `AbrevGrado` varchar(7) CHARACTER SET utf8 NOT NULL,
+  `Mencion` varchar(120) CHARACTER SET utf8 NOT NULL,
+  `Archivo` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `Fecha` date NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `docLineas`
+--
+
+CREATE TABLE IF NOT EXISTS `docLineas` (
+`Id` int(11) NOT NULL,
+  `IdDocente` int(5) NOT NULL,
+  `IdLinea` int(5) NOT NULL,
+  `Tipo` int(2) NOT NULL DEFAULT '1',
+  `Fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Estado` int(3) NOT NULL,
+  `Obs` varchar(1000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `docParentesco`
+--
+
+CREATE TABLE IF NOT EXISTS `docParentesco` (
+`Id` int(11) NOT NULL,
+  `Filiacion` varchar(5) NOT NULL,
+  `IdDocente1` int(11) NOT NULL,
+  `IdDocente2` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `estTramBach`
+--
+
+CREATE TABLE IF NOT EXISTS `estTramBach` (
+`Id` int(11) NOT NULL,
+  `Tipo` int(11) NOT NULL,
+  `Estado` int(11) NOT NULL,
+  `Codigo` varchar(10) NOT NULL,
+  `IdFac` int(11) NOT NULL,
+  `IdCarr` int(11) NOT NULL,
+  `IdTesista` int(11) NOT NULL,
+  `IdJurado` int(11) NOT NULL,
+  `IdAsesor` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `logCordinads`
+--
+
+CREATE TABLE IF NOT EXISTS `logCordinads` (
+`Id` int(11) NOT NULL,
+  `IdUser` int(4) NOT NULL,
+  `IdCarrera` int(3) NOT NULL,
+  `IdOperacion` int(3) NOT NULL,
+  `Tipo` varchar(1) CHARACTER SET latin1 NOT NULL,
+  `Just` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `Detalle` varchar(800) CHARACTER SET latin1 NOT NULL,
+  `Fecha` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `logCorreos`
+--
+
+CREATE TABLE IF NOT EXISTS `logCorreos` (
+`Id` int(11) NOT NULL,
+  `Fecha` datetime NOT NULL,
+  `IdDocente` int(11) NOT NULL,
+  `IdTesista` int(11) NOT NULL,
+  `Correo` varchar(50) NOT NULL,
+  `Titulo` varchar(50) NOT NULL,
+  `Mensaje` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `logLogins` (
+`Id` int(11) NOT NULL,
+  `Tipo` varchar(2) CHARACTER SET utf8 NOT NULL,
+  `IdUser` int(11) NOT NULL,
+  `Fecha` datetime NOT NULL,
+  `Accion` varchar(25) CHARACTER SET utf8 NOT NULL,
+  `IP` varchar(16) CHARACTER SET utf8 NOT NULL,
+  `OS` varchar(45) CHARACTER SET utf8 NOT NULL,
+  `Browser` varchar(45) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS `logTramites` (
+`Id` int(11) NOT NULL,
+  `Tipo` varchar(2) NOT NULL,
+  `IdUser` int(11) NOT NULL,
+  `IdTramite` int(11) NOT NULL,
+  `Quien` varchar(30) NOT NULL,
+  `Accion` varchar(50) NOT NULL,
+  `Detalle` varchar(500) NOT NULL,
+  `Fecha` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS `Repositorio` (
+`Id` int(11) NOT NULL,
+  `DNI` varchar(10) CHARACTER SET utf8 NOT NULL,
+  `Codigo` varchar(8) CHARACTER SET utf8 NOT NULL,
+  `IdFacultad` int(5) NOT NULL,
+  `IdCarrera` int(5) NOT NULL,
+  `IdEspec` int(5) NOT NULL,
+  `Apellidos` varchar(250) CHARACTER SET utf8 NOT NULL,
+  `Nombres` varchar(75) CHARACTER SET utf8 NOT NULL,
+  `IdModal` int(11) NOT NULL,
+  `FechaReg` datetime NOT NULL,
+  `SemReg` varchar(25) CHARACTER SET utf8 NOT NULL,
+  `FechaSus` date NOT NULL,
+  `Link1` varchar(99) NOT NULL,
+  `Link2` varchar(99) NOT NULL,
+  `NroCelular` varchar(12) CHARACTER SET utf8 NOT NULL,
+  `Correo` varchar(40) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS `tblCorrects` (
+`Id` int(11) NOT NULL,
+  `IdTramite` int(5) NOT NULL,
+  `Iteracion` int(5) NOT NULL,
+  `IdDocente` int(5) NOT NULL,
+  `Fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `Mensaje` varchar(1024) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS `tblManagers` (
+`Id` int(11) NOT NULL,
+  `Nivel` int(11) NOT NULL,
+  `Responsable` varchar(32) NOT NULL,
+  `Usuario` varchar(12) NOT NULL,
+  `Clave` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `tblMemos` (
+`Id` int(11) NOT NULL,
+  `Tipo` int(11) NOT NULL,
+  `Ordinal` int(11) NOT NULL,
+  `Anio` int(11) NOT NULL,
+  `IdTramite` int(11) NOT NULL,
+  `IdCarrera` int(11) NOT NULL,
+  `Fecha` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS `tblPreguntas` (
+`idpregunta` int(11) NOT NULL,
+  `pregunta` varchar(500) DEFAULT NULL,
+  `respuesta` varchar(500) DEFAULT NULL,
+  `obs` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='¿Tenemos libre albedrío?';
+
+-- --------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS `tblSecres` (
+`Id` int(11) NOT NULL,
+  `Id_Facultad` int(11) NOT NULL,
+  `IdCarrera` int(11) NOT NULL,
+  `UserLevel` int(3) NOT NULL,
+  `Resp` varchar(400) NOT NULL,
+  `Usuario` varchar(70) NOT NULL,
+  `Clave` varchar(20) NOT NULL,
+  `Celular` varchar(9) NOT NULL,
+  `Correo` varchar(300) NOT NULL,
+  `Direccion` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS `tblTesistas` (
+`Id` int(11) NOT NULL,
+  `Activo` int(5) NOT NULL DEFAULT '1',
+  `DNI` varchar(10) CHARACTER SET utf8 NOT NULL,
+  `Sexo` varchar(4) NOT NULL,
+  `Codigo` varchar(8) CHARACTER SET utf8 NOT NULL,
+  `IdFacultad` int(5) NOT NULL,
+  `IdCarrera` int(5) NOT NULL,
+  `IdEspec` int(5) NOT NULL,
+  `Apellidos` varchar(75) CHARACTER SET utf8 NOT NULL,
+  `Nombres` varchar(75) CHARACTER SET utf8 NOT NULL,
+  `FechaReg` datetime NOT NULL,
+  `SemReg` varchar(25) CHARACTER SET utf8 NOT NULL,
+  `Direccion` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `NroCelular` varchar(12) CHARACTER SET utf8 NOT NULL,
+  `Correo` varchar(75) CHARACTER SET utf8 NOT NULL,
+  `Clave` varchar(90) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=12271 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS `tesJuCambios` (
+  `Id` int(11) NOT NULL,
+  `IdTramite` int(11) NOT NULL,
+  `Tipo` int(11) NOT NULL,
+  `Referens` varchar(50) NOT NULL,
+  `IdJurado1` int(11) NOT NULL,
+  `IdJurado2` int(11) NOT NULL,
+  `IdJurado3` int(11) NOT NULL,
+  `IdJurado4` int(11) NOT NULL,
+  `Fecha` datetime NOT NULL,
+  `Motivo` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS `tesProyHabs` (
+`Id` int(11) NOT NULL,
+  `IdTram` int(11) NOT NULL,
+  `Codigo` varchar(10) NOT NULL,
+  `IdDocente` int(11) NOT NULL,
+  `PosJurado` int(11) NOT NULL,
+  `Motivo` varchar(300) NOT NULL,
+  `FechSort` datetime NOT NULL,
+  `Fecha` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `tesSustenAct` (
+`Id` int(11) NOT NULL,
+  `IdTramite` int(11) NOT NULL,
+  `IdCarrera` int(11) NOT NULL,
+  `Dictamen` int(11) NOT NULL,
+  `Fecha` datetime NOT NULL,
+  `Num` int(11) NOT NULL,
+  `Obs` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS `tesSustens` (
+`Id` int(11) NOT NULL,
+  `Activo` int(4) NOT NULL DEFAULT '1',
+  `Tipo` int(11) NOT NULL DEFAULT '1',
+  `IdBorrador` int(11) NOT NULL,
+  `IdTramite` int(11) NOT NULL,
+  `Codigo` varchar(12) NOT NULL,
+  `Fecha` datetime NOT NULL,
+  `FechaDic` date NOT NULL,
+  `IdCarrera` int(11) NOT NULL,
+  `Lugar` varchar(100) NOT NULL,
+  `obs` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS `tesSustensSolic` (
+`Id` int(4) NOT NULL,
+  `Estado` int(3) NOT NULL,
+  `IdTramite` int(7) NOT NULL,
+  `IdTesista` int(11) NOT NULL,
+  `IdCarrera` int(4) NOT NULL,
+  `UrlRepo` varchar(300) NOT NULL,
+  `FechDic` date NOT NULL,
+  `FechSusten` date NOT NULL,
+  `FileDiapo` varchar(200) NOT NULL,
+  `DateSolic` datetime NOT NULL,
+  `DateModif` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `Obs` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS `tesTramDoc` (
+`Id` int(11) NOT NULL,
+  `Tipo` int(2) NOT NULL,
+  `IdTramite` int(11) NOT NULL,
+  `Title` varchar(350) CHARACTER SET utf8 NOT NULL,
+  `Abstract` text CHARACTER SET utf8 NOT NULL,
+  `Keywords` varchar(99) CHARACTER SET utf8 NOT NULL,
+  `Conclus` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS `tesTramites` (
+`Id` int(11) NOT NULL,
+  `Tipo` int(2) NOT NULL DEFAULT '1',
+  `Codigo` varchar(10) CHARACTER SET utf8 NOT NULL,
+  `Anio` int(5) NOT NULL,
+  `Orden` int(5) NOT NULL,
+  `IdCarrera` int(11) NOT NULL,
+  `Estado` int(2) NOT NULL,
+  `SuEst` int(2) NOT NULL,
+  `IdTesista1` int(7) NOT NULL,
+  `IdTesista2` int(7) NOT NULL,
+  `IdLinea` int(5) NOT NULL,
+  `IdLinAlte` int(5) NOT NULL,
+  `IdJurado1` int(5) NOT NULL,
+  `IdJurado2` int(5) NOT NULL,
+  `IdJurado3` int(5) NOT NULL,
+  `IdJurado4` int(5) NOT NULL,
+  `FechRegProy` datetime NOT NULL,
+  `FechActBorr` datetime NOT NULL,
+  `_T_` varchar(5) NOT NULL,
+  `FechModif` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS `tesTramsBach` (
+`Id` int(5) NOT NULL,
+  `Estado` int(5) NOT NULL,
+  `IdTramite` int(5) NOT NULL,
+  `IdTesista` int(5) NOT NULL,
+  `IdCarrera` int(11) NOT NULL,
+  `NroRes` int(11) NOT NULL,
+  `AnioRes` int(11) NOT NULL,
+  `DateRes` date NOT NULL,
+  `DateUpolad` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `File` varchar(20) NOT NULL,
+  `Obs` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `tesTramsDet` (
+`Id` int(11) NOT NULL,
+  `IdTramite` int(11) NOT NULL,
+  `Iteracion` int(2) NOT NULL,
+  `Titulo` varchar(350) CHARACTER SET utf8 NOT NULL,
+  `Archivo` varchar(25) CHARACTER SET utf8 NOT NULL,
+  `vb1` int(2) NOT NULL,
+  `vb2` int(2) NOT NULL,
+  `vb3` int(2) NOT NULL,
+  `vb4` int(2) NOT NULL,
+  `Fecha` datetime NOT NULL,
+  `Obs` varchar(75) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `vwAnoingJuly` (
+`Id` int(11)
+,`Tipo` int(2)
+,`Estado` int(2)
+,`Codigo` varchar(10)
+,`IdCarrera` int(11)
+,`IdTesista1` int(7)
+,`IdTesista2` int(7)
+,`Iteracion` int(2)
+,`Titulo` varchar(350)
+,`vb1` int(2)
+,`vb2` int(2)
+,`vb3` int(2)
+,`vb4` int(2)
+,`Fecha` datetime
+);
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vxDatDocentes`
+--
+CREATE TABLE IF NOT EXISTS `vxDatDocentes` (
+`Id` int(11)
+,`IdDocente` int(11)
+,`Activo` int(11)
+,`Codigo` varchar(12)
+,`DNI` varchar(10)
+,`IdCategoria` int(11)
+,`Tipo` varchar(1)
+,`CategAbrev` varchar(15)
+,`IdFacultad` int(11)
+,`FacuAbrev` varchar(1)
+,`IdCarrera` int(11)
+,`Carrera` varchar(100)
+,`DatosPers` varchar(152)
+,`DatosNom` varchar(151)
+,`Antiguedad` int(7)
+,`FechaAsc` date
+,`FechaIn` date
+,`NroCelular` varchar(12)
+,`Correo` varchar(50)
+,`Clave` varchar(100)
+);
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vxDatTesistas`
+--
+CREATE TABLE IF NOT EXISTS `vxDatTesistas` (
+`Id` int(11)
+,`Activo` int(5)
+,`DNI` varchar(10)
+,`Codigo` varchar(8)
+,`IdFacultad` int(5)
+,`Facultad` varchar(100)
+,`IdCarrera` int(5)
+,`Carrera` varchar(100)
+,`IdEspec` int(5)
+,`DatosPers` varchar(152)
+,`Apellidos` varchar(75)
+,`Nombres` varchar(75)
+,`FechaReg` datetime
+,`SemReg` varchar(25)
+,`Direccion` varchar(50)
+,`NroCelular` varchar(12)
+,`Correo` varchar(75)
+,`Clave` varchar(90)
+);
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vxDocInLin`
+--
+CREATE TABLE IF NOT EXISTS `vxDocInLin` (
+`IdDocente` int(5)
+,`IdLinea` int(5)
+,`LinEstado` int(3)
+,`TipoLin` int(2)
+,`TipoDoc` varchar(1)
+,`CategAbrev` varchar(15)
+,`DatosPers` varchar(152)
+,`Activo` int(11)
+,`IdCarrera` int(11)
+,`IdCategoria` int(11)
+);
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vxDocInLinEx`
+--
+CREATE TABLE IF NOT EXISTS `vxDocInLinEx` (
+`IdDocente` int(5)
+,`IdLinea` int(5)
+,`Linea` varchar(300)
+,`TipoLin` int(2)
+,`TipoDoc` varchar(1)
+,`CategAbrev` varchar(15)
+,`DatosPers` varchar(152)
+,`Activo` int(11)
+,`IdCarrera` int(11)
+,`IdCategoria` int(11)
+);
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vxLineas`
+--
+CREATE TABLE IF NOT EXISTS `vxLineas` (
+`Id` int(5)
+,`Nombre` varchar(300)
+,`Repets` bigint(21)
+,`TotDoceRegs` bigint(21)
+,`IdArea` int(1)
+,`IdSubArea` int(2)
+,`IdDiscip` int(3)
+,`IdFacultad` int(2)
+,`IdCarrera` int(2)
+);
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vxMemos`
+--
+CREATE TABLE IF NOT EXISTS `vxMemos` (
+`Id` int(11)
+,`Tipo` int(11)
+,`Ordinal` int(11)
+,`Anio` int(11)
+,`IdTramite` int(11)
+,`IdCarrera` int(11)
+,`Fecha` datetime
+,`Codigo` varchar(10)
+,`Estado` int(2)
+);
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vxSustens`
+--
+CREATE TABLE IF NOT EXISTS `vxSustens` (
+`Id` int(11)
+,`Activo` int(4)
+,`IdTramite` int(11)
+,`Codigo` varchar(12)
+,`Pendiente` int(1)
+,`IdCarrera` int(11)
+,`IdFacultad` int(11)
+,`Carrera` varchar(100)
+,`Fecha` datetime
+,`Lugar` varchar(100)
+);
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vxTesTramites`
+--
+CREATE TABLE IF NOT EXISTS `vxTesTramites` (
+`Id` int(11)
+,`Tipo` int(2)
+,`Codigo` varchar(10)
+,`Anio` int(5)
+,`Orden` int(5)
+,`IdCarrera` int(11)
+,`Estado` int(2)
+,`IdTesista1` int(7)
+,`IdTesista2` int(7)
+,`IdLinea` int(5)
+,`IdLinAlte` int(5)
+,`IdJurado1` int(5)
+,`IdJurado2` int(5)
+,`IdJurado3` int(5)
+,`IdJurado4` int(5)
+,`FechRegProy` datetime
+,`FechActBorr` datetime
+,`_T_` varchar(5)
+,`FechModif` timestamp
+,`IdEspec` bigint(11)
+);
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vxZumLoginDoc`
+--
+CREATE TABLE IF NOT EXISTS `vxZumLoginDoc` (
+`Id` int(11)
+,`Tipo` varchar(2)
+,`IdUser` int(11)
+,`DatosPers` varchar(151)
+,`Fecha` datetime
+,`Accion` varchar(25)
+,`OS` varchar(45)
+,`Browser` varchar(45)
+,`IP` varchar(16)
+);
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vxZumLoginDocEx`
+--
+CREATE TABLE IF NOT EXISTS `vxZumLoginDocEx` (
+`Tipo` varchar(2)
+,`IdUser` int(11)
+,`DatosPers` varchar(151)
+,`A1` decimal(23,0)
+,`A2` decimal(23,0)
+,`Total` bigint(21)
+);
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vxZumLoginTes`
+--
+CREATE TABLE IF NOT EXISTS `vxZumLoginTes` (
+`Id` int(11)
+,`Tipo` varchar(2)
+,`IdUser` int(11)
+,`DatosPers` varchar(151)
+,`Fecha` datetime
+,`Accion` varchar(25)
+,`OS` varchar(45)
+,`Browser` varchar(45)
+,`IP` varchar(16)
+);
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vwAnoingJuly`
+--
+DROP TABLE IF EXISTS `vwAnoingJuly`;
+
+CREATE VIEW `vwAnoingJuly` AS select `T`.`Id` AS `Id`,`T`.`Tipo` AS `Tipo`,`T`.`Estado` AS `Estado`,`T`.`Codigo` AS `Codigo`,`T`.`IdCarrera` AS `IdCarrera`,`T`.`IdTesista1` AS `IdTesista1`,`T`.`IdTesista2` AS `IdTesista2`,`D`.`Iteracion` AS `Iteracion`,`D`.`Titulo` AS `Titulo`,`D`.`vb1` AS `vb1`,`D`.`vb2` AS `vb2`,`D`.`vb3` AS `vb3`,`D`.`vb4` AS `vb4`,`D`.`Fecha` AS `Fecha` from (`tesTramites` `T` join `tesTramsDet` `D`) where ((`T`.`Estado` = 5) and (`T`.`Tipo` = 1) and (`T`.`Id` = `D`.`IdTramite`) and (`D`.`Iteracion` = 2));
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vxDatDocentes`
+--
+DROP TABLE IF EXISTS `vxDatDocentes`;
+
+CREATE VIEW `vxDatDocentes` AS select `D`.`Id` AS `Id`,`D`.`Id` AS `IdDocente`,`D`.`Activo` AS `Activo`,`D`.`Codigo` AS `Codigo`,`D`.`DNI` AS `DNI`,`D`.`IdCategoria` AS `IdCategoria`,`K`.`Tipo` AS `Tipo`,`K`.`Abrev` AS `CategAbrev`,`D`.`IdFacultad` AS `IdFacultad`,'F' AS `FacuAbrev`,`D`.`IdCarrera` AS `IdCarrera`,`C`.`Nombre` AS `Carrera`,concat(ucase(`D`.`Apellidos`),', ',ucase(`D`.`Nombres`)) AS `DatosPers`,concat(ucase(`D`.`Nombres`),' ',ucase(`D`.`Apellidos`)) AS `DatosNom`,(to_days(now()) - to_days(`D`.`FechaAsc`)) AS `Antiguedad`,`D`.`FechaAsc` AS `FechaAsc`,`D`.`FechaIn` AS `FechaIn`,`D`.`NroCelular` AS `NroCelular`,`D`.`Correo` AS `Correo`,`D`.`Clave` AS `Clave` from ((`vriunap_absmain`.`tblDocentes` `D` join `vriunap_absmain`.`dicCarreras` `C`) join `vriunap_absmain`.`dicCategorias` `K`) where ((`C`.`Id` = `D`.`IdCarrera`) and (`K`.`Id` = `D`.`IdCategoria`) and (`D`.`Activo` >= 1));
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vxDatTesistas`
+--
+DROP TABLE IF EXISTS `vxDatTesistas`;
+
+CREATE VIEW `vxDatTesistas` AS select `T`.`Id` AS `Id`,`T`.`Activo` AS `Activo`,`T`.`DNI` AS `DNI`,`T`.`Codigo` AS `Codigo`,`T`.`IdFacultad` AS `IdFacultad`,`F`.`Nombre` AS `Facultad`,`T`.`IdCarrera` AS `IdCarrera`,`C`.`Nombre` AS `Carrera`,`T`.`IdEspec` AS `IdEspec`,concat(`T`.`Apellidos`,', ',`T`.`Nombres`) AS `DatosPers`,`T`.`Apellidos` AS `Apellidos`,`T`.`Nombres` AS `Nombres`,`T`.`FechaReg` AS `FechaReg`,`T`.`SemReg` AS `SemReg`,`T`.`Direccion` AS `Direccion`,`T`.`NroCelular` AS `NroCelular`,`T`.`Correo` AS `Correo`,`T`.`Clave` AS `Clave` from ((`tblTesistas` `T` join `vriunap_absmain`.`dicCarreras` `C`) join `vriunap_absmain`.`dicFacultades` `F`) where ((`F`.`Id` = `T`.`IdFacultad`) and (`C`.`Id` = `T`.`IdCarrera`));
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vxDocInLin`
+--
+DROP TABLE IF EXISTS `vxDocInLin`;
+
+CREATE VIEW `vxDocInLin` AS select `L`.`IdDocente` AS `IdDocente`,`L`.`IdLinea` AS `IdLinea`,`L`.`Estado` AS `LinEstado`,`L`.`Tipo` AS `TipoLin`,`D`.`Tipo` AS `TipoDoc`,`D`.`CategAbrev` AS `CategAbrev`,`D`.`DatosPers` AS `DatosPers`,`D`.`Activo` AS `Activo`,`D`.`IdCarrera` AS `IdCarrera`,`D`.`IdCategoria` AS `IdCategoria` from (`docLineas` `L` join `vriunap_absmain`.`vwDocentes` `D`) where ((`L`.`IdDocente` = `D`.`Id`) and (`D`.`Activo` >= 1));
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vxDocInLinEx`
+--
+DROP TABLE IF EXISTS `vxDocInLinEx`;
+
+CREATE VIEW `vxDocInLinEx` AS select `L`.`IdDocente` AS `IdDocente`,`L`.`IdLinea` AS `IdLinea`,(select `vriunap_absmain`.`tblLineas`.`Nombre` from `vriunap_absmain`.`tblLineas` where (`vriunap_absmain`.`tblLineas`.`Id` = `L`.`IdLinea`)) AS `Linea`,`L`.`Tipo` AS `TipoLin`,`D`.`Tipo` AS `TipoDoc`,`D`.`CategAbrev` AS `CategAbrev`,`D`.`DatosPers` AS `DatosPers`,`D`.`Activo` AS `Activo`,`D`.`IdCarrera` AS `IdCarrera`,`D`.`IdCategoria` AS `IdCategoria` from (`docLineas` `L` join `vriunap_absmain`.`vwDocentes` `D`) where ((`L`.`IdDocente` = `D`.`Id`) and (`D`.`Activo` >= 1));
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vxLineas`
+--
+DROP TABLE IF EXISTS `vxLineas`;
+
+CREATE VIEW `vxLineas` AS select `L`.`Id` AS `Id`,`L`.`Nombre` AS `Nombre`,count(0) AS `Repets`,(select count(0) from `docLineas` where (`docLineas`.`IdLinea` = `L`.`Id`)) AS `TotDoceRegs`,`L`.`IdArea` AS `IdArea`,`L`.`IdSubArea` AS `IdSubArea`,`L`.`IdDiscip` AS `IdDiscip`,`L`.`IdFacultad` AS `IdFacultad`,`L`.`IdCarrera` AS `IdCarrera` from `vriunap_absmain`.`tblLineas` `L` where (`L`.`Estado` = 1) group by `L`.`Nombre`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vxMemos`
+--
+DROP TABLE IF EXISTS `vxMemos`;
+
+CREATE VIEW `vxMemos` AS select `M`.`Id` AS `Id`,`M`.`Tipo` AS `Tipo`,`M`.`Ordinal` AS `Ordinal`,`M`.`Anio` AS `Anio`,`M`.`IdTramite` AS `IdTramite`,`M`.`IdCarrera` AS `IdCarrera`,`M`.`Fecha` AS `Fecha`,`T`.`Codigo` AS `Codigo`,`T`.`Estado` AS `Estado` from (`tblMemos` `M` join `tesTramites` `T`) where (`T`.`Id` = `M`.`IdTramite`);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vxSustens`
+--
+DROP TABLE IF EXISTS `vxSustens`;
+
+CREATE VIEW `vxSustens` AS select `S`.`Id` AS `Id`,`S`.`Activo` AS `Activo`,`S`.`IdTramite` AS `IdTramite`,`S`.`Codigo` AS `Codigo`,if((now() > `S`.`Fecha`),0,1) AS `Pendiente`,`C`.`Id` AS `IdCarrera`,`C`.`IdFacultad` AS `IdFacultad`,`C`.`Nombre` AS `Carrera`,`S`.`Fecha` AS `Fecha`,`S`.`Lugar` AS `Lugar` from (`tesSustens` `S` join `vriunap_absmain`.`dicCarreras` `C`) where (`C`.`Id` = `S`.`IdCarrera`);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vxTesTramites`
+--
+DROP TABLE IF EXISTS `vxTesTramites`;
+
+CREATE VIEW `vxTesTramites` AS select `T`.`Id` AS `Id`,`T`.`Tipo` AS `Tipo`,`T`.`Codigo` AS `Codigo`,`T`.`Anio` AS `Anio`,`T`.`Orden` AS `Orden`,`T`.`IdCarrera` AS `IdCarrera`,`T`.`Estado` AS `Estado`,`T`.`IdTesista1` AS `IdTesista1`,`T`.`IdTesista2` AS `IdTesista2`,`T`.`IdLinea` AS `IdLinea`,`T`.`IdLinAlte` AS `IdLinAlte`,`T`.`IdJurado1` AS `IdJurado1`,`T`.`IdJurado2` AS `IdJurado2`,`T`.`IdJurado3` AS `IdJurado3`,`T`.`IdJurado4` AS `IdJurado4`,`T`.`FechRegProy` AS `FechRegProy`,`T`.`FechActBorr` AS `FechActBorr`,`T`.`_T_` AS `_T_`,`T`.`FechModif` AS `FechModif`,(select `tblTesistas`.`IdEspec` from `tblTesistas` where (`tblTesistas`.`Id` = `T`.`IdTesista1`) limit 1) AS `IdEspec` from `tesTramites` `T` where (`T`.`Estado` > 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vxZumLoginDoc`
+--
+DROP TABLE IF EXISTS `vxZumLoginDoc`;
+
+CREATE VIEW `vxZumLoginDoc` AS select `L`.`Id` AS `Id`,`L`.`Tipo` AS `Tipo`,`L`.`IdUser` AS `IdUser`,concat(`D`.`Apellidos`,' ',`D`.`Nombres`) AS `DatosPers`,`L`.`Fecha` AS `Fecha`,`L`.`Accion` AS `Accion`,`L`.`OS` AS `OS`,`L`.`Browser` AS `Browser`,`L`.`IP` AS `IP` from (`logLogins` `L` join `vriunap_absmain`.`tblDocentes` `D`) where ((`L`.`Tipo` = 'D') and (`D`.`Id` = `L`.`IdUser`)) order by `L`.`Id` desc;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vxZumLoginDocEx`
+--
+DROP TABLE IF EXISTS `vxZumLoginDocEx`;
+
+CREATE VIEW `vxZumLoginDocEx` AS select `L`.`Tipo` AS `Tipo`,`L`.`IdUser` AS `IdUser`,`L`.`DatosPers` AS `DatosPers`,sum(if((`L`.`Accion` = 'Ingreso'),1,0)) AS `A1`,sum(if((`L`.`Accion` = 'Clave incorrecta'),1,0)) AS `A2`,count(0) AS `Total` from `vxZumLoginDoc` `L` group by `L`.`IdUser` order by count(0) desc;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vxZumLoginTes`
+--
+DROP TABLE IF EXISTS `vxZumLoginTes`;
+
+CREATE VIEW `vxZumLoginTes` AS select `L`.`Id` AS `Id`,`L`.`Tipo` AS `Tipo`,`L`.`IdUser` AS `IdUser`,concat(`T`.`Apellidos`,' ',`T`.`Nombres`) AS `DatosPers`,`L`.`Fecha` AS `Fecha`,`L`.`Accion` AS `Accion`,`L`.`OS` AS `OS`,`L`.`Browser` AS `Browser`,`L`.`IP` AS `IP` from (`logLogins` `L` join `tblTesistas` `T`) where ((`L`.`Tipo` = 'T') and (`T`.`Id` = `L`.`IdUser`)) order by `L`.`Id` desc;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `dicAmpliaciones`
+--
+ALTER TABLE `dicAmpliaciones`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `dicEstadTram`
+--
+ALTER TABLE `dicEstadTram`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `docEstudios`
+--
+ALTER TABLE `docEstudios`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `docLineas`
+--
+ALTER TABLE `docLineas`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `docParentesco`
+--
+ALTER TABLE `docParentesco`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `estTramBach`
+--
+ALTER TABLE `estTramBach`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `logCordinads`
+--
+ALTER TABLE `logCordinads`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `logCorreos`
+--
+ALTER TABLE `logCorreos`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `logLogins`
+--
+ALTER TABLE `logLogins`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `logTramites`
+--
+ALTER TABLE `logTramites`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `Repositorio`
+--
+ALTER TABLE `Repositorio`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `tblCorrects`
+--
+ALTER TABLE `tblCorrects`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `tblManagers`
+--
+ALTER TABLE `tblManagers`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `tblMemos`
+--
+ALTER TABLE `tblMemos`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `tblPreguntas`
+--
+ALTER TABLE `tblPreguntas`
+ ADD PRIMARY KEY (`idpregunta`);
+
+--
+-- Indices de la tabla `tblSecres`
+--
+ALTER TABLE `tblSecres`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `tblTesistas`
+--
+ALTER TABLE `tblTesistas`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `tesJuCambios`
+--
+ALTER TABLE `tesJuCambios`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `tesProyHabs`
+--
+ALTER TABLE `tesProyHabs`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `tesSustenAct`
+--
+ALTER TABLE `tesSustenAct`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `tesSustens`
+--
+ALTER TABLE `tesSustens`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `tesSustensSolic`
+--
+ALTER TABLE `tesSustensSolic`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `tesTramDoc`
+--
+ALTER TABLE `tesTramDoc`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `tesTramites`
+--
+ALTER TABLE `tesTramites`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `tesTramsBach`
+--
+ALTER TABLE `tesTramsBach`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `tesTramsDet`
+--
+ALTER TABLE `tesTramsDet`
+ ADD PRIMARY KEY (`Id`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `dicAmpliaciones`
+--
+ALTER TABLE `dicAmpliaciones`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `docEstudios`
+--
+ALTER TABLE `docEstudios`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `docLineas`
+--
+ALTER TABLE `docLineas`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `docParentesco`
+--
+ALTER TABLE `docParentesco`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `estTramBach`
+--
+ALTER TABLE `estTramBach`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `logCordinads`
+--
+ALTER TABLE `logCordinads`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `logCorreos`
+--
+ALTER TABLE `logCorreos`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `logLogins`
+--
+ALTER TABLE `logLogins`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `logTramites`
+--
+ALTER TABLE `logTramites`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `Repositorio`
+--
+ALTER TABLE `Repositorio`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `tblCorrects`
+--
+ALTER TABLE `tblCorrects`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `tblManagers`
+--
+ALTER TABLE `tblManagers`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `tblMemos`
+--
+ALTER TABLE `tblMemos`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `tblPreguntas`
+--
+ALTER TABLE `tblPreguntas`
+MODIFY `idpregunta` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `tblSecres`
+--
+ALTER TABLE `tblSecres`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `tblTesistas`
+--
+ALTER TABLE `tblTesistas`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `tesJuCambios`
+--
+ALTER TABLE `tesJuCambios`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `tesProyHabs`
+--
+ALTER TABLE `tesProyHabs`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `tesSustenAct`
+--
+ALTER TABLE `tesSustenAct`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `tesSustens`
+--
+ALTER TABLE `tesSustens`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `tesSustensSolic`
+--
+ALTER TABLE `tesSustensSolic`
+MODIFY `Id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `tesTramDoc`
+--
+ALTER TABLE `tesTramDoc`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `tesTramites`
+--
+ALTER TABLE `tesTramites`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `tesTramsBach`
+--
+ALTER TABLE `tesTramsBach`
+MODIFY `Id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT de la tabla `tesTramsDet`
+--
+ALTER TABLE `tesTramsDet`
+MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+
