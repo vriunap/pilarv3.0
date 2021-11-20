@@ -1,11 +1,11 @@
 #
 # VRI - Universidad Nacional del Altiplano - Puno 2020
 # Ing. Ramiro Pedro, Ing. Fred Torres, Ing. Julio Tisnado
-#
-RewriteEngine on
+# Modificado por Ing. Betxy Rojas 
+#RewriteEngine on  // modificado unuv1.0
 
-RewriteCond %{HTTPS} !=on
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
 
 Options All -Indexes
 

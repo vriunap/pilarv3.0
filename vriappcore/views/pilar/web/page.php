@@ -42,7 +42,7 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" rel="home" href="<?=base_url("pilar")?>" title="Universidad Nacional del Altiplano | Vicerrectorado de Investigación">
+            <a class="navbar-brand" rel="home" href="<?=base_url("pilar")?>" title="Universidad Nacional de Ucayali | Vicerrectorado de Investigación">
                 <img class="img-responsive" style="max-width:160px; margin-top: -15px;"
                      src="<?=base_url("vriadds/pilar/imag/logos-u-v-p.png");?>">
             </a>
@@ -51,10 +51,10 @@
         <div id="navbar" class="collapse navbar-collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="<?=base_url("pilar")?>">Inicio</a></li>
-                <li><a href="<?=base_url("pilar/docentes")?>">Docentes</a></li>
+                <!--<li><a href="<?=base_url("pilar/docentes")?>">Docentes</a></li>
                 <li><a href="<?=base_url("pilar/tesistas")?>">Tesistas</a></li>
                 <li><a href="<?=base_url("pilar/cordinads")?>">Coordinadores</a></li>
-                <li><a href="<?=base_url("pilar/sustentas")?>">Sustentaciones</a></li>
+                <li><a href="<?=base_url("pilar/sustentas")?>">Sustentaciones</a></li> //modificado unuv1.0-->
             </ul>
         </div>
     </div>
@@ -62,7 +62,7 @@
 
 <div class="container info-pilar margin">
   <img class="img-responsive logo-pilar3" src="<?=base_url("vriadds/pilar/imag/pilar-n.png");?>">
-  <h3 id="name-pilar">Plataforma de Investigación Universitaria <br>Integrada a la Labor Académica con Responsabilidad </h3><h4><i>Universidad Nacional del Altiplano - Puno</i></h4>
+  <h3 id="name-pilar">Plataforma de Investigación Universitaria <br>Integrada a la Labor Académica con Responsabilidad </h3><h4><i>Universidad Nacional de Ucayali</i></h4>
 </div>
 
 <div class="container ">
@@ -70,10 +70,10 @@
       <div class="col-md-9 bg-white margin">
         <div class="titulo">Presentación</div>
         <p class="description">
-            La Universidad Nacional del Altiplano mediante el Vicerrectorado de Investigación y la Plataforma <i>PILAR</i>  
-            para Docentes, Tesistas y Coordinadores tienen la información disponible para realizar la
+            La Universidad Nacional de Ucayali mediante RESOLUCIÓN Nº377-2020-UNU-CU-R <b>“Convenio Específico de Cooperación Interinstitucional entre la Universidad Nacional de Ucayali y la Universidad Nacional del Altiplano de Puno Nº007-2020/UNU-UNA”</b> pone a disposición la Plataforma <i>PILAR</i>  
+            para Docentes, Tesistas y Coordinadores; contando con la información disponible para realizar la
             subida, calificacion, revisión y posterior dictaminación de proyectos de investigación de pregrado
-            conducentes a la obtención del título profesional.
+            conducentes a la obtención del título profesional. <!-- // Modificado version 1.0 -->
         </p>
         <div class="row">
               <div class="col-xs-12 col-md-4 btn-acces-pilar">
@@ -87,39 +87,41 @@
               </div>
         </div>
         <br>
-        <div class="row">
+      <!--  <div class="row">
               <div class="col-xs-12 col-md-12 btn-acces-pilar">
                 <a class="btn btn-preg bg-teal"><span class="glyphicon glyphicon-cog"></span> <br/>Consultas en Linea ( En Construcción ) </a>
               </div>
-        </div>
-      </div>
+        </div> // modificado unuv1.0 -->
+      </div>  
       <div class="col-md-3 bg-white margin-bd">
         <div class="titulo">Reglamentos y Manuales</div>
         <div class="list-group">
           <ul class="nav nav-pills bderecha"> 
-            <a target="_blank" href="<?php echo base_url("vriadds/pilar/doc/reglamentoPilar2018.pdf");?>" class="list-group-item blink"><span class="glyphicon glyphicon-book"></span> Reglamento Proyectos <span class="label label-warning"> 2018 </span></a>
-            <a target="_blank" href="<?php echo base_url("vriadds/pilar/doc/resReglaBorrador.pdf");?>" class="list-group-item blink"><span class="glyphicon glyphicon-book"></span> Reglamento de Borrador</a>
-            <a target="_blank" href="<?php echo base_url("web/etica");?>" class="list-group-item blink"><span class="glyphicon glyphicon-book"></span> Procedimientos Ética en Investigación  <span class="label label-warning"> Nuevo </span></a> 
+            <a target="_blank" href="<?php echo base_url("vriadds/pilar/doc/PROPUESTA ACT. REG. GYT - PT - unuv1.0.pdf");?>" class="list-group-item blink"><span class="glyphicon glyphicon-book"></span> Reglamento Proyectos</span></a>
+            <!--<a target="_blank" href="<?php echo base_url("vriadds/pilar/doc/resReglaBorrador.pdf");?>" class="list-group-item blink"><span class="glyphicon glyphicon-book"></span> Reglamento de Borrador</a>
+            <a target="_blank" href="<?php echo base_url("web/etica");?>" class="list-group-item blink"><span class="glyphicon glyphicon-book"></span> Procedimientos Ética en Investigación  <span class="label label-warning"> Nuevo </span></a> // modificado unuv1.0 -->
             <hr>
-            <a target="_blank" href="<?php echo base_url("vriadds/pilar/doc/Formato-Proy-Tesis-2016.docx");?>" class="list-group-item blink"><span class="glyphicon glyphicon-bookmark"></span> Formato de Proyecto</a>
+            <a onclick="formatoProyecto()" class="list-group-item blink"><span class="glyphicon glyphicon-bookmark"></span> Formato de Proyecto</a>
             
-            <a target="_blank" href="<?php echo base_url("vriadds/pilar/doc/Formato-Borrador-Tesis-2017.docx");?>"  class="list-group-item blink"><span class="glyphicon glyphicon-bookmark"></span> Formato de Borrador</a>
+            <!--<a target="_blank" href="<?php echo base_url("vriadds/pilar/doc/Formato-Borrador-Tesis-2017.docx");?>"  class="list-group-item blink"><span class="glyphicon glyphicon-bookmark"></span> Formato de Borrador</a>
             <hr>
-            <a href="#" class="list-group-item blink"><span class="glyphicon glyphicon-th-list"></span> Manual para Docentes</a>
-            <a target="_blank" href="<?php echo base_url("vriadds/pilar/doc/manual_tesistav31.pdf");?>" class="list-group-item blink"><span class="glyphicon glyphicon-th-list"></span> Manual para Tesistas </a>
-            <a href="#" class="list-group-item blink"><span class="glyphicon glyphicon-th-list"></span> Manual para Coordinadores</a>
-            <a target="_blank" href="<?php echo base_url("/pilar/web/preguntas");?>" class="list-group-item blink"><span class="glyphicon glyphicon-th-list"></span> Preguntas frecuentes</a>
+            <a href="#" class="list-group-item blink"><span class="glyphicon glyphicon-th-list"></span> Manual para Docentes</a> // modificado unuv1.0 -->
+            <hr>
+            <a target="_blank" href="<?php echo base_url("vriadds/pilar/doc/Manual de tesista PILAR - UNU.pdf");?>" class="list-group-item blink"><span class="glyphicon glyphicon-th-list"></span> Manual para Tesistas </a>
+           <!-- <a href="#" class="list-group-item blink"><span class="glyphicon glyphicon-th-list"></span> Manual para Coordinadores</a> modificado unuv1.0-->
+          <!--  <a target="_blank" href="<?php echo base_url("/pilar/web/preguntas");?>" class="list-group-item blink"><span class="glyphicon glyphicon-th-list"></span> Preguntas frecuentes</a> modificado unuv1.0  -->
           </ul>
         </div>
       </div>
-      <div class="col-md-12 bg-white">
+      <!--<div class="col-md-12 bg-white">
         <div class="titulo">Herramientas del Investigador</div>
-      </div>
+      </div>-->
       <div class="col-md-12 bg-vino footer">
-        Universidad Nacional del Altiplano<br>
+        Universidad Nacional de Ucayali<br>
         Vicerrectorado de Investigación<br>
-        Dirección General de Investigación<br>
-        &copy; Plataforma de Investigación y Desarrollo
+        <b> Contactenos : soporte_pilar@unu.edu.pe </b>
+        <!--Dirección General de Investigación<br>
+        &copy; Plataforma de Investigación y Desarrollo //modificado unuv1.0-->
       </div>
   </div>
 </div>
@@ -230,7 +232,7 @@
   <!-- Finaliza Login Docente -->
 
 
-  <!-- MODAL  -->
+  <!-- MODAL COMUNICADO  -->
    <div class="modal" id="myModal3" role="dialog">
     <div class="modal-dialog">
       <br><br><br>
@@ -243,19 +245,19 @@
         <div id="game" style="padding: 15px; text-align: center"> <!-- remove -->
             <div class="modal-body modal-pilar modal-pilar-content">
 
-              <img class="img-responsive" src="/vriadds/vri/img/comunicadoCOVID.jpeg">
+            <img class="img-responsive" src="<?php echo base_url("vriadds/pilar/imag/Comunicados/Comunicado PILAR - UNU.jpg");?>">
 
             </div>
-            <div class="modal-footer">
+           <!-- <div class="modal-footer">
                 <button class="btn btn-xs btn-default pull-left" onclick="loadGame()"> Me siento con suerte, haré click! </button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-            </div>
+            </div> Modificacion unuv1.0 -->
         </div> <!-- remove -->
       </div>
 
     </div>
   </div>
-  <!-- /MODAL  -->
+  <!-- FIN MODAL COMUNICADO  -->
 
 
 
@@ -265,6 +267,25 @@
 
 
 <!-- FIN MODAL ENERO 2018 -->
+<!-- MODAL FORMATO DE PROYECTO -->
+<!-- modal de formato de proyecto -->
+<div class="modal fade bs-example-modal-lg" tabindex="-4" role="dialog"  id="formatoProyecto" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner">
+              <div class="item active">
+                  <img class="img-responsive" src="<?=base_url("vriadds/pilar/imag/formatos/AvisoFormato.jpg");?>" alt="...">
+              </div>              
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FIN MODAL FORMATO DE PROYECTO -->
+
 
 
 
@@ -312,6 +333,12 @@
 $(document).ready(function(){
   $("#myModal3").modal('show');
 });
+
+// Modificacion unuv1.0
+function formatoProyecto()
+{
+  $("#formatoProyecto").modal('show');
+}
 
 
 </script>

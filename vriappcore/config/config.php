@@ -12,11 +12,11 @@
  *   Begin coding Date: 20 - 03 - 2017
  *
  ***************************************************************************/
-
+# Modificado por Ing. Betxy Rojas 
 
 // Cambiar a su dominio
 
-$config['base_url']     = 'https://vriunap.pe/';
+$config['base_url']     = 'http://localhost:8080/pilarv3.0/'; // modificado unuv1.0
 $config['index_page']   = '';
 $config['uri_protocol']	= 'AUTO';
 
