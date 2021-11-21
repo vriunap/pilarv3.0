@@ -142,9 +142,60 @@ function grabaBorr()
 
 // cargar proyecto discriminado arg
 // modificado unuv1 --(3.8.1)
+// modificado unuv1 --(3.9.1)
 function cargaProy(modo)
 {
-    codex = (modo == 2)? prompt("Ingrese el Código de su compañero","") : "" ;
+    var txt;
+    if(modo==2)
+    {
+        setTimeout(document.getElementById('mos').style.display='block',5000);
+        var codex = prompt("Ingrese el Código de su compañero", "");
+        if (codex == null || codex == "") {
+            if(codex == null)
+            {
+                txt='';
+            }
+            else
+            {
+                txt='Ingrese Codigo de su compañero'
+            }
+
+             document.getElementById("demo").innerHTML = txt;
+        }        
+        else
+        {
+            jVRI.ajax({
+                url : "tesistas/ValidarCodigo/"+ codex, //(3.9.2)
+                success : function( arg ){
+                    if (!arg) 
+                    {
+                        jVRI.ajax({
+                             url : "tesistas/loadRegProy/" + codex, //(3.9.3)
+                            success : function( arg ){
+                                jVRI('#loadPy').html( arg );
+                                initProyPrec();
+                            }
+                        });                        
+                    }
+                    else
+                    {                        
+                        jVRI('#demo').html( arg );                         
+                    }
+                }
+            });  
+        }
+    }
+    else
+    {
+        jVRI.ajax({
+            url : "tesistas/loadRegProy/" + codex,
+            success : function( arg ){
+                jVRI('#loadPy').html( arg );
+                initProyPrec();
+        }
+    });
+    }
+    /*codex = (modo == 2)? prompt("Ingrese el Código de su compañero","") : "" ;
 
     jVRI.ajax({
         url : "tesistas/loadRegProy/" + codex,
@@ -152,10 +203,11 @@ function cargaProy(modo)
             jVRI('#loadPy').html( arg );
 			initProyPrec();
         }
-    });
+    }); Modificado unuv1.0*/
 }
 
 //modificado unuv1 --(3.8.5)
+//modificado unuv1 --(3.9.4)
 function grabaProy()
 {
     $("#plock").show();

@@ -46,7 +46,7 @@
 	            <ul class="nav navbar-nav navbar-right">
 
 	                <!-- <li><a class="nav-link" href="#">Proyecto de Tesis <i class="glyphicon glyphicon-envelope"></i></a></li> -->
-	                <li><a href="#" onclick='alert("Recopilando Formatos de Artículos ")' class="nav-link">Trabajo para Bachiller<i class="glyphicon glyphicon-book"></i></a></li>
+	                <!--<li><a href="#" onclick='alert("Recopilando Formatos de Artículos ")' class="nav-link">Trabajo para Bachiller<i class="glyphicon glyphicon-book"></i></a></li> -->
 	                <li><a href="<?= base_url("pilar/tesistas/logout");?>"><span class="glyphicon glyphicon-log-out"></span> Cerrar Sesión (Salir)</a></li>
 	            </ul>
 			</div>

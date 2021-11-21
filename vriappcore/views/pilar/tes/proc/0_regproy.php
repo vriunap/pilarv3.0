@@ -23,12 +23,17 @@
             deberá haber revisado previamente el <b>proyecto de tesis</b> asi evitar
             el rechazo del mismo.
         </p>
+        <div id="mos"  class="form-group" style="display: none" >
+            <div id='me' name='me' class="col-md-12 alert alert-warning" >
+                 <strong id="demo">  </strong>
+            </div>
+        </div>        
         <hr>
         <div class="col-md-6 btn-select">
             <button class="btn btn-default indi_group bg-1" onclick="cargaProy(1)"> Proyecto Individal</button> <!--(3.8.0)-->
         </div>
         <div class="col-md-6 btn-select">
-            <button class="btn btn-default indi_group bg-2" onclick="cargaProy(2)"> Proyecto Grupal</button>
+            <button class="btn btn-default indi_group bg-2" onclick="cargaProy(2)"> Proyecto Grupal</button> <!--(3.9.0)-->
         </div>
 
         <div class="col-md-12">

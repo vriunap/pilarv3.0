@@ -22,7 +22,7 @@
 	              		<li>Identificar la <b>Linea de Investigación </b>a la que pertenece tu tema de Investigación </li>
 	              		<li>Elija su Asesor de proyecto de tesis, Los 3 jurados de tesis serán sorteados por el Coordinador de grados y titulos a travez de la Plataforma PILAR.</li>
 	              	</ul>
-	              	Para tener una experiencia satisfacotia en <b>PILAR</b> se les recomienda leer el manual del tesista <a href="#"> <b><i>Click Aqui</i></b></a>
+	              	Para tener una experiencia satisfacotia en <b>PILAR</b> se les recomienda leer el manual del tesista <a target="_blank" href="<?php echo base_url("vriadds/pilar/doc/Manual de tesista PILAR - UNU.pdf");?>"> <b><i>Click Aqui</i></b></a>
 	              </p>
 	            </div>
 	          </div>

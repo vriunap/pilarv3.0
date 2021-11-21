@@ -309,27 +309,65 @@ class Tesistas extends CI_Controller {
         // ya existe como tramite
         switch ( $tram->Estado ) {
             case '1':
-                echo "En espera de validación de formato";
+                $esta = "En espera de validación de formato";
                 break;
             case '2':
-                echo "En la bandeja del Director/Asesor";
+                $esta = "En la bandeja del Asesor";
                 break;
             case '3':
-                echo "Listo para sorteo diario";
+                $esta = "Listo para sorteo diario";
                 break;
             case '4':
-                echo "En Revisión (E: $tram->Estado)";
+                $esta = "En Revisión (E: $tram->Estado)";
                 break;
             case '5':
-				echo "En Dictaminación";
+                $esta = "En Dictaminación";
                 break;
             case '6':
                 break;
             default:
                 break;
         }
+        echo " <div class='panel panel-info'>
+                    <div class='panel-heading'>
+                        <h2 class='panel-title'> Estado del Tramite </h2>
+                    </div>
+                    <div class='panel-body' >
+                        codigo proyecto : <b>".$tram->Codigo."</b><br>
+                        Estado : <b>".$esta." </b>
+                    </div>
+                </div>";
+        return;    
     }
 
+    // modificado unuv1 --(3.9.2)
+    public function ValidarCodigo($extCod=0)
+    {
+        $this->gensession->IsLoggedAccess();
+        $sess = $this->gensession->GetData();
+        $tes1 = $this->dbPilar->inTesistByCod( $sess->userCod );
+        $tes2 = $this->dbPilar->inTesistByCod( secureString($extCod) ); 
+        $errorMsg = '';
+        if( $extCod && !$tes2 )
+            { 
+                $errorMsg = "el $extCod no esta registrado aún"; 
+            }
+        if( $tes2 ) if( $tes1->IdCarrera != $tes2->IdCarrera )
+            { 
+                $errorMsg = "No son de la misma carrera"; $tes2 = null; 
+            }
+        if( $sess->userCod == $extCod )
+            {  $errorMsg = "No debe repetir su Código"; $tes2 = null;              }
+       if( $tes2 ) 
+       { 
+            $tram = $this->dbPilar->inTramByTesista( $tes2->Id );
+            if($tram)                 
+                { $errorMsg = "El $extCod , ya integra el trámite: <b>$tram->Codigo</b> "; $tes2 = null; }
+          }
+        echo $errorMsg;
+    }
+
+    // Modificado unuv1.0 --(4.1.1)
     public function tesBorrador()
     {
         $this->gensession->IsLoggedAccess();
@@ -340,6 +378,10 @@ class Tesistas extends CI_Controller {
         // no hay tramite disponble nuevo tramite
         if( $tram == null ) return;
 
+        if($tram->Tipo == 1 && $tram->Estado < 6)
+        {
+            echo "<br><br><center><h3>  Lo sentimos ! <br> Usted aún no cumple los requisitos para este proceso (Borrador de Tesis). </h3></center>";
+        }
         // Anuncio para tesistas sin activacion de tram Borr
         if( $tram->Tipo == 1 && $tram->Estado == 6 ) {
 
@@ -891,6 +933,7 @@ class Tesistas extends CI_Controller {
     //
     // real carga proyecto de tesis
     //// modificado unuv1 --(3.8.2)
+    //// modificado unuv1 --(3.9.3)
     public function loadRegProy( $extCod=0 )
     {
         $this->gensession->IsLoggedAccess();
@@ -997,6 +1040,7 @@ class Tesistas extends CI_Controller {
     }
 
     //modificado unuv1 --(3.8.6)
+    //modificado unuv1 --(3.9.5)
     public function execInProy()
     {
         $this->gensession->IsLoggedAccess();
@@ -1045,7 +1089,7 @@ class Tesistas extends CI_Controller {
 
 
         // el control de 0 el model devuelve null
-        if( $rwtes = $this->dbPilar->inTramByTesista($tesi1) )
+      /*  if( $rwtes = $this->dbPilar->inTramByTesista($tesi1) )
         {
             echo "Error : El primer tesista, ya integra el trámite: <b>$rwtes->Codigo</b>";
             return;
@@ -1056,7 +1100,7 @@ class Tesistas extends CI_Controller {
         {
             echo "Error : El segundo tesista, ya integra el trámite: <b>$rwtes->Codigo</b>";
             return;
-        }
+        }  Modificado unuv1.0 */
 
 
         // guardar trámite
@@ -1110,10 +1154,24 @@ class Tesistas extends CI_Controller {
         $this->logTramites( $tesi1, $idTram, "Subida de Proyecto", $msg );
 
         // grabar y enviamos mail en LOG
-        $this->logCorreo( $idTram, $sess->userMail, "Subida de Proyecto", $msg );
+        //$this->logCorreo( $idTram, $sess->userMail, "Subida de Proyecto", $msg ); //Modificado unuv1.0
+        //------------------Correo a los tesistas -------------
+        if($tesi2 != 0)
+          {
+            $mail = $this->dbPilar->inCorreo( $tesi1);
+            $mail2 = $this->dbPilar->inCorreo( $tesi2);
+            $this->logCorreo( $tesi1, $mail, "Subida de Proyecto", $msg );
+            $this->logCorreo( $tesi2, $mail2, "Subida de Proyecto", $msg );
+          }
+        else
+          {
+            $mail = $this->dbPilar->inCorreo($tesi1);
+            $this->logCorreo( $tesi1, $mail, "Subida de Proyecto", $msg );
+          }
+        //---------------------FIN----------------------------       
 
         // finalmente
-        echo $msg . "<br><b>hecho !</b>";
+        echo $msg ;
     }
 
 
