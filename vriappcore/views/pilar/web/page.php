@@ -183,15 +183,15 @@
               <input type="password" placeholder="repite la contraseña" required=""/>
               <button class="login-btn-tesista">Crear</button>
               -->
-              <p class="message"> El Registro se realiza en Plataforma con una copia de su resolución de contrato. <a href=""> Cerrar </a></p>
+              <p class="message"> Por favor comunicarse al correo soporte_pilar@unu.edu.pe para su registro en la Plataforma. <a href=""> Cerrar </a></p>
             </form>
 
-            <form name="logdoc" class="login-form" onsubmit="callLoginDoc(); return false" method="post">
+            <form name="logdoc" class="login-form" onsubmit="callLoginDoc(); return false" method="post"> <!-- (4.1.0) -->
               <input name="mail" type="text" placeholder="su correo personal" required="" />
               <input name="pass" type="password" placeholder="contraseña" required="" />
               <button class="login-btn-docente">Ingresar</button>
-              <p class="message"><i>Es su Primera Vez Aqui?</i>
-                  <a rel="nofollow" onclick="register()" href="javascript:void(0)"> Crear una Cuenta Nueva </a>
+              <!--<p class="message"><i>Es su Primera Vez Aqui?</i>
+                  <a rel="nofollow" onclick="register()" href="javascript:void(0)"> Crear una Cuenta Nueva </a> Modificado unuv1.0 -->
               </p>
 
             </form>

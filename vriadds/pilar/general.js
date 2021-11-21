@@ -21,6 +21,7 @@ function loadAviso( id )
     $('#pdfDlg').modal({backdrop: 'static', keyboard: false});
 }
 //Modificado unuv1.0 -- (3.1)
+//Modificado unuv1.0 -- (4.1.1)
 function generaLogin( tipo )
 {
     var m_pnl  = "#cmsg";
@@ -37,7 +38,7 @@ function generaLogin( tipo )
 
     if( tipo == "doc" ) {
         m_pnl  = "#qmsg";
-        m_url  = "pilar/docentes/login";
+        m_url  = "pilar/docentes/login"; //(4.1.1)
         m_href = "pilar/docentes";
         m_data = new FormData(logdoc);
     }

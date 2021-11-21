@@ -6,7 +6,7 @@
 	<div class="col-md-3 info-sidebar pull-right">
 		 <div class="list-group">
 	      	<ul class="nav nav-pills bderecha"> 
-	        <a href="#" onclick="" class="list-group-item"><span class="glyphicon glyphicon-home"></span> Inicio </a>
+	       <!--<a href="#" onclick="" class="list-group-item"><span class="glyphicon glyphicon-home"></span> Inicio </a> Modificado unuv1.0-->
 	        </ul>
         </div>
 	</div>
@@ -162,7 +162,7 @@
 					<div class="table-responsive">
 						<table class="table">
 							<tr>
-								<th class="col-md-1"> Nro </th>
+								<!--<th class="col-md-1"> Nro </th> -->
 								<th class="col-md-1"> Tipo </th>
 								<th class="col-md-8"> Linea </th>
 								<th class="col-md-2"> Opciones </th>
@@ -174,10 +174,9 @@
 							 		foreach($linDoc->result() as $row){
 										$nameLine=$this->dbRepo->inLineaInv($row->IdLinea);
 										echo "<tr>
-												<td>$i <small>($row->IdLinea)</small> </td>
 												<td>".$row->Tipo."</td>
 												<td>".$nameLine."</td>
-												<td> $opciones </td>
+												<td>  </td>
 											  </tr>";
 										$i++;
 									}
@@ -190,7 +189,7 @@
 					<div>
 					<hr>
 						<!-- Select input-->
-						<div class="form-group">
+						<!--<div class="form-group">
 							<label class="col-md-3 control-label">Linea por Escuela Profesional </label>
 							<div class="col-md-7">
 								<select id="clin" name="clin" class="form-control" onchange="" required>
@@ -207,9 +206,9 @@
 								<button class="btn btn-success" onclick="feedDiv(clin.value)">
 									<span class="glyphicon glyphicon-upload"></span> Agregar </button>
 							</div>
-						</div>
-						<p> <br><br><br>
-							<b>Nota:</b> Hasta un máximo de 3 Lineas,  Esas Lineas de investigación son areas de <b>Especialización</b>
+						</div> //Modificado unuv1.0 -->
+						<p> 
+							<b>Nota:</b> Hasta un máximo de 4 Lineas,  Esas Lineas de investigación son areas de <b>Especialización</b>
 							no son areas de interés. Por tanto: deberán ser sustentadas con una Especialización, Maestria o Doctorado mediante un
 							documento escaneado del Diploma de Grado o Especialización, que sera verificado en el SUNEDU, de no
 							estar registrado el Docente sera eliminado de la linea.
@@ -240,7 +239,7 @@
 												<td>$i </td>
 												<td>".$row->AbrevGrado."</td>
 												<td> $row->Mencion <br> <small>$row->Universidad</small></td>
-												<td> $opciones</td>
+												<td> </td>
 											  </tr>";
 										$i++;
 									}

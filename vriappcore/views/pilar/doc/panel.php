@@ -3,8 +3,10 @@
 			<div class="col-md-12">
 			<h1 class="titulo">PILAR</h1>
 			<div class="col-md-12 docente-inicio">
-			<p>La Universidad Nacional del Altiplano mediante el Vicerrectorado de Investigación con la Resolución Rectoral N°1012-2016-R-UNA del 11 de Abril del 2016, que aprueba el reglamento de presentación de proyectos de tesis de Pre-Grado  además de la Resulución Rectoral N°3011-2016-R-UNA, que aprueba el reglamento de presentación, dictamen de borradores y defensa de tesis. </p>
-			<p> Documentos sustentatorios en los cuales pilar basa su funcionamiento:</p>
+			<p>La Universidad Nacional de Ucayali mediante RESOLUCIÓN Nº377-2020-UNU-CU-R <b>“Convenio Específico de Cooperación Interinstitucional entre la Universidad Nacional de Ucayali y la Universidad Nacional del Altiplano de Puno Nº007-2020/UNU-UNA”</b> pone a disposición la Plataforma <i>PILAR</i>  
+            para Docentes, Tesistas y Coordinadores; contando con la información disponible para realizar la
+            subida, calificacion, revisión y posterior dictaminación de proyectos de investigación de pregrado
+            conducentes a la obtención del título profesional. </p>
 			</div>
 		</div>
 		<div class="col-md-12">
@@ -18,12 +20,12 @@
 					</div>
 				</div>
 				<div class="panel panel-warning ">
-					<div class="panel-heading docente-fedu">
+					<!--<div class="panel-heading docente-fedu">
 						RECORDATORIO FEDU <B>(NUEVO!!)</B>
 					</div>
 					<div class="panel-body">
 						 Presentación de Informe <B>DE AVANCE DE INVESTIGACIÓN</B>:<h5> Del <b>01 de Junio </b> al <b>15 de Junio de 2020 </b><h5>
-					</div>
+					</div> -->
 				</div>
 			</div>
 			<div class="col-md-6">
@@ -156,7 +158,7 @@
 </div>
 <div class="footer fixed">
 	<div class="row">
-		<div class="col-md-6">&copy; Derechos Reservados | <b><i> Vicerrectorado de Investigación</i></b> |  Plataforma de Investigación y Desarrollo</div>
+		<div class="col-md-6">&copy; Derechos Reservados | <b><i> Vicerrectorado de Investigación</i></b> </div>
 		<div class="text-right col-md-6"><?php echo "Tiempo de Carga: ".$this->benchmark->elapsed_time();?></div>
 	</div>
 </div>

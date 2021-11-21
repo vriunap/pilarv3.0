@@ -32,7 +32,7 @@ class Docentes extends CI_Controller {
         $this->load->library("GenApi");
     }
 
-
+    //Modificado unuv1.0 -- (4.1.2)
     public function login()
     {
 		//echo '[{"error":true, "msg":"Servidor en actualización"}]';
@@ -192,7 +192,7 @@ class Docentes extends CI_Controller {
     //----------------------------------------------------------------------
     //----------------------------------------------------------------------
 
-
+    //Modificado unuv1.0 -- (4.1.3)
     public function index()
     {
         if( mlPoorURL() )
@@ -225,6 +225,7 @@ class Docentes extends CI_Controller {
 
 
     // Información del Docente , Update Docente , Update Lineas de Investigación
+    //Modificacion unuv1.0 --(4.2.1)
     public function infoDocente()
     {
 		$this->gensession->IsLoggedAccess();
@@ -900,7 +901,7 @@ class Docentes extends CI_Controller {
 
         $pdf->Ln(12);
 
-        $pdf->SetFont( "Arial", "B", 08 );
+        $pdf->SetFont( "Arial", "B", 8 );
         $pdf->MultiCell( 165, 5, toUTF("* NOTA :"), 0, 'J' );
         $pdf->SetFont( "Arial", "", 7.5 );
         $pdf->MultiCell( 165, 4, toUTF("(1)Esta solicitud será procesada en un plazo no mayor a 24 Horas, una vez entregada a la Oficina de Plataforma de Investigación. (2) Los documentos cargados no podrán ser eliminados bajo ningun motivo. (3) La carga de documentos es a partir de la fecha de asignación y estos serán exclusivos de la UNA PUNO."), 0, 'J' );
