@@ -18,14 +18,14 @@
     </div>
 
     <div class="contenido">
-        <p>
+        <p class="text-danger">
             Antes de iniciar este procedimiento le recordamos que su director de tesis
             deberá haber revisado previamente el <b>proyecto de tesis</b> asi evitar
             el rechazo del mismo.
         </p>
         <hr>
         <div class="col-md-6 btn-select">
-            <button class="btn btn-default indi_group bg-1" onclick="cargaProy(1)"> Proyecto Individal</button>
+            <button class="btn btn-default indi_group bg-1" onclick="cargaProy(1)"> Proyecto Individal</button> <!--(3.8.0)-->
         </div>
         <div class="col-md-6 btn-select">
             <button class="btn btn-default indi_group bg-2" onclick="cargaProy(2)"> Proyecto Grupal</button>

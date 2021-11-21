@@ -138,16 +138,16 @@
               </div>
               <!--Ud., no está registrado.<br><small>Apersonarse a las oficinas del VRI con una copia de su Ficha y/o Bachiller</small>-->
               <!-- *** -->
-            <form class="register-form" name="frmoti" onsubmit="callSave(); return false">
+            <form class="register-form" name="frmoti" onsubmit="callSave(); return false"> <!-- (2.0)--> 
               <div id="pdta" style="color: black">
-                <input id="cod" name="cod" type="number" placeholder="Codigo de Matricula" required="" />
+                <input id="cod" name="cod" type="number" placeholder="Codigo de Estudiante" required="" />
                 <input id="dni" name="dni" type="number" placeholder="Número de D.N.I." required="" />
-                <button onclick="callOTI()" class="login-btn-tesista" type="button"> Verificar mis Datos </button>
+                <button onclick="callOTI()" class="login-btn-tesista" type="button"> Verificar mis Datos </button><!-- (1.0)--> 
               </div>
               <p class="message">Ya estas Registrado? <a rel="nofollow" onclick="register()" rel="noreferrer">Ingresar</a></p>
             </form>
               <!-- *** -->
-            <form class="login-form" name="logtes" onsubmit="callLoginTes(); return false" method="post">
+            <form class="login-form" name="logtes" onsubmit="callLoginTes(); return false" method="post"> <!--(3.0)-->
               <input type="email" name="mail" placeholder="su correo personal" required="" />
               <input type="password" name="pass" placeholder="contraseña" required="" />
               <button type="submit" class="login-btn-tesista"> Ingresar </button>

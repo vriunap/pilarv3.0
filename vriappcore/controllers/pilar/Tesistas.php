@@ -10,7 +10,7 @@
  *     Ing. Julio Cesar Tisnado Puma
  *
  *   Begin coding Date: 20 - 03 - 2017
- *
+ *   Modificado por Ing. Betxy Rojas 
  ***************************************************************************/
 
 
@@ -36,7 +36,7 @@ class Tesistas extends CI_Controller {
         $this->load->library("GenSexPdf");
     }
 
-    // Entrar al Admin 
+    // Entrar al Admin //Modificado unuv1.0 -- (3.2)
     public function login() {
 
         $mail = mlSecurePost("mail");
@@ -47,7 +47,7 @@ class Tesistas extends CI_Controller {
 
         // verificar existencia de correo
         if( ! $this->dbPilar->getSnapRow( "vxDatTesistas", "Correo='$mail'" ) ) {
-            echo '[{"error":true, "msg":"Este Correo no está registrado"}]';
+            echo '[{"error":true, "msg":"Este Correo no está registrado, por favor comunicarse a soporte_pilar@unu.edu.pe"}]';
             return;
         }
 
@@ -131,7 +131,7 @@ class Tesistas extends CI_Controller {
                 'Fecha'   => mlCurrentDate()
             ) );
     }
-
+    //Modificado unuv1.0 -- (2.3)
     private function logCorreo( $idUser, $correo, $titulo, $mensaje )
     {
         // enviamos mail
@@ -172,7 +172,7 @@ class Tesistas extends CI_Controller {
         print_r( $sess );
     }
     */
-
+    //Modificado unuv1.0 -- (3.3)
     public function index()
     {
         if( mlPoorURL() )
@@ -198,6 +198,7 @@ class Tesistas extends CI_Controller {
     }
 
     //------------------------------------------------------------------------------
+    //Modificado unuv1.0 -- (3.4)
     public function inicia()
     {
         $this->gensession->IsLoggedAccess();
@@ -223,12 +224,14 @@ class Tesistas extends CI_Controller {
         $this->load->view("pilar/tes/tesLineas",array('lineas'=>$lineas));
     }
 
+    // modificado unuv1 --(3.5)
     public function tesHerramientas()
     {
         $this->gensession->IsLoggedAccess();
         $this->load->view("pilar/tes/tesHerramientas");
     }
 
+    // modificado unuv1 --(3.6)
     public function tesContacto()
     {
         $this->gensession->IsLoggedAccess();
@@ -244,7 +247,7 @@ class Tesistas extends CI_Controller {
     }
 
     // evaluar el proyecto y cada estado
-    //
+    //modificado unuv1 --(3.7)
     public function tesProyecto()
     {
         $this->gensession->IsLoggedAccess();
@@ -887,7 +890,7 @@ class Tesistas extends CI_Controller {
 
     //
     // real carga proyecto de tesis
-    //
+    //// modificado unuv1 --(3.8.2)
     public function loadRegProy( $extCod=0 )
     {
         $this->gensession->IsLoggedAccess();
@@ -917,8 +920,8 @@ class Tesistas extends CI_Controller {
 
 		// hack para E. Inicial
 		$carre = $sess->IdCarrera;
-		if( $sess->IdCarrera == 19 )
-			$carre = 18;
+		/*if( $sess->IdCarrera == 19 )
+			$carre = 18; Modificado unuv1.0*/
 
         $args = array(
             // 'tlineas' => $this->dbPilar->getSnapView( 'vxLineas', "IdCarrera=$carre" ),
@@ -937,7 +940,7 @@ class Tesistas extends CI_Controller {
         $this->load->view( "pilar/tes/regProy", $args );
     }
 
-
+    //modificado unuv1 --(3.8.7)
     // procedimiento externo Upload
     public function subirArchevo( $tipo=1, $kind="pdf" )
     {
@@ -993,6 +996,7 @@ class Tesistas extends CI_Controller {
         return  $config['file_name'];
     }
 
+    //modificado unuv1 --(3.8.6)
     public function execInProy()
     {
         $this->gensession->IsLoggedAccess();
@@ -1001,7 +1005,7 @@ class Tesistas extends CI_Controller {
         //
         // AÑO LECTIVO
         //
-        $anio = ANIO_PILAR;
+        $anio =date("Y");
 
 
         $sess  = $this->gensession->GetData();
@@ -1098,7 +1102,7 @@ class Tesistas extends CI_Controller {
         //
         $msg = "<br>Se ha registrado el proyecto: <b>$codigo</b><br><br> "
              . "Título de Proyecto: <b>$titul</b> <br><br>"
-             . "Ud. debe comunicarse con su Director/Asesor para "
+             . "Ud. debe comunicarse con su Asesor para "
              . "que su proyecto sea evaluado."  ;
 
 
@@ -1325,7 +1329,7 @@ class Tesistas extends CI_Controller {
 
     //
     // argumentos por URL : Combo Lineas Docentes
-    //
+    ////modificado unuv1 --(3.8.4)
     public function loadLinCbo( $tipjur, $linea )
     {
         $this->gensession->IsLoggedAccess();
@@ -1354,7 +1358,7 @@ class Tesistas extends CI_Controller {
 
             $table = $this->dbPilar->getSnapView(
 						  "vxDocInLin",
-						  "IdCategoria<='9' AND Activo>=5 AND IdLinea='$linea' AND IdCarrera=$sess->IdCarrera AND LinEstado = 2",
+						  "Activo>=5 AND IdLinea='$linea' AND IdCarrera=$sess->IdCarrera AND LinEstado = 2",
 						  "ORDER BY DatosPers" );
 
             //
@@ -1397,11 +1401,30 @@ class Tesistas extends CI_Controller {
     //------------------------------------
     // external function area AJAX
     //------------------------------------
+    //Modificado unuv1.0 -- (2.1.1)
+    public function ComprobarCorreo()
+    {
+        $data = mlGetGlobalVar( "proRec" );
+        if( !$data ){
+            echo "Sin acceso autorizado.";
+            return;
+        }
+        $data = json_decode( json_encode ($data) );
+        $mail = mlSecurePost("mail");
+        if( $this->dbPilar->getSnaprow( "tblTesistas", "correo='$mail'" ) ) 
+        {
+            echo 'true';
+        }
+        else{
 
-    
+        echo 'false';
+          }
+    }   
+
     //
     // grabar nuevo tesista verificado con OTI
     //
+    //Modificado unuv1.0 -- (2.2)
     public function execInNew()
     {
         // validacion de datos interna
@@ -1447,8 +1470,8 @@ class Tesistas extends CI_Controller {
                  . "Sr(rta): <b>$data->Nombres $data->Apellis</b>.<br>"
                  . "Ud. ha concluido satisfactoriamente su inscripción en la  "
                  . "Plataforma PILAR para el trámite electrónico de su "
-                 . "proyecto y borrador de tesis, en calidad de estudiante "
-                 . "egresado de la <b>UNA - Puno</b>."
+                 . "proyecto y borrador de tesis, en calidad de "
+                 . "egresado de la <b>UNU</b>."
                  . "<br><br><b>Datos de su Cuenta:</b><br>"
                  . "  * usuario: $mail<br>"
                  . "  * contraseña: $pass<br>"
@@ -1461,7 +1484,6 @@ class Tesistas extends CI_Controller {
             echo "Registro completo, revise su <b>e-mail</b>.";
 
         } else {
-
             echo "Se guardo previamente";
         }
 
@@ -1472,7 +1494,7 @@ class Tesistas extends CI_Controller {
 
     //
     // verificacion con OTI, dni, semestre, carrera, session
-    //
+    // Modificado unuv1.0 -- (1.2)
     public function jsBusqTes()
     {
         mlSetGlobalVar( "proRec", array() );
@@ -1486,23 +1508,23 @@ class Tesistas extends CI_Controller {
             echo "<b>$row->Nombres</b> Ha sido registrado el <b>$row->FechaReg</b>";
             return;
         }
-
-        $alumno = otiGetData($codigo);
+        $alumno = $this->dbRepo->getSnapRow("tblcandidatostesistas","Codigo='$codigo'");
+        //$alumno = otiGetData($codigo);
         if( $alumno == null ) {
-            echo "<b> Can't connect to: unap.edu.pe </b>";
+            echo "<b> No se encontro informacion con los datos ingresados, comunicarse al correo soporte_pilar@unu.edu.pe </b>";
             return;
         }
 
-        if( $alumno->success == false )
+        /*if( $alumno->success == false )
         {
             echo "<b> Datos incompletos </b>";
             return;
-        }
+        } //Modificado v.1.0 */
 
         // copiar datos y verificacion de DNI
-        $data = $alumno->items[0];
+        $data = $alumno;
         if( $data->documento_numero != $numdni ){
-            echo "<b> Los datos no coinciden </b>";
+            echo "<b> Los datos no coinciden, comunicarse al correo soporte_pilar@unu.edu.pe </b>";
             return;
         }
 
@@ -1511,12 +1533,12 @@ class Tesistas extends CI_Controller {
         $arrSemes = array(
                    "OCTAVO", "NOVENO", "DECIMO",
                    "DECIMO PRIMERO", "DECIMO SEGUNDO",
-                   "DECIMO TERCERO", "DECIMO CUARTO"
+                   "DECIMO TERCERO", "DECIMO CUARTO","EGRESADO"
              );
 
-        if( !in_array($data->matricula->semestre, $arrSemes) ) {
+        if( !in_array($data->matricula_semestre, $arrSemes) ) {
             echo "<b>Solo estudiantes de 2 últimos semestres</b> <br><small>"
-               . "Ud. está en: " .$data->matricula->semestre. "</small>" ;
+               . "Ud. está en: " .$data->matricula_semestre. "</small>" ;
             return;
         }
 
@@ -1539,7 +1561,7 @@ class Tesistas extends CI_Controller {
         // 16 biologia
 
         $idEspec = 0;
-        if( $carres->Id==20 or $carres->Id==11 or $carres->Id==29 or $carres->Id==16) {
+        /*if( $carres->Id==20 or $carres->Id==11 or $carres->Id==29 or $carres->Id==16) {
 
             // buscar la especialidad y grabarla
             //---------------------------------------------------------
@@ -1570,7 +1592,7 @@ class Tesistas extends CI_Controller {
             );
 
             $idEspec = $arrEsp[ $data->matricula->especialidad ];
-        }
+        } //Modificado unuv1.0 */
 
 
         // mlSetGlobalVar( "proRec", Facultad, Carrera, DNI txt, Codigo, Datos )
@@ -1578,7 +1600,7 @@ class Tesistas extends CI_Controller {
                 'IdCarr'  => $carres->Id,
                 'IdFacu'  => $carres->IdFacultad,
                 'IdEspec' => $idEspec,
-                'SemReg'  => $data->matricula->anio."-".$data->matricula->periodo." (".$data->matricula->semestre.")",
+                'SemReg'  => $data->matricula_anio."-".$data->matricula_periodo." (".$data->matricula_semestre.")",
                 'DNI'     => $data->documento_numero,
                 'Apellis' => $data->apellidos,
                 'Nombres' => $data->nombres,

@@ -1,13 +1,23 @@
 <div class="col-md-3">
 	<div class="page-header">
-        <h2 id="timeline"> Opciones </h2>
+		<center>		 	
+		 	<?PHP
+            if( $media =$this->dbRepo->getSnapRow( "tblcandidatostesistas", "documento_numero=$sess->userDNI" ) )
+                echo "<img style ='border-radius:100px; border:3px solid #666; width:150px; height:150px;' src='".base_url('vriadds/pilar/imag/foto/estudiante/ImagenGenerica.jpg')."' class='img-responsive'><hr style='margin: 8px; border: 1px dotted gray'>";
+            else
+                echo ">>Sin imagen<< <hr>";
+
+        	?>
+		 	<h5 id="timeline" > <?php echo '<b>'. $this->dbPilar->after(",","$sess->userName"); echo "</b>  <br>".$sess->userMail; ?> </h5>
+		</center>
+       <!-- <h2 id="timeline"> Opciones </h2> -->
     </div>
 	<div class="list-group">
 		<ul class="nav nav-pills bderecha">
 			<a href="<?= base_url("pilar/tesistas");?>"  class="list-group-item"><span class="glyphicon glyphicon-home"></span> Inicio</a>
 			<a href="javascript:void(0)" onclick="lodPanel('panelTesis','tesistas/lineasTes')" class="list-group-item" ><i class="glyphicon glyphicon-th-list"></i> Lineas de Investigación</a>
 			<a href="javascript:void(0)" onclick="lodPanel('panelTesis','tesistas/tesHerramientas')"class="list-group-item"><span class="glyphicon glyphicon-bookmark"></span> Herramientas del Tesista</a>
-			<a href="javascript:void(0)" onclick="lodPanel('panelTesis','tesistas/tesContacto')"class="list-group-item"><span class="glyphicon glyphicon-eye-open"></span> Contacto <span class="label label-info">Nuevo</span></a>
+			<a href="javascript:void(0)" onclick="lodPanel('panelTesis','tesistas/tesContacto')"class="list-group-item"><span class="glyphicon glyphicon-eye-open"></span> Contacto </a>
 			<hr>
 			
 			<a href="javascript:void(0)" onclick="lodPanel('panelTesis','tesistas/tesProyecto')" class="list-group-item"><span class="glyphicon glyphicon-book"></span> Proyecto de Tesis</a>

@@ -141,7 +141,7 @@ function grabaBorr()
 }
 
 // cargar proyecto discriminado arg
-//
+// modificado unuv1 --(3.8.1)
 function cargaProy(modo)
 {
     codex = (modo == 2)? prompt("Ingrese el Código de su compañero","") : "" ;
@@ -155,6 +155,7 @@ function cargaProy(modo)
     });
 }
 
+//modificado unuv1 --(3.8.5)
 function grabaProy()
 {
     $("#plock").show();
@@ -194,6 +195,8 @@ function solSusten(){
         }
     });
 }
+
+//modificado unuv1 --(3.8.3)
 function cargaDocEnLin()
 {
     jVRI( "#j4" ).load( "tesistas/loadLinCbo/4/" + cbolin.value );

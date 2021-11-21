@@ -6,7 +6,7 @@
 //       : M.Sc. Ramiro Pedro Laura Murillo
 //       : Ing. Fred Torres Cruz
 //       : Ing. Julio Cesar Tisnado Puma
-//
+// Modificado por Ing. Betxy Rojas 
 //---------------------------------------------------------------
 
 
@@ -20,7 +20,7 @@ function loadAviso( id )
     $('#iframe').attr('src', "sustentas/aviso/"+id);
     $('#pdfDlg').modal({backdrop: 'static', keyboard: false});
 }
-
+//Modificado unuv1.0 -- (3.1)
 function generaLogin( tipo )
 {
     var m_pnl  = "#cmsg";
@@ -30,7 +30,7 @@ function generaLogin( tipo )
 
     if( tipo == "tes" ) {
         m_pnl  = "#pmsg";
-        m_url  = "pilar/tesistas/login";
+        m_url  = "pilar/tesistas/login"; //(3.1)
         m_href = "pilar/tesistas";
         m_data = new FormData(logtes);
     }
@@ -58,7 +58,7 @@ function generaLogin( tipo )
     });
 }
 
-
+//Modificado unuv1.0 -- (1.1)
 function callOTI()
 {
     $("#pmsg").show();
@@ -79,6 +79,7 @@ function callOTI()
     });
 }
 
+//Modificado unuv1.0 -- (2.1)
 function callSave()
 {
     // contrastacion
@@ -88,17 +89,33 @@ function callSave()
         jVRI("#pmsg").html( "Las claves no coinciden" );
         return false;
     }
-
-    jVRI("#pmsg").html( "Grabando..." );
-    jVRI.ajax({
-        url  : "pilar/tesistas/execInNew",
+	jVRI.ajax({
+        url  : "pilar/tesistas/ComprobarCorreo", //(2.1.0)
         data : new FormData(frmoti),
-        success: function( arg )
-        {
-            jVRI("#pmsg").html( "" );
-            jVRI("#pdta").html( arg );
-        }
-    });
+        success: function(respuesta) {
+        	if(respuesta!='true')
+        	{
+				jVRI("#pmsg").html( "Grabando..." );
+				jVRI.ajax({
+					url  : "pilar/tesistas/execInNew",
+					data : new FormData(frmoti),
+					success: function( arg )
+					{
+						jVRI("#pmsg").html( "" );
+						jVRI("#pdta").html( arg );
+					}
+				});
+			}
+			else
+			{
+				jVRI("#pmsg").html( "El correo ya esta registrado" );
+				return false;
+			}
+		},
+		error: function() {
+			console.log("No se ha podido obtener la información");
+		}
+		});
 }
 
 function loadGame()

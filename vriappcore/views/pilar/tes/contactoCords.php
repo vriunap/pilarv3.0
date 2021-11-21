@@ -2,10 +2,10 @@
     <h4 id="timeline">CONTACTO DE CONSULTAS </h4>
 </div>
 <div class="herramamientas">
-	<h3 class="title">Unidad de Investigación</h3>
-	<p>El contacto de las unidades de investigación es el primer enlace para resolver nuestras inquietudes en los procesos que desarrolla el Vicerrectorado de Investigación, Rogamos utilizar solo en situaciones que lo ameriten, y en el horario de trabajo.</p>
+	<!--<h3 class="title">Coordinacion de Grados y Titulos</h3>
+	<p>El contacto de las unidades de investigación es el primer enlace para resolver nuestras inquietudes en los procesos que desarrolla el Vicerrectorado de Investigación, Rogamos utilizar solo en situaciones que lo ameriten, y en el horario de trabajo.</p> -->
 	<p>
-		La absolución de dudas o consultas de los procedimientos del proyecto y borrador de tesis de la PLATAFORMA PILAR podrán ser absueltas a través de la comunicación la Coordinación de la Unidad de Investigación de su facultad.
+		La absolución de dudas o consultas de los procedimientos del proyecto y borrador de tesis de la PLATAFORMA PILAR podrán ser absueltas a través de la comunicación con Coordinación de grados y titulos de su facultad.
 	</p>
 
 	<div class="col-md-12">
@@ -13,7 +13,7 @@
 			<h4>Información de Contacto</h4>
 		</div>
 		<div class="col-md-9">
-			<h4 class="title">UNIDAD DE INVESTIGACIÓN DE LA FACULTAD</h4>
+			<h4 class="title">COORDINACION DE GRADOS Y TITULOS</h4>
 
 			<table class="table table-striped">
 				 <tr>
@@ -24,10 +24,10 @@
 					 <td width="30%">Correo </td>
 					 <td>: <?php echo $mail; ?></td>
 				 </tr>
-				 <tr>
+				<!-- <tr>
 					 <td width="30%">Celular <a href="javascript:void(0)" class="label label-info" onclick="show()">Mostrar</a></a></td>
 					 <td >: <?php echo $celular; ?></td>
-				</tr>
+				</tr> //Modificado unuv1.0  -->
 			</table>
 		</div>
 		<div class="col-md-3">
@@ -36,22 +36,22 @@
 		<div class="col-md-9">
 			<h4 class="title">REPOSITORIO INSTITUCIONAL</h4>
 			<table class="table table-striped">
-				 <tr>
-					 <th width="30%">Nombre </th>
-					 <th>: Ing. Milton Vladimir Mamani Calisaya</th>
+				<tr>
+					<th width="30%">Nombre </th>
+					<th>: Ing. Eloy Ángel Orihuela Izquierdo</th>
 				 </tr>
 				 <tr>
-					 <td width="30%">Correo Consultas</td>
-					 <td #id>: mmamanic@unap.edu.pe</td>
+					<td width="30%">Correo Consultas</td>
+					<td #id>: eloy_orihuela@unu.edu.pe</td>
 				 </tr>
 				 <tr>
-					 <td width="30%">Correo Trámites</td>
-					 <td >: repositorio@unap.edu.pe</td>
+					<td width="30%">Correo Trámites</td>
+					<td >: repositorio@unu.edu.pe</td>
 				 </tr>
-				 <tr>
-					 <td width="30%">Celular <a href="javascript:void(0)" class="label label-info" onclick="show()">Mostrar</span></a>
-					 <td   >:930779361</td>
-				</tr>
+				<!-- <tr>
+					<td width="30%">Celular <a href="javascript:void(0)" class="label label-info"</span></a>
+					<td   >: </td>
+				</tr> //Modificado unuv1.0 -->
 			</table>
 		</div>
 	</div>

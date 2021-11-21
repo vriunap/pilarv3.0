@@ -42,17 +42,19 @@ class GenMailer extends CI_Email
         return $str;
     }
 
+    //Modificado unuv1.0 -- (2.5)
     private function frmMsgPilar( $msg )
     {
         $str = "<body style='background:#E0E0E0; padding:25px'> <center> "
              . "<div style='background:white;width:650px;padding:14px;border:1px solid #B0B0B0'> "
              . "<div style='text-align:left;font-family:Arial'> "
              . "<img src='http://vriunap.pe/absmain/imgs/sm_unap.png' height=55> &nbsp;&nbsp; "
-             . "<img src='http://vriunap.pe/absmain/imgs/sm_vri.png' height=55> &nbsp;&nbsp; "
+             . "<img src='http://vriunap.pe/absmain/imgs/sm_unap.png' height=55> &nbsp;&nbsp; "
+            // . "<img src='http://vriunap.pe/absmain/imgs/sm_vri.png' height=55> &nbsp;&nbsp; "
              . "<img src='http://vriunap.pe/absmain/imgs/sm_pilar.png' height=60> "
              . "<hr> <p> $msg </p> <br><hr style='border:1px dotted #C0C0C0'> "
-             . "<p style='font-size:10px;font-weight:bold'> Universidad Nacional del Altiplano - Puno <br>"
-             . "Vicerrectorado de Investigación<br>Dirección General de Investigación<br> <small>Plataforma de Investigación y Desarrollo </small> </p> </div></div>"
+             . "<p style='font-size:10px;font-weight:bold'> Universidad Nacional de Ucayali <br>"
+             . "Vicerrectorado de Investigación<br> </small> </p> </div></div>"
              . "</center> </body>";
 
         return $str;
@@ -97,7 +99,7 @@ class GenMailer extends CI_Email
         if ( ! $this->send() )
             echo $this->email->print_debugger();
     }
-
+    //Modificado unuv1.0 -- (2.4)
     public function mailPilar( $mailx, $title, $msg )
     {
         //$config['protocol'] = 'sendmail';
@@ -107,9 +109,9 @@ class GenMailer extends CI_Email
 
         $this->initialize($config);
 
-        $this->from('pilar@vriunap.pe', 'Plataforma PILAR - UNAP');
+        $this->from('pilar@unu.edu.pe', 'Plataforma PILAR - UNU');
         $this->to( $mailx );
-        $this->cc('vriunap@yahoo.com');
+        $this->cc('soporte_pilar@unu.edu.pe');
 
         $this->subject( $title );
         $this->message( $this->frmMsgPilar($msg) );

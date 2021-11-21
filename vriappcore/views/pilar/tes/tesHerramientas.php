@@ -19,11 +19,11 @@
 	<p>Usted podrá acceder a las siguientes base de datos para documentar su proyecto.</p>
 	<div class="col-md-12">
 		<div class="col-md-3">
-			<a href="http://repositorio.unap.edu.pe/" target="_blank"><img class="img-responsive" style="background-color: #0c4b8a;" src="<?php echo base_url("vriadds/pilar/imag/herram/repo_unap.png");?>"></a>
+			<a href="#" target="_blank"><img class="img-responsive" style="background-color: #0c4b8a;" src="<?php echo base_url("vriadds/pilar/imag/herram/repo_unu.jpg");?>"></a>
 		</div>
 		<div class="col-md-9">
-			<h4 class="title">Repositorio UNAP</h4>
-			<p class="text-justify">El repositorio Insitucional, nos ofrece las tesis de la Universidad Nacional del Altiplano,  realizadas por las 35 escuelas profesionales además de la Escuela de Post Grado.
+			<h4 class="title">Repositorio UNU</h4>
+			<p class="text-justify">El repositorio Insitucional, nos ofrece las tesis de la Universidad Nacional de Ucayali,  realizadas por las escuelas profesionales además de la Escuela de Post Grado.
 			</p>
 		</div>
 		<div class="col-md-3">

@@ -38,15 +38,15 @@
                   if( $errmsg ) break;
                 }
               ?>
-
+                <br>
               <!-- Text input-->
-              <div class="form-group">
+            <!--  <div class="form-group">
                   <div class="col-md-1"></div>
                   <div class="col-md-10 alert alert-warning">
                     <strong> <?=$errmsg?> </strong>
                   </div>
                   <div class="col-md-1"></div>
-              </div>
+              </div> Modificacion unuv1.0-->
 
 
               <!-- area de datos a almacenar en la BD -->
@@ -61,8 +61,8 @@
                                 $count=$this->dbPilar->getSnapView("docLineas","IdLinea=$row->Id")->num_rows();
                                 // if( $row->TotDoceRegs >= 7 )
                                 //     echo "<option value=$row->Id> $row->Nombre - ( $row->TotDoceRegs ) </option>";
-                                 if( $count>= 6)
-                                    echo "<option value=$row->Id> $row->Nombre - ( $count ) </option>";
+                                 if( $count>= 4)
+                                    echo "<option value=$row->Id> $row->Nombre</option>";
                             }
                           ?>
                       </select>
@@ -93,7 +93,7 @@
 
               <!-- select areas -->
               <div class="form-group success">
-                  <label class="col-md-4 control-label"> Elija Director/Asesor </label>
+                  <label class="col-md-4 control-label"> Elija Asesor </label>
                   <div class="col-md-7">
                       <select id="j4" name="jurado4" class="form-control" required>
                           <option value="" disabled selected> Seleccione </option>
@@ -112,11 +112,11 @@
                       </select>
                   </div>
                   -->
-                  <div class="alert alert-success col-md-offset-1 col-md-10">
+                  <!--<div class="alert alert-success col-md-offset-1 col-md-10">
                       <b>Art 11.</b> El jurado dictaminador de los proyectos de tesis estará conformado
                       por tres (03) docentes de la UNA Puno, sorteados aleatoriamente a travéz de la Plataforma 
                       PILAR considerando las sublineas de investigación.
-                  </div>
+                  </div> //Modificado unuv1.0 -->
               </div>
 
               <!-- Text input-->
