@@ -33,8 +33,8 @@
                 $rowi=$this->dbPilar->getSnapRow("tesTramsDet","IdTramite=$row->IdTramite");
                 $tram=$this->dbPilar->getSnapRow("tesTramites","Id=$row->IdTramite");
                 $tesista=$this->dbPilar->inTesistas("$row->IdTramite");
-                $estado=($row->Estado==0)?"SOLICITUD RECHAZADA":($row->Estado==1)?"NUEVA SOLICITUD":"PROGRAMADO";
-                $colsta=($row->Estado==0)?"danger":($row->Estado==1)?"warning":"info";
+                $estado=(($row->Estado==0)?"SOLICITUD RECHAZADA":($row->Estado==1))?"NUEVA SOLICITUD":"PROGRAMADO";
+                $colsta=($row->Estado==0)?"danger":(($row->Estado==1)?"warning":"info");
                 $opt="";
                 if ($row->Estado==1) {
                     $opt="<a href='javascript:void(0)' class='btn btn-success' onclick=\" lodPanel('postSusten','cordinads/evaluaSusten/$tram->Codigo') \"> ENLACE </a>";
