@@ -263,7 +263,7 @@ class Docentes extends CI_Controller {
         $tipoName = array(1 =>'Proyectos' , 2=>'Borradores',3=>'Sustentaciones' );
         // Nota: FechModif sera importante para la bandeja se mostrar el
         // tramite ultimo modificado, controlado claro.
-        //  al subir, enviar a director, al sortear y revisar, al subir corr
+        //  al subir, enviar a Asesor, al sortear y revisar, al subir corr
         //  al aprobar sacar de bandeja y poner en actas
 
 
@@ -320,7 +320,7 @@ class Docentes extends CI_Controller {
 
 		if( $tram->Estado == 2 ) {
 
-			echo '<h4 class="titulo"> Proyecto para Director/Asesor </h4>';
+			echo '<h4 class="titulo"> Proyecto para Asesor </h4>';
 			echo "<b>Tesista(s) :</b> " . $this->dbPilar->inTesistas( $idtram ) . "<br>";
 			echo "<b>Linea de Inv.:</b> " . $this->dbRepo->inLineaInv( $tram->IdLinea ) . "<br>";
 			echo "<b>Escuela Profesional :</b> " . $this->dbRepo->inCarrera( $tram->IdCarrera ) . "<br>";
@@ -538,11 +538,11 @@ class Docentes extends CI_Controller {
 			), $idtram );
 
 			$mail = $this->dbPilar->inCorreo($tram->IdTesista1);
-			$msg  = "<b>Saludos</b><br><br>El Director/Asesor que Ud. eligió, ha aceptado su proyecto y en un "
+			$msg  = "<b>Saludos</b><br><br>El Asesor que Ud. eligió, ha aceptado su proyecto y en un "
 				  . "máximo de 48 horas serán sorteados sus jurados";
 
-			$this->logCorreo( $sess->userId, $mail, "Aceptación de Director", $msg );
-			$this->logTramites( $tram->Id, "Aceptación del Director", $msg );
+			$this->logCorreo( $sess->userId, $mail, "Aceptación de Asesor", $msg );
+			$this->logTramites( $tram->Id, "Aceptación del Asesor", $msg );
 
 			// mensaje y salida con actualizacion de ventana
 			echo "<hr><p>El proyecto <b>$tram->Codigo</b> Ha sido enviado para sorteo. Gracias por su tiempo.</p><br>";
@@ -558,11 +558,11 @@ class Docentes extends CI_Controller {
 
 
             $mail = $this->dbPilar->inCorreo($tram->IdTesista1);
-			$msg  = "El Director/Asesor ha rechazado su proyecto de tesis "
+			$msg  = "El Asesor ha rechazado su proyecto de tesis "
 				  . "por lo que deberá cambiarlo o coordinar personalmente.";
 
-            $this->logCorreo( $sess->userId, $mail, "Rechazo del Director", $msg );
-			$this->logTramites( $tram->Id, "Rechazo del Director", $msg );
+            $this->logCorreo( $sess->userId, $mail, "Rechazo del Asesor", $msg );
+			$this->logTramites( $tram->Id, "Rechazo del Asesor", $msg );
 
             echo "<b> Proyecto Rechazado </b><br>";
             echo "Se procede con notificar al tesista(s) para que realice el cambio de Jurado.";
@@ -986,7 +986,7 @@ class Docentes extends CI_Controller {
         $pdf->Ln(7);
 
 
-        $jur = array( "", "Presidente", "Primer Miembro", "Segundo Miembro", "Director/Asesor" );
+        $jur = array( "", "Presidente", "Primer Miembro", "Segundo Miembro", "Asesor" );
         $jur = $jur[$indx];
         $str = $this->dbRepo->inDocente( $sess->userId );
 
@@ -1098,7 +1098,7 @@ class Docentes extends CI_Controller {
         $pdf->Ln(7);
 
 
-        $jur = array( "", "Presidente", "Primer Miembro", "Segundo Miembro", "Director/Asesor" );
+        $jur = array( "", "Presidente", "Primer Miembro", "Segundo Miembro", "Asesor" );
         $jur = $jur[$indx];
         $str = $this->dbRepo->inDocente( $idprof );
 

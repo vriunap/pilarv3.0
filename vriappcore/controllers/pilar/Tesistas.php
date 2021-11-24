@@ -559,10 +559,10 @@ class Tesistas extends CI_Controller {
                 $tes = $tes .",". $this->dbPilar->inTesista($tram->IdTesista2, true);
                 // revisa modo de aprobacion
                 $strConst = "La presente es la contancia que los tesistas: $tes respectivamente. Han iniciado de forma grupal el trámite electrónico "
-                      . "para la presentación y revisión de su Proyecto de Tesis en la Plataforma de Investigación. Este proyecto ha sido aprobado por el director de tesis  $jurado4 y se realizó la asignación de jurados correspondiente con fecha $tram->FechModif, el mismo que se encuentra en revisión.";
+                      . "para la presentación y revisión de su Proyecto de Tesis en la Plataforma de Investigación. Este proyecto ha sido aprobado por el Asesor de tesis  $jurado4 y se realizó la asignación de jurados correspondiente con fecha $tram->FechModif, el mismo que se encuentra en revisión.";
             }
             $strConst = "La presente es la contancia que: $tes  ha iniciado el trámite electrónico para la presentación "
-                      . "y revisión de su Proyecto de Tesis en la Plataforma de Investigación. Este proyecto ha sido aprobado por el director de tesis  $jurado4 y se realizó la asignación de jurados correspondiente  con fecha $tram->FechModif, el mismo que se encuentra en revisión."
+                      . "y revisión de su Proyecto de Tesis en la Plataforma de Investigación. Este proyecto ha sido aprobado por el Asesor de tesis  $jurado4 y se realizó la asignación de jurados correspondiente  con fecha $tram->FechModif, el mismo que se encuentra en revisión."
                       . ""
                       ;
         
@@ -690,7 +690,7 @@ class Tesistas extends CI_Controller {
         $pdf->Cell( 50, 6, "Segundo Miembro", 0, 0, "L" );
         $pdf->Cell( 100, 6, ": " .toUTF($jurado3), 0, 1, "L" );
 
-        $pdf->Cell( 50, 6, "Director/Asesor", 0, 0, "L" );
+        $pdf->Cell( 50, 6, "Asesor", 0, 0, "L" );
         $pdf->Cell( 100, 6, ": " .toUTF($jurado4), 0, 1, "L" );
 
 
@@ -823,7 +823,7 @@ class Tesistas extends CI_Controller {
         $pdf->Cell( 50, 6, "Segundo Miembro", 0, 0, "L" );
         $pdf->Cell( 100, 6, ": " .toUTF($jurado3), 0, 1, "L" );
 
-        $pdf->Cell( 50, 6, "Director/Asesor", 0, 0, "L" );
+        $pdf->Cell( 50, 6, "Asesor", 0, 0, "L" );
         $pdf->Cell( 100, 6, ": " .toUTF($jurado4), 0, 1, "L" );
 
 
@@ -1421,7 +1421,7 @@ class Tesistas extends CI_Controller {
 						  "ORDER BY DatosPers" );
 
             //
-            // Rectores, Decanos NO pero si Directores
+            // Rectores, Decanos NO pero si Asesores
             //
             foreach( $table->result() as $row ) {
                 echo "<option value=$row->IdDocente> $row->DatosPers </option>";
@@ -1448,7 +1448,7 @@ class Tesistas extends CI_Controller {
 						  "ORDER BY DatosPers" );
 
 
-            // Rectores, Decanos NO pero si Directores
+            // Rectores, Decanos NO pero si Asesores
             //
             foreach( $table->result() as $row ){
                 echo "<option value=$row->IdDocente> $row->DatosPers </option>";
@@ -1820,7 +1820,7 @@ class Tesistas extends CI_Controller {
                 echo "<br>Presidente      : <b> " .($det->vb1!=0? "Ok":"En Dictamen . . ."). "</b>";
                 echo "<br>Primer Miembro  : <b> " .($det->vb2!=0? "Ok":"En Dictamen . . ."). "</b>";
                 echo "<br>Segundo Miembro : <b> " .($det->vb3!=0? "Ok":"En Dictamen . . ."). "</b>";
-                echo "<br>Director/Asesor : <b> " .($det->vb4!=0? "Ok":"En Dictamen . . ."). "</b>";
+                echo "<br>Asesor : <b> " .($det->vb4!=0? "Ok":"En Dictamen . . ."). "</b>";
 
             }else{
                 echo "<h4> Esperando la Verificación y Publicación de la Sustentación ";
@@ -2014,7 +2014,7 @@ class Tesistas extends CI_Controller {
 
         $pdf->Ln(6);
         $pdf->SetFont( "Arial", "", 10 );
-        $pdf->Cell( 50, 5, "Director / asesor ", 0, 0, "L" );
+        $pdf->Cell( 50, 5, "Asesor ", 0, 0, "L" );
         $pdf->Cell( 100, 5, ": " .toUTF($asesor), 0, 0, "L" );
 
                 
@@ -2065,7 +2065,7 @@ class Tesistas extends CI_Controller {
         $pdf->Cell( 50, 5, "Segundo Miembro", 0, 0, "L" );
         $pdf->Cell( 100, 5, ": " .toUTF($jurado3), 0, 1, "L" );
 
-        $pdf->Cell( 50, 5, "Director/Asesor", 0, 0, "L" );
+        $pdf->Cell( 50, 5, "Asesor", 0, 0, "L" );
         $pdf->Cell( 100, 5, ": " .toUTF($jurado4), 0, 1, "L" );
        
         

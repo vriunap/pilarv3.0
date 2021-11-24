@@ -14,7 +14,7 @@
 			<?php 
 				if ($tram->Tipo==1) {
 					$doc1=$this->dbRepo->inDocente("$tram->IdJurado4");
-					echo "Director de Tesis: $doc1 <br>";
+					echo "Asesor de Tesis: $doc1 <br>";
 					if($tram->IdTesista2)echo "<br><b class='text-danger'> NOTA : Este proyecto tiene 2 Tesistas</b>";
 				}
 				if ($tram->Tipo>=2){

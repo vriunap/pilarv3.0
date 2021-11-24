@@ -49,7 +49,7 @@ function borDirect( itm, tram )
 
 function pyDirect( itm, tram )
 {
-    if( confirm('Esta Item sera enviado al Director, desea continuar?') ) {
+    if( confirm('Esta Item sera enviado al Asesor, desea continuar?') ) {
         jVRI("#ixp").load( "admin/listPyDire/"+tram );
         $("#nr"+itm ).fadeOut(); //hide();
     }

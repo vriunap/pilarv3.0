@@ -39,7 +39,7 @@
 						break;
 					case 2:
 						$opt="";
-						$estado="En revisión por el Director";
+						$estado="En revisión por el Asesor";
 						break;
 					case 3:
 						$opt .= " | <button onclick='jsMdlSorteo(\"cordinads/execSorteo/$row->Id\",$nro)' class='btn btn-xs btn-warning'> Sorteo </button> ";

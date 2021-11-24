@@ -29,19 +29,19 @@
 			foreach($pyts->result() as $row){
 				$rowi=$this->dbPilar->getSnapRow("tesTramsDet","IdTramite='$row->Id' ORDER BY Iteracion desc"); 
 		        $estado = "";
-				$archi = "/repositor/docs/$rowi->Archivo";
+				$archi = base_url("/repositor/docs/$rowi->Archivo");
 				$actap = base_url("pilar/tesistas/actaProy/$rowi->Id");
 				$opt = "<a href='$archi' class='btn btn-xs btn-info no-print' target=_blank> ver PDF </a>";
 				switch ($row->Estado) {
 					case 1:
 						// $opt="<a href='$archi' class='btn btn-xs btn-info no-print' target=_blank> ver PDF </a> | ";
-						$opt .= " |  <button onclick=\"pyDirect($nro,$row->Id)\" class='btn btn-xs btn-warning'> Enviar al Director</button> ";
+						$opt .= " |  <button onclick=\"pyDirect($nro,$row->Id)\" class='btn btn-xs btn-warning'> Enviar al Asesor</button> ";
 						$opt.="<a href='javascript:void(0)' onclick=\"jsLoadModalCord($row->Id,'cordinads/execRechaza/')\" class='btn btn-danger btn-xs'>Rechazar</a>";	
 						$estado="Revisión de Formato";
 						break;
 					case 2:
 						$opt="";
-						$estado="En revisión por el Director";
+						$estado="En revisión por el Asesor";
 						break;
 					case 3:
 						// $opt .= " | <button onclick='popLoad(\"admin/execSorteo/$row->Id\",$nro)' class='btn btn-xs btn-warning'> Sorteo </button>";

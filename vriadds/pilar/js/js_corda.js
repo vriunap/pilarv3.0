@@ -55,7 +55,7 @@ function jsConfirmlLinea(val){
 function pyDirect( itm, tram )
 {
 	// alert(tram);
-    if( confirm('Este proyecto de tesis sera enviado al Director, desea continuar?') ) {
+    if( confirm('Este proyecto de tesis sera enviado al Asesor, desea continuar?') ) {
     	
     	jVRI("#respcord").load("cordinads/listPyDire/"+tram);
 

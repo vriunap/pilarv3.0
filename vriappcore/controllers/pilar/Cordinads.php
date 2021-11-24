@@ -29,7 +29,7 @@ class Cordinads extends CI_Controller {
 *      (1) Actualizó el estado de un docente.
 *      (2) Recepción de Ejemplares de Borrador
 *      (3) Notificó a un Docente que tiene proyectos pendientes
-*      (3) Revisar formato  y pasar el proyecto al director.
+*      (3) Revisar formato  y pasar el proyecto al Asesor.
 *      (4) Validar Linea de Investigación
 *      (4) Rechazar Proyecto de Tesis por FORMATO
 *
@@ -86,12 +86,12 @@ public function index()
 
    }
 
-   // Área de Administración del Director de Investigación
+   // Área de Administración del Asesor de Investigación
    if($sess->userLevel==2){
       $escuelas=$this->dbRepo->getTable("dicCarreras","IdFacultad='$sess->IdFacultad'");
       $this->load->view("pilar/cord/header",array('escuelas' =>$escuelas,'sess'=>$sess ));
    }
-   // Área de Administración del Sub Director de Investigación
+   // Área de Administración del Sub Asesor de Investigación
    if($sess->userLevel==3){
       $useri=$this->dbPilar->getSnapRow("tblSecres","Id=$sess->userId");
       $escuelas=$this->dbRepo->getSnapView("dicCarreras","Id=$useri->IdCarrera");
@@ -128,7 +128,7 @@ public function setCarrera($idCarr){
 public function vwInicio(){
    $this->load->view('pilar/cord/view/inicio');
 }
-// Vista de Inicio Director de Investigación
+// Vista de Inicio Asesor de Investigación
 public function vwProy2018(){
    $this->load->view('pilar/cord/direc/vwProy2018');
 }
@@ -504,7 +504,7 @@ public function memosGen( $IdTramite )
          . "\n\nCuyo borrador de tesis ya fue revisado por los jurados via plataforma para lo cual usted deberá convocar a una reunión en un plazo máximo de 05 dias apartir del día $fecha con todos los miembros de jurado, como sigue a continuación: \n"
          ." - Primer Miembro : $j2m\n"
          ." - Segundo Miembro :$j3m\n"
-         ." - Tercer Miembro/Director :$j4m\n"
+         ." - Tercer Miembro/Asesor :$j4m\n"
          . "con presencia del bachiller  $tesista , a fin de realizar las observaciones finales  y dictaminar el borrador de tesis. "
          . "(Art.9 Reglamento de Presentación dictamen de borradores y defensa de tesis) Resolución Rectoral N°3011-2016-R-UNA\n\n\n"
          . "Atentamente."; 
@@ -764,7 +764,7 @@ foreach($table->result() as $row){
    // $pdf->Cell(60,7,"Ult. Fecha de Ascenso",0,0,'L');$pdf->Cell(100,7,toUTF(": $row->FechaAsc"),0,1,'L');
 }
 $varconsulta=array(
-   4=>"Director",
+   4=>"Asesor",
    1=>"Presidente de Jurado",
    2=>"Primer Miembro de Jurado",
    3=>"Segundo Miembro de Jurado",
@@ -773,7 +773,7 @@ $state=array(
    -1=>"Observado",
    0=>"Proyecto Rechazado",
    1=>"Proyecto : Revisión de formato",
-   2=>"Proyecto : En revisión por el Director",
+   2=>"Proyecto : En revisión por el Asesor",
    3=>"Proyecto : Listo para sorteo",
    4=>"Proyecto : En Revisión por Jurados",
    5=>"Proyecto : En Dictaminación",
@@ -856,7 +856,7 @@ foreach($table->result() as $row){
    $pdf->Cell(60,7,"Ult. Fecha de Ascenso",0,0,'L');$pdf->Cell(100,7,toUTF(": $row->FechaAsc"),0,1,'L');
 }
 $varconsulta=array(
-   4=>"Director",
+   4=>"Asesor",
    1=>"Presidente de Jurado",
    2=>"Primer Miembro de Jurado",
    3=>"Segundo Miembro de Jurado",
@@ -865,7 +865,7 @@ $state=array(
    -1=>"Observado",
    0=>"Proyecto Rechazado",
    1=>"Proyecto : Revisión de formato",
-   2=>"Proyecto : En revisión por el Director",
+   2=>"Proyecto : En revisión por el Asesor",
    3=>"Proyecto : Listo para sorteo",
    4=>"Proyecto : En Revisión por Jurados",
    5=>"Proyecto : En Dictaminación",
@@ -1200,9 +1200,9 @@ public function listPyDire( $idtram=0 )
 
       // envio de correo
       //
-   $msg = "<h4> Enviado al Director </h4><br>"
-   . "Su proyecto ha sido enviado a su Director de Proyecto con el "
-   . "formato revisado, su Director ya puede revisarlo en la <b>Plataforma PILAR</b>."
+   $msg = "<h4> Enviado al Asesor </h4><br>"
+   . "Su proyecto ha sido enviado a su Asesor de Proyecto con el "
+   . "formato revisado, su Asesor ya puede revisarlo en la <b>Plataforma PILAR</b>."
    ;
 
    $mail = $this->dbPilar->inCorreo( $tram->IdTesista1 );
@@ -1214,14 +1214,14 @@ public function listPyDire( $idtram=0 )
    ;
    $mail = $this->dbRepo->inCorreo( $tram->IdJurado4 );
    $celu = $this->dbRepo->inCelu( $tram->IdJurado4 );
-   $this->logCordinads('S', '6 ', "Envia Proyecto a Director", $msg );
+   $this->logCordinads('S', '6 ', "Envia Proyecto a Asesor", $msg );
    $this->logCorreo( $tram->IdJurado4,0, $mail, "Proyecto para Asesoria", $msg );
    $a=$this->notiCelu($celu,1);
    $msg=$msg.$a;
         //------------------------------------------------------------------------------------------------
-   $this->logTramites( 2, $tram->Id, "Enviado al Director", $msg );
+   $this->logTramites( 2, $tram->Id, "Enviado al Asesor", $msg );
 
-   echo "<b class='text-success'>".$tram->Codigo . " fue Enviado a su Director</b>";
+   echo "<b class='text-success'>".$tram->Codigo . " fue Enviado a su Asesor</b>";
 }
 
 
@@ -1232,7 +1232,7 @@ public function notiCelu($cel,$tip)
  $deviceID = 89014;
  $number   = "0051$cel";
  if($tip==1){
-   $mensaje  = "UNAP VRI PILAR \nSr. Docente le llegó un nuevo proyecto en calidad de ASESOR/DIRECTOR de tesis, puede revisarlo en la plataforma PILAR en http://vriunap.pe/pilar,  \n\n".date("d-m-Y")."\nVicerrectorado de Investigación.";
+   $mensaje  = "UNAP VRI PILAR \nSr. Docente le llegó un nuevo proyecto en calidad de ASESOR de tesis, puede revisarlo en la plataforma PILAR en http://vriunap.pe/pilar,  \n\n".date("d-m-Y")."\nVicerrectorado de Investigación.";
 }
 if($tip==3){
    $mensaje  = "UNAP VRI PILAR \nSr. Docente usted fué SORTEADO como JURADO de tesis, puede revisarlo en la plataforma PILAR en http://vriunap.pe/pilar,  \n\n".date("d-m-Y")."\nVicerrectorado de Investigación.";
@@ -1278,7 +1278,7 @@ public function execSorteo( $idtram=0 )
     echo "<b>Codigo :</b> $tram->Codigo ";
     echo "<br><b>Linea ($tram->IdLinea) :</b> " . $this->dbRepo->inLineaInv($tram->IdLinea);
     // echo "<br><b>Tesista(s) :</b> "             . $this->dbPilar->inTesistas($tram->Id);
-    echo "<br><b>Director :</b> "             . $this->dbRepo->inDocenteEx($tram->IdJurado4);
+    echo "<br><b>Asesor :</b> "             . $this->dbRepo->inDocenteEx($tram->IdJurado4);
     $archi = "/repositor/docs/$tramDet->Archivo";
     echo "<br><b>Archivo de Tesis :</b><a href='$archi' class='btn btn-xs btn-info no-print' target=_blank> Ver PDF Click Aquí</a>";
     echo "<br><b>Jurado :</b> [ $tram->IdJurado1 / $tram->IdJurado2 / $tram->IdJurado3 / $tram->IdJurado4 ]";
@@ -1523,7 +1523,7 @@ public function execSorteo( $idtram=0 )
     echo "<label class='form-check-label'>El proyecto corresponde a la <b class='text-warning'>Linea de Investigación</b>? </label>";
 
     echo "<br><input type='checkbox' class='form-check-input' id='directC' onclick='enableSave()'>";
-     echo "<label class='form-check-label'>El Director es idoneo para el proyecto de tesis ? </label>";
+     echo "<label class='form-check-label'>El Asesor es idoneo para el proyecto de tesis ? </label>";
 
      echo "<br><input type='checkbox' class='form-check-input' id='cumpleC' onclick='enableSave()'>";
      echo " <label class='form-check-label'>El proyecto de tesis cumple con lo establecido por la Escuela Profesional ?</label>";
@@ -1590,7 +1590,7 @@ public function inDoSorteo($idTram){
 
    $msg = "Sorteo y Envio a Revisión\n"
    . "Proyecto: $rowTram->Codigo  -- Linea: $rowTram->IdLinea\n"
-   . "- Presidente: ($j1) \n- Primer Miembro: ($j2) \n- Segundo Miembro: ($j3) \n- Director: ($j4)"
+   . "- Presidente: ($j1) \n- Primer Miembro: ($j2) \n- Segundo Miembro: ($j3) \n- Asesor: ($j4)"
    ;
    $this->logTramites( $sess->userId, $rowTram->Id, "Proyecto enviado a Revisión", $msg );
         // correo a tesista

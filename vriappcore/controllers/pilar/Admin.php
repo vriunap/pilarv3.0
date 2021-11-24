@@ -837,7 +837,7 @@ class Admin extends CI_Controller {
         //echo "<br><b>Presidente(a)   :</b> " . $this->dbRepo->indocente( $tram->IdJurado1 );
         //echo "<br><b>Primer miembro  :</b> " . $this->dbRepo->indocente( $tram->IdJurado2 );
         //echo "<br><b>Segundo miembro :</b> " . $this->dbRepo->indocente( $tram->IdJurado3 );
-        echo "<br><b>Director(a)     :</b> " . $this->dbRepo->indocente( $tram->IdJurado4 );
+        echo "<br><b>Asesor(a)     :</b> " . $this->dbRepo->indocente( $tram->IdJurado4 );
 
         echo "<p> <br><b>Se notificará la cancelación por exceso de tiempo.</b></p>";
         //echo "<br><br>FALTA COMPLETAR CODIGO: ENVIO DE MAILS Y LOG";
@@ -947,7 +947,7 @@ class Admin extends CI_Controller {
         // echo "<br><b>Tesista(s) :</b> "             . $this->dbPilar->inTesistas($tram->Id);
         echo "<b>Codigo :</b> $tram->Codigo ";
         echo "<br><b>Linea ($tram->IdLinea) :</b> " . $this->dbRepo->inLineaInv($tram->IdLinea);
-        echo "<br><b>Director :</b> "             . $this->dbRepo->inDocenteEx($tram->IdJurado4);
+        echo "<br><b>Asesor :</b> "             . $this->dbRepo->inDocenteEx($tram->IdJurado4);
         echo "<br><b>Archivo de Tesis :</b><a href='$archi' class='btn btn-xs btn-info no-print' target=_blank> Ver PDF Click Aquí</a>";
         echo "<br><b>Jurado :</b> [ $tram->IdJurado1 / $tram->IdJurado2 / $tram->IdJurado3 / $tram->IdJurado4 ]";
 
@@ -1177,7 +1177,7 @@ class Admin extends CI_Controller {
         echo "<label class='form-check-label'>El proyecto corresponde a la <b class='text-warning'>Linea de Investigación</b>? </label>";
 
         echo "<br><input type='checkbox' class='form-check-input' id='directC' onclick='enableSave()'>";
-        echo "<label class='form-check-label'>El Director es idoneo para el proyecto de tesis ? </label>";
+        echo "<label class='form-check-label'>El Asesor es idoneo para el proyecto de tesis ? </label>";
 
         echo "<br><input type='checkbox' class='form-check-input' id='cumpleC' onclick='enableSave()'>";
         echo " <label class='form-check-label'>El proyecto de tesis cumple con lo establecido por la Escuela Profesional ?</label>";
@@ -1515,7 +1515,7 @@ class Admin extends CI_Controller {
         $this->gensession->IsLoggedAccess( PILAR_ADMIN );
         if( !$idtram ) return;
 
-        echo "<h4>Cancelación por exceso de Tiempo de Director</h4>";
+        echo "<h4>Cancelación por exceso de Tiempo de Asesor</h4>";
 
         $tram = $this->dbPilar->inProyTram($idtram);
         if(!$tram) { echo "No registro"; return; }
@@ -1525,11 +1525,11 @@ class Admin extends CI_Controller {
         echo "<br><b>Tesista(s) :</b> "             . $this->dbPilar->inTesistas($tram->Id);
 
         ///echo "<br><b>Jurado :</b> [ $tram->IdJurado1 / $tram->IdJurado2 / $tram->IdJurado3 / $tram->IdJurado4 ]";
-        echo "<br><b>Director(a) :</b> " . $this->dbRepo->indocente( $tram->IdJurado4 );
-        echo "<p><br><b>Se notificará al Director y Tesista, indicando que se rechaza el proyecto por exceso de tiempo";
+        echo "<br><b>Asesor(a) :</b> " . $this->dbRepo->indocente( $tram->IdJurado4 );
+        echo "<p><br><b>Se notificará al Asesor y Tesista, indicando que se rechaza el proyecto por exceso de tiempo";
         echo "se cancelará el trámite para dar paso a uno nuevo con reconformación.</b></p>";
 
-        // detallaremos evento interno Ev12 no director rechazar
+        // detallaremos evento interno Ev12 no Asesor rechazar
         echo "<input type=hidden name=evt value='12'>";
         echo "<input type=hidden name=idtram value='$idtram'>";
     }
@@ -1577,7 +1577,7 @@ class Admin extends CI_Controller {
 
         $msg = "Sorteo y Envio a Revisión\n"
              . "Proyecto: $rowTram->Codigo  -- Linea: $rowTram->IdLinea\n"
-             . "- Presidente: ($j1) \n- Primer Miembro: ($j2) \n- Segundo Miembro: ($j3) \n- Director: ($j4)"
+             . "- Presidente: ($j1) \n- Primer Miembro: ($j2) \n- Segundo Miembro: ($j3) \n- Asesor: ($j4)"
              ;
         // $this->logTramites( $sess->userId, $rowTram->Id, "Proyecto enviado a Revisión", $msg );
              $this->logTramites( $sess->userId, $rowTram->Id, "Proyecto enviado a Revisión", $msg );
@@ -1822,7 +1822,7 @@ class Admin extends CI_Controller {
 		$this->logCorreo( $tram->Id, $corr3, "Revisión de Borrador de Tesis", $msg );
 		$this->logCorreo( $tram->Id, $corr4, "Revisión de Borrador de Tesis", $msg );
 
-		//echo $tram->Codigo . " fue Enviado a su Director";
+		//echo $tram->Codigo . " fue Enviado a su Asesor";
 		echo "Correos enviados correctamente<br>";
         echo "El Borrador está en Revisión desde Hoy.<br>";
 	}
@@ -1843,13 +1843,13 @@ class Admin extends CI_Controller {
 
 		// envio de correo
 		//
-		$msg = "<h4> Enviado al Director </h4><br>"
-			 . "Su proyecto ha sido enviado a su Director de Proyecto con el "
-			 . "formato revisado, su Director ya puede revisarlo en la <b>Plataforma PILAR</b>."
+		$msg = "<h4> Enviado al Asesor </h4><br>"
+			 . "Su proyecto ha sido enviado a su Asesor de Proyecto con el "
+			 . "formato revisado, su Asesor ya puede revisarlo en la <b>Plataforma PILAR</b>."
 			 ;
 
 		$mail = $this->dbPilar->inCorreo( $tram->IdTesista1 );
-		$this->logCorreo( $tram->Id, $mail, "Enviado al Director", $msg );
+		$this->logCorreo( $tram->Id, $mail, "Enviado al Asesor", $msg );
         //------------------------------------------------------------------------------------------------
         $msg = "<h4> Proyecto para Asesoria </h4><br>"
 			 . "Se le ha remitido el proyecto con código <b>$tram->Codigo</b> "
@@ -1858,9 +1858,9 @@ class Admin extends CI_Controller {
         $mail = $this->dbRepo->inCorreo( $tram->IdJurado4 );
         $this->logCorreo( $tram->Id, $mail, "Proyecto para Asesoria", $msg );
         //------------------------------------------------------------------------------------------------
-		$this->logTramites( 2, $tram->Id, "Enviado al Director", $msg );
+		$this->logTramites( 2, $tram->Id, "Enviado al Asesor", $msg );
 
-		echo $tram->Codigo . " fue Enviado a su Director";
+		echo $tram->Codigo . " fue Enviado a su Asesor";
 	}
 
 	// devolver al tesista proyecto: pero no borrar por historial
@@ -1901,9 +1901,9 @@ class Admin extends CI_Controller {
         $fec = mlFechaNorm($rowTram->FechModif);
         $pas = mlDiasTranscHoy($rowTram->FechModif);
         $msg = "<h4>Saludos</h4>"
-             . "El proyecto con codigo: <b>$rowTram->Codigo</b>.  Ha estado en la bandeja del Director un excesivo tiempo "
+             . "El proyecto con codigo: <b>$rowTram->Codigo</b>.  Ha estado en la bandeja del Asesor un excesivo tiempo "
              . "por <b>$pas</b> dias, desde el: <b>$fec</b> se procede con el registro del hecho y la anulación del trámite, "
-             . "el Tesista podrá realizar un nuevo trámite en el tiempo que reformula el proyecto o elije otro Director/Asesor."
+             . "el Tesista podrá realizar un nuevo trámite en el tiempo que reformula el proyecto o elije otro Asesor."
              ;
 
 
@@ -1915,9 +1915,9 @@ class Admin extends CI_Controller {
 		//
 		$mailA = $this->dbPilar->inCorreo( $tram->IdTesista1 );
         $mailB = $this->dbRepo->inCorreo( $tram->IdJurado4 );
-		$this->logCorreo( $tram->Id, $mailA, "Exceso de tiempo Director/Asesor", $msg );
-        $this->logCorreo( $tram->Id, $mailB, "Exceso de tiempo Director/Asesor", $msg );
-        $this->logTramites( 2, $tram->Id, "Exceso de tiempo Director/Asesor", $msg );
+		$this->logCorreo( $tram->Id, $mailA, "Exceso de tiempo Asesor", $msg );
+        $this->logCorreo( $tram->Id, $mailB, "Exceso de tiempo Asesor", $msg );
+        $this->logTramites( 2, $tram->Id, "Exceso de tiempo Asesor", $msg );
 
 		///echo "<br><br> <b>$tram->Codigo</b> fue Retornado por exceso de tiempo...";
         echo $msg;

@@ -30,7 +30,7 @@
                       <input name="tesista" type="text" class="form-control input-md" disabled="" value="<?=$name;?>">
                   </div>
                   <div class="col-md-4"></div>
-                  <!-- <span class="help-block col-md-7">El Director de Proyecto deberá ser un docente Nombrado</span> -->
+                  <!-- <span class="help-block col-md-7">El Asesor de Proyecto deberá ser un docente Nombrado</span> -->
               </div>
 
               <!-- Text area -->

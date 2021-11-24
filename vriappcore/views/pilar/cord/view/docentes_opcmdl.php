@@ -41,7 +41,7 @@
 				<label class="col-md-4 control-label" for="textarea">Detalle</label>
 				<div class="col-md-8">                     
 					<input class="form-control" id="detalle" name="detalle" placeholder="Justificación del cambio de Estado al Docente." required></input>
-					<span class="help-block">Ejem. El docente fue elegido Director de Investigación de la escuela profesional.</span>  
+					<span class="help-block">Ejem. El docente fue elegido Asesor de Investigación de la escuela profesional.</span>  
 				</div>
 			</div>
 			<!-- Button -->

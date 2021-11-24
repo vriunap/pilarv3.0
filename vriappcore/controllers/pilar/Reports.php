@@ -2553,7 +2553,7 @@ public function repoGenpilar()
         $pdf->Cell(180,7,toUTF("PROYECTOS DE TESIS EN PILAR:"),0,1,'L');
         $pdf->SetFont('Courier','',10);
         $pdf->Cell(180,7,toUTF("- $estado1  Proyectos para revisión de Formato."),0,1,'L');
-        $pdf->Cell(180,7,toUTF("- $estado2  Proyectos en Revisión con el Director."),0,1,'L');
+        $pdf->Cell(180,7,toUTF("- $estado2  Proyectos en Revisión con el Asesor."),0,1,'L');
         $pdf->Cell(180,7,toUTF("- $estado3  ProyectosRepoteElly Listos para sorteo."),0,1,'L');
         $pdf->Cell(180,7,toUTF("- $estado4  Proyectos en Revisión por los Jurados."),0,1,'L');
         $pdf->Cell(180,7,toUTF("- $estado5  Proyectos Aprobados por los Jurados."),0,1,'L');
@@ -3456,7 +3456,7 @@ public function ReporteLaspauALL(){
 
         $pdf->Ln(6);
         $pdf->SetFont( "Arial", "", 10 );
-        $pdf->Cell( 50, 5, "Director / asesor ", 0, 0, "L" );
+        $pdf->Cell( 50, 5, "Asesor ", 0, 0, "L" );
         $pdf->Cell( 100, 5, ": " .toUTF($asesor), 0, 0, "L" );
 
                 
@@ -3507,7 +3507,7 @@ public function ReporteLaspauALL(){
         $pdf->Cell( 50, 5, "Segundo Miembro", 0, 0, "L" );
         $pdf->Cell( 100, 5, ": " .toUTF($jurado3), 0, 1, "L" );
 
-        $pdf->Cell( 50, 5, "Director/Asesor", 0, 0, "L" );
+        $pdf->Cell( 50, 5, "Asesor", 0, 0, "L" );
         $pdf->Cell( 100, 5, ": " .toUTF($jurado4), 0, 1, "L" );
        
         
@@ -3648,7 +3648,7 @@ public function ReporteLaspauALL(){
 
         $pdf->Ln(6);
         $pdf->SetFont( "Arial", "", 10 );
-        $pdf->Cell( 50, 5, "Director / asesor ", 0, 0, "L" );
+        $pdf->Cell( 50, 5, "Asesor / asesor ", 0, 0, "L" );
         $pdf->Cell( 100, 5, ": " .toUTF($asesor), 0, 0, "L" );
 
                 
@@ -3699,7 +3699,7 @@ public function ReporteLaspauALL(){
         $pdf->Cell( 50, 5, "Segundo Miembro", 0, 0, "L" );
         $pdf->Cell( 100, 5, ": " .toUTF($jurado3), 0, 1, "L" );
 
-        $pdf->Cell( 50, 5, "Director/Asesor", 0, 0, "L" );
+        $pdf->Cell( 50, 5, "Asesor", 0, 0, "L" );
         $pdf->Cell( 100, 5, ": " .toUTF($jurado4), 0, 1, "L" );
        
         

@@ -70,7 +70,7 @@
                         <div class="col-md-7">
                             <input type="text" class="form-control" value="<?=$this->dbRepo->inDocenteEx($tram->IdJurado1)?>" readonly>
                         </div>
-                        <!-- <span class="help-block col-md-7">El Director de Proyecto deberá ser un docente Nombrado</span> -->
+                        <!-- <span class="help-block col-md-7">El Asesor de Proyecto deberá ser un docente Nombrado</span> -->
                     </div>
                     <!-- select areas -->
                     <div class="form-group form-group-sm">

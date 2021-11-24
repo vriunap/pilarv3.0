@@ -10,7 +10,7 @@ $oppcion=" ";
 <div class="container-fluid">
 	<div class="panel">
 		<h2 class="text-center">Reconsideración de Lineas de Investigación <br> <small>ESCUELA PROFESIONAL DE <?php  echo strtoupper($Carrera); ?></small></h2>
-		<p>La reestructuración de Lineas de Investigación, corresponte al Oficio N° 0080 del Vicerrectorado de Investigación en el que se deberá validar a los docentes que pertenecen a las lineas de investigación de sus respectivas Escuelas Profesionales, y en el caso de que los docentes no correspondan se deberá de indicar marcando la opción de se requiere validación del Docente. <br> <small>Nota : Este procedimiento deberá realizarse por el Director de la Unidad de Investigación de la Facultad en Coordinación con el Sub Director de Investigación la Escuela Profesional Respectiva a Evaluar.</small></p>                                                                                      
+		<p>La reestructuración de Lineas de Investigación, corresponte al Oficio N° 0080 del Vicerrectorado de Investigación en el que se deberá validar a los docentes que pertenecen a las lineas de investigación de sus respectivas Escuelas Profesionales, y en el caso de que los docentes no correspondan se deberá de indicar marcando la opción de se requiere validación del Docente. <br> <small>Nota : Este procedimiento deberá realizarse por el Asesor de la Unidad de Investigación de la Facultad en Coordinación con el Sub Director de Investigación la Escuela Profesional Respectiva a Evaluar.</small></p>                                                                                      
 		<div class="table-responsive">          
 			<table class="table">
 				<?php

@@ -28,7 +28,7 @@ class Direccioni extends CI_Controller {
 *      (1) Actualizó el estado de un docente.
 *      (2) Recepción de Ejemplares de Borrador
 *      (3) Notificó a un Docente que tiene proyectos pendientes
-*      (3) Revisar formato  y pasar el proyecto al director.
+*      (3) Revisar formato  y pasar el proyecto al Asesor.
 *      (4) Validar Linea de Investigación
 *
 *      $operaciones=array(
@@ -71,13 +71,13 @@ public function index()
       $this->load->view("pilar/cord/header",array('escuelas' =>$escuelas,'sess'=>$sess ));
    }
 
-   // Área de Administración del Director de Investigación
+   // Área de Administración del Asesor de Investigación
    if($sess->userLevel==2){
       $useri=$this->dbPilar->getSnapRow("tblSecres","Id=$sess->userId");
       $escuelas=$this->dbRepo->getSnapView("dicCarreras","Id=$useri->IdCarrera");
       $this->load->view("pilar/cord/header",array('escuelas' =>$escuelas,'sess'=>$sess ));
    }
-   // Área de Administración del Sub Director de Investigación
+   // Área de Administración del Sub Asesor de Investigación
    if($sess->userLevel==3){
       $escuelas=$this->dbRepo->getTable("dicCarreras","IdFacultad='$sess->IdFacultad'");
       $this->load->view("pilar/cord/header",array('escuelas' =>$escuelas,'sess'=>$sess ));

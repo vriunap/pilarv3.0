@@ -34,7 +34,7 @@
   			<li class='active'><a data-toggle='tab' href='#tab1'> Presidente </a></li>
   			<li><a data-toggle='tab' href='#tab2'> Primer Miembro </a></li>
   			<li><a data-toggle='tab' href='#tab3'> Segundo Miembro </a></li>
-			<li><a data-toggle='tab' href='#tab4'> Director/Asesor </a></li>
+			<li><a data-toggle='tab' href='#tab4'> Asesor </a></li>
 		</ul>
 		<div class='tab-content'>
 
@@ -76,7 +76,7 @@
 				echo "<br>Presidente      : <b> " .($totCorrs1? "Ok":""). "</b>";
 				echo "<br>Primer Miembro  : <b> " .($totCorrs2? "Ok":""). "</b>";
 				echo "<br>Segundo Miembro : <b> " .($totCorrs3? "Ok":""). "</b>";
-				echo "<br>Director/Asesor : <b> " .($totCorrs4? "Ok":""). "</b>";
+				echo "<br>Asesor : <b> " .($totCorrs4? "Ok":""). "</b>";
 
 				return;
 			}

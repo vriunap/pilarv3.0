@@ -18,7 +18,7 @@
 
     $procesos = array (
         "proy nuevo",
-        "para Director",
+        "para Asesor",
         "para Sorteo",
         "en Revisión",
         "en Dictámen",
@@ -42,7 +42,7 @@
         "Presidente",
         "Primer miembro",
         "Segundo miembro",
-        "Director/Asesor"
+        "Asesor"
     );
 
 
@@ -59,7 +59,9 @@
 
 
         // popUp con Id Tipo
-        $archivo= "<a href='http://vriunap.pe/repositor/docs/$det->Archivo' target='_blank' class='btn btn-xs btn-info'> Archivo</a>";
+        $archi = base_url("/repositor/docs/$det->Archivo"); //Agregado unuv1.0
+        $archivo= "<a href='$archi' target='_blank' class='btn btn-xs btn-info'> Archivo</a>";
+        //$archivo= "<a href='http://vriunap.pe/repositor/docs/$det->Archivo' target='_blank' class='btn btn-xs btn-info'> Archivo</a>";
         $menus = "";
         $estado = "";
 		//-----------------------------------------------------------------------------------------------------
@@ -72,7 +74,7 @@
 		//-----------------------------------------------------------------------------------------------------
 		if( $row->Tipo == 1 ) {
 
-			// director/asesor
+			// Asesor
 			if( $row->Estado == 2 && $pos==4 ) {
 				// OJO: controlar Jurado no dejar al miembro elegido
 				$menus = "<button onclick=\"loadCorrs('docentes/corrProys',$row->Id)\" class='btn btn-sm btn-success'> Aprobación </button>";

@@ -153,7 +153,7 @@
                 <h2>Requisitos</h2>
                 
                 <section>
-                Tener el Perfil de Tesis presentado en la Plataforma de Investigación del Vicerrectorado de Investigación (PILAR) y contar con la autorización de su Director de Tesis.
+                Tener el Perfil de Tesis presentado en la Plataforma de Investigación del Vicerrectorado de Investigación (PILAR) y contar con la autorización de su Asesor de Tesis.
                 </section>
 
                 <h2>Inscripción</h2>

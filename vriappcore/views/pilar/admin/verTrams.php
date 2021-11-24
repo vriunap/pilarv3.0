@@ -82,7 +82,7 @@
     $procesos = array (
         0 => "",
         1 => "proy nuevo",
-        2 => "en Director",
+        2 => "en Asesor",
         3 => "en espera",
         4 => "en Revisión",
         5 => "en Dictámen",     // 05
@@ -143,7 +143,7 @@
 			if( $row->Estado == 1 AND $diasp>=0 )
 				///$menus .= "<br> <button onclick='pyRetorna($nro,$row->Id)' class='btn btn-xs btn-danger'> Devolver </button> "
                 $menus .= "<br> <button onclick='popLoad(\"admin/execRechaza/$row->Id\",$nro)' class='btn btn-xs btn-danger'> Rechazar </button> "
-				        . "<button onclick='pyDirect($nro,$row->Id)' class='btn btn-xs btn-warning'> Al Director </button>" ;
+				        . "<button onclick='pyDirect($nro,$row->Id)' class='btn btn-xs btn-warning'> Al Asesor </button>" ;
 
 			if( $row->Estado == 2 )
 				$menus .= " | <button onclick='popLoad(\"admin/execNoDirec/$row->Id\",$nro)' class='btn btn-xs btn-danger'> Rechazar </button>";

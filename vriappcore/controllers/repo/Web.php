@@ -177,7 +177,7 @@ class Web extends CI_Controller {
             array( "PRESIDENTE DE JURADO", $this->dbRepo->inDocenteEx($tram->IdJurado1) ),
             array( "PRIMER MIEMBRO"      , $this->dbRepo->inDocenteEx($tram->IdJurado2) ),
             array( "SEGUNDO MIEMBRO"     , $this->dbRepo->inDocenteEx($tram->IdJurado3) ),
-            array( "DIRECTOR/ASESOR"     , $this->dbRepo->inDocenteEx($tram->IdJurado4) )
+            array( "Asesor"     , $this->dbRepo->inDocenteEx($tram->IdJurado4) )
         );
 
         for( $i=0; $i<4; $i++ ) {

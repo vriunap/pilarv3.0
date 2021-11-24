@@ -141,7 +141,7 @@
 							1 =>"Presidente de Jurado" ,
 							2 =>"Primer Miembro de Jurado" , 
 							3 =>"Segundo Miembro de Jurado" , 
-							4 =>"Director / Asesor de Tesis"  
+							4 =>"Asesor de Tesis"  
 						);
 						for( $j=1; $j<5; $j++ ) {
 							$ntesis=$this->dbPilar->getTable("tesTramites","IdJurado$j=$sess->userId");
