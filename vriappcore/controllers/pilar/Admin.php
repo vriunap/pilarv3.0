@@ -40,6 +40,7 @@ SELECT A.Codigo, A.IdCarrera AS Car, C.Nombre, A.DNI, T.Codigo AS CodTramite,
 
 
 include( "absmain/mlLibrary.php" );
+date_default_timezone_set('America/Lima'); //Agregado unuv1.0
 
 
 define( "PILAR_ADMIN", "AdmPilar-III" );
@@ -1631,7 +1632,7 @@ class Admin extends CI_Controller {
 
     private function inGenMemo( $rowTram, $iterMemo )
     {
-		$anio  = ANIO_PILAR;
+		$anio  = date("Y");
 		$orden = 1 + $this->dbPilar->getOneField( "tblMemos", "Ordinal", "Anio=$anio ORDER BY Ordinal DESC" );
 
 		$this->dbPilar->Insert( "tblMemos", array(

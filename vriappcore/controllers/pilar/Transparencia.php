@@ -2,6 +2,7 @@
 //------------------------------------------------------------------------------
 
 include( "absmain/mlLibrary.php" );
+date_default_timezone_set('America/Lima'); //Agregado unuv1.0
 
 
 

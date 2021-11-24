@@ -19,6 +19,7 @@ include( "absmain/mlLibrary.php" );
 
 define( "PILAR_CORDIS", "AdmCoords" );
 define( "ANIO_PILAR", "2018" );
+date_default_timezone_set('America/Lima'); //Agregado unuv1.0
 
 
 class Direccioni extends CI_Controller {

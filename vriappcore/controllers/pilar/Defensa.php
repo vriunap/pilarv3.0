@@ -16,11 +16,13 @@
 
 include( "absmain/mlLibrary.php" );
 include( "absmain/mlotiapi.php" );
+date_default_timezone_set('America/Lima'); //Agregado unuv1.0
 
 
 // tesBorrador
 // Edicion 2018.a
 define( "ANIO_PILAR", "2020" );
+date_default_timezone_set('America/Lima'); //Agregado unuv1.0
 
 
 class Defensa extends CI_Controller {

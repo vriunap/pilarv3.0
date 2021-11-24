@@ -19,6 +19,7 @@ include( "absmain/mlLibrary.php" );
 
 define( "PILAR_CORDIS", "AdmCoords" );
 define( "ANIO_PILAR", "2020" );
+date_default_timezone_set('America/Lima'); //Agregado unuv1.0
 
 
 class Cordinads extends CI_Controller { 
@@ -382,7 +383,7 @@ private function logCordinads($tipo, $IdOpe, $just, $detalle )
 // Generar Memorandums
 private function inGenMemo( $rowTram, $iterMemo )
 {
-   $anio  = ANIO_PILAR;
+   $anio  = date("Y"); //Modificado unuv1.0 
    $orden = 1 + $this->dbPilar->getOneField( "tblMemos", "Ordinal", "Anio=$anio ORDER BY Ordinal DESC" );
 
    $this->dbPilar->Insert( "tblMemos", array(

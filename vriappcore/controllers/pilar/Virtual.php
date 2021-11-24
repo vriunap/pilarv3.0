@@ -15,6 +15,7 @@
 
 include( "absmain/mlLibrary.php" );
 include( "absmain/mlotiapi.php" );
+date_default_timezone_set('America/Lima'); //Agregado unuv1.0
 
 // codigos de prueba aqui: eventos::
 // JsBusqar :: Tesista API OTI
