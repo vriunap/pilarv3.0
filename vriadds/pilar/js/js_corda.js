@@ -78,22 +78,34 @@ function jsRevalidaLinea(val){
 	// 	}
 	// }); 
 }
+//Modificacion unuv1.0 - Estado rechazar proyecto por formato
+function cancelar(){
+	lodPanel('panelCord','cordinads/vwProyectos');
+}
 
-
+//Modificacion unuv1.0 - Estado rechazar proyecto por formato
 function popExeRechaza(val){
-	// $("#cordModal").modal("show");
-    // datita = $("#corazon").serialize();
+	if(document.getElementById('txtporque').value!="")
+	{ 	// $("#cordModal").modal("show");
+    	// datita = $("#corazon").serialize();
        datita = new FormData(corazon);
-    jVRI("#popis").html( "Grabando...");
-    // data.append("webmasterfile", "freed");
-    jVRI.ajax({
-        url  : "cordinads/doRechaza/"+val,
-        data :  datita ,
-        success: function( arg )
-        {
-            // $("#cordModal").modal("hide");
-            jVRI("#popis").html( arg );
-            // jVRI("#panelCord").load('cordinads/vwValidaLineas');
-        }
-    });
+		jVRI("#popis").html( "Grabando...");
+		$('#modal-btn-si').prop('disabled', true);
+		//document.getElementById('modal-btn-si').disabled=true;
+		// data.append("webmasterfile", "freed");
+		jVRI.ajax({
+			url  : "cordinads/doRechaza/"+val,
+			data :  datita ,
+			success: function( arg )
+			{
+				// $("#cordModal").modal("hide");
+				jVRI("#popis").html( arg );
+				// jVRI("#panelCord").load('cordinads/vwValidaLineas');
+			}
+		});
+	 }
+	else
+	{
+		document.getElementById("txtporque").focus();
+	}
 }

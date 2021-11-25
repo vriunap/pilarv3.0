@@ -1111,13 +1111,13 @@ $this->load->view( "pilar/admin/verTrams", array (
 }
 
     //  FUNCIONES 2018 ACONDICIONADAS
-
+//Modificacion unuv1.0 - Estado rechazar proyecto por formato
 public function execRechaza( $idtram=0 ){
    $tram=$this->dbPilar->getSnapRow("tesTramites","Id=$idtram");
-   $msg = "<b>Saludos</b><br><br>\nSu proyecto ha sido rechazado, contiene los siguientes errores:\n"
+   /*$msg = "<b>Saludos</b><br><br>\nSu proyecto ha sido rechazado, contiene los siguientes errores:\n"
    . "<br><br><ul>\n<li> EL proyecto no cumple con el formato de la Escuela profesional.\n</ul><br>\nDeberá corregir y subir su proyecto a la brevedad posible.\n"
    . "<br><b>Nota</b>: Revise el <a href='http://vriunap.pe/vriadds/pilar/doc/manual_tesistav3.pdf'>manual de tesista aquí.</a>";
-
+   //Comentado unuv1.0*/
    echo "  
    <div class='modal-content'>
    <div class='modal-header'>
@@ -1129,13 +1129,13 @@ public function execRechaza( $idtram=0 ){
    <form id='corazon' method='POST'>
    <b>Codigo :</b> $tram->Codigo 
    <br><b>Linea ($tram->IdLinea) :</b> " . $this->dbRepo->inLineaInv($tram->IdLinea)."
-   <br><b>Tesista(s) :</b> "             . $this->dbPilar->inTesistas($tram->Id)."
+   <br><b>Titulo :</b>   ".$this->dbPilar->inTitulo($idtram)."
    <hr>
    <div class='form-group col-md-12'>
    <input type=hidden name='idtram' id='idtram' value='$idtram'>
    <label for='comment'>Mensaje a enviar:<small class='help-block'>Indique el o los motivos por los que el proyecto debe de ser rechazado.</small></label>
 
-   <textarea class='col-md-12 input-sm' name='txtporque' id='txtporque'rows='9' placeholder='Ingrese Motivos'>$msg</textarea>
+   <textarea class='col-md-12 input-sm' name='txtporque' id='txtporque'rows='9' placeholder='Ingrese Motivos'></textarea>
    </div>
    <br><br>
    </div>
@@ -1143,45 +1143,60 @@ public function execRechaza( $idtram=0 ){
    </div>
    <div class='modal-footer'>
    <button type='button'class='btn btn-success' id='modal-btn-si' onclick='popExeRechaza(\"$idtram\")'>GUARDAR</button>
-   <button type='button' class='btn btn-danger' id='modal-btn-no' data-dismiss='modal'>CANCELAR</button>
+   <button type='button' class='btn btn-danger' id='modal-btn-no' onclick='cancelar()' data-dismiss='modal'>CANCELAR</button>
    </div>
    </div>";
 
 }
-
+//Modificacion unuv1.0 - Estado rechazar proyecto por formato
 public function doRechaza($val){
    $this->gensession->IsLoggedAccess( PILAR_CORDIS );
       // $a=$this->dbPilar->getSnapRow("docLineas","Id=$id");
    $idtram = mlSecureRequest('idtram')  ;
    $motivo = mlSecureRequest('txtporque')  ;
-
-   $tram=$this->dbPilar->getSnapRow("tesTramites","Id=$idtram");
+   $tram=$this->dbPilar->getSnapRow("tesTramites","Id=$idtram");   
    $this->inRechaza($tram,$motivo);
 }
 
+//Modificacion unuv1.0 - Estado rechazar proyecto por formato
 private function inRechaza( $rowTram , $msg)
 {
+   
    $tram = $this->dbPilar->inProyTram( $rowTram->Id );
    $sess = $this->gensession->GetSessionData(PILAR_CORDIS);
    if( $tram->Estado >= 4 ) {
       echo "Error: No es borrable";
       return;
    }
-
-   echo $msg;
+   $msgenviar ="<b>Saludos.</b><br>\nSu proyecto con codigo <b>".$tram->Codigo."</b> ha sido rechazado, contiene los siguientes errores:  <br><br>\n".$msg
+   ." <br> <br> Debera corregir y subir nuevamente su proyecto."; //Agregado unuv1.0
+   
+   //echo $msg;
       // $this->dbPilar->Delete( "tesTramites", $tram->Id );
       // no borramos pero dejamos para consultas de eliminacion
-   $this->dbPilar->Update( "tesTramites", array('Tipo'=>0,'Estado'=>0), $tram->Id );
+  $this->dbPilar->Update( "tesTramites", array('Tipo'=>0,'Estado'=>0), $tram->Id );
 
       // 
       // envio de correo
-      //
-   $mail = $this->dbPilar->inCorreo( $tram->IdTesista1 );
-   $this->logCordinads('S', '5 ', "Retorna Proyecto : Corregir Formato", $msg );
-   $this->logCorreo( $tram->IdTesista1,0, $mail, "Corregir Formato Retornado", $msg );
+      // -----Agregado unuv1.0 - para envio a los dos tesistas o un tesista
+      if($tram->IdTesista2 !=0)
+      {
+         $mail = $this->dbPilar->inCorreo( $tram->IdTesista1);
+         $mail2 = $this->dbPilar->inCorreo( $tram->IdTesista2);
+         $this->logCorreo( $tram->IdTesista1,0, $mail, "Corregir Formato Retornado", $msgenviar );
+         $this->logCorreo( $tram->IdTesista2,0, $mail2, "Corregir Formato Retornado", $msgenviar );
+      }
+      else{
+            $mail = $this->dbPilar->inCorreo( $tram->IdTesista1);
+            $this->logCorreo( $tram->IdTesista1,0, $mail, "Corregir Formato Retornado", $msgenviar );
+      }
+      //-----------Fin
+   //$mail = $this->dbPilar->inCorreo( $tram->IdTesista1 ); //comentado unuv1.0
+   $this->logCordinads('S', '5 ', "Retorna Proyecto : Corregir Observaciones", $msgenviar );
+  // $this->logCorreo( $tram->IdTesista1,0, $mail, "Corregir Formato Retornado", $msg );//comentado unuv1.0
       // private function logCorreo( $idTes,$idDoc, $correo, $titulo, $mensaje )
-   $this->logTramites($sess->userId , $tram->Id, "Retorna Proyecto : Corregir Formato", $msg );
-   echo "<br><br> <b class='text-danger'>$tram->Codigo</b> fue Retornado...";
+   $this->logTramites($sess->userId , $tram->Id, "Retorna Proyecto : Corregir Observaciones", $msgenviar );
+   echo "el proyecto de tesis con codigo <b class='text-danger'>$tram->Codigo</b> fue Retornado...";
 }
 
 public function listPyDire( $idtram=0 )
