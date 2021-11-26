@@ -109,3 +109,24 @@ function popExeRechaza(val){
 		document.getElementById("txtporque").focus();
 	}
 }
+
+//Agregado unuv1.0 - Estado enviar proyecto al Asesor
+function popExeEnviar(val)
+{	  
+	 datita = new FormData(corazon);
+		jVRI("#popis").html( "Grabando...");
+		$('#modal-btn-si').prop('disabled', true);
+		//document.getElementById('modal-btn-si').disabled=true;
+		// data.append("webmasterfile", "freed");
+		jVRI.ajax({
+			url  : "cordinads/listPyDire/"+val,
+			data :  datita ,
+			success: function( arg )
+			{
+				// $("#cordModal").modal("hide");
+				jVRI("#popis").html( arg );
+				// jVRI("#panelCord").load('cordinads/vwValidaLineas');
+			}
+		});	
+}
+

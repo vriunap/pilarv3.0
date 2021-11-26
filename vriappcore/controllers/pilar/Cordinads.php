@@ -1199,6 +1199,45 @@ private function inRechaza( $rowTram , $msg)
    echo "el proyecto de tesis con codigo <b class='text-danger'>$tram->Codigo</b> fue Retornado...";
 }
 
+//Agregado unuv1.0 - Estado enviar proyecto al Asesor
+public function execEnvia( $idtram=0 ){
+   $tram=$this->dbPilar->getSnapRow("tesTramites","Id=$idtram");
+   /*$msg = "<b>Saludos</b><br><br>\nSu proyecto ha sido rechazado, contiene los siguientes errores:\n"
+   . "<br><br><ul>\n<li> EL proyecto no cumple con el formato de la Escuela profesional.\n</ul><br>\nDeberá corregir y subir su proyecto a la brevedad posible.\n"
+   . "<br><b>Nota</b>: Revise el <a href='http://vriunap.pe/vriadds/pilar/doc/manual_tesistav3.pdf'>manual de tesista aquí.</a>";
+   //Comentado unuv1.0*/
+   echo "  
+   <div class='modal-content'>
+   <div class='modal-header'>
+   <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+   <h4 class='modal-title text-primary' id='myModalLabel'>ENVIAR PROYECTO </h4>
+   </div>
+   <div id='indecisosisi'>
+   <div class ='modal-body' id='popis'>
+   <form id='corazon' method='POST'>
+   <b>Codigo :</b> $tram->Codigo 
+   <br><b>Linea ($tram->IdLinea) :</b> " . $this->dbRepo->inLineaInv($tram->IdLinea)."
+   <br><b>Titulo :</b>   ".$this->dbPilar->inTitulo($idtram)."
+   <hr>
+   <div class='form-group col-md-12'>
+   <input type=hidden name='idtram' id='idtram' value='$idtram'>
+   <label for='comment'><span class='glyphicon glyphicon-warning-sign'></span> Esta seguro de enviar este proyecto de tesis al Asesor?</label>
+   </div>
+   <br><br>
+   </div>
+   </form>
+   </div>
+   <div class='modal-footer'>
+<center>
+   <button type='button'class='btn btn-success' id='modal-btn-si' onclick='popExeEnviar(\"$idtram\")'>ENVIAR</button>
+   <button type='button' class='btn btn-danger' id='modal-btn-no' onclick='cancelar()' data-dismiss='modal'>SALIR</button>
+   </center>
+   </div>
+   </div>";
+
+}
+
+//Modificacion unuv1.0 - Estado enviar proyecto al Asesor
 public function listPyDire( $idtram=0 )
 {
    $this->gensession->IsLoggedAccess( PILAR_CORDIS );
@@ -1220,23 +1259,43 @@ public function listPyDire( $idtram=0 )
    . "formato revisado, su Asesor ya puede revisarlo en la <b>Plataforma PILAR</b>."
    ;
 
-   $mail = $this->dbPilar->inCorreo( $tram->IdTesista1 );
-   $this->logCorreo(0,$tram->IdTesista1, $mail, "Proyecto para Asesoria", $msg );
-        //------------------------------------------------------------------------------------------------
-   $msg = "<h4> Proyecto para Asesoria </h4><br>"
-   . "Se le ha remitido el proyecto con código <b>$tram->Codigo</b> "
-   . "Ud. ya puede revisarlo y aprobarlo para enviarlo a sorteo en la <b>Plataforma PILAR</b>."
-   ;
-   $mail = $this->dbRepo->inCorreo( $tram->IdJurado4 );
-   $celu = $this->dbRepo->inCelu( $tram->IdJurado4 );
+  // $mail = $this->dbPilar->inCorreo( $tram->IdTesista1 );
+   //$this->logCorreo(0,$tram->IdTesista1, $mail, "Proyecto para Asesoria", $msg );
+     //------------------Correo a los tesistas -------------
+     $msg = "<h4> Enviado al Asesor </h4><br>"
+     . "Su proyecto con codigo <b>".$tram->Codigo."</b> ha sido enviado a su Asesor de Proyecto con el "
+     . "formato aprobado, su Asesor tendra un plazo de 7 dias calendarios para determinar la aprobación o rechazo mediante la <b>Plataforma PILAR</b>";
+      if($tram->IdTesista2 !=0)
+      {
+         $mail = $this->dbPilar->inCorreo( $tram->IdTesista1);
+         $mail2 = $this->dbPilar->inCorreo( $tram->IdTesista2);
+         $this->logCorreo( $tram->IdTesista1,0, $mail, "Proyecto para Asesoria", $msg );
+         $this->logCorreo( $tram->IdTesista2,0, $mail2, "Proyecto para Asesoria", $msg );
+      }
+      else
+      {
+         $mail = $this->dbPilar->inCorreo( $tram->IdTesista1);
+         $this->logCorreo( $tram->IdTesista1,0, $mail, "Proyecto para Asesoria", $msg );
+      }
+   //---------------------FIN----------------------------
+   
+   //----------------Correo al Asesor---------------------
+    $msg = "<h4> Proyecto para Asesoria </h4><br>"
+          . "Se le ha remitido el proyecto con código <b>$tram->Codigo</b> "
+          . "Ud. tiene 7 días calendarios para revisarlo y determinar la aprobación o rechazo mediante la <b>Plataforma PILAR</b>.";
+    $mail = $this->dbRepo->inCorreo( $tram->IdJurado4 );
+    $celu = $this->dbRepo->inCelu( $tram->IdJurado4 );
+    $this->logCorreo( $tram->IdJurado4,0, $mail, "Proyecto para Asesoria", $msg );
+  //---------------------FIN----------------------------
+
    $this->logCordinads('S', '6 ', "Envia Proyecto a Asesor", $msg );
    $this->logCorreo( $tram->IdJurado4,0, $mail, "Proyecto para Asesoria", $msg );
    $a=$this->notiCelu($celu,1);
    $msg=$msg.$a;
         //------------------------------------------------------------------------------------------------
    $this->logTramites( 2, $tram->Id, "Enviado al Asesor", $msg );
-
-   echo "<b class='text-success'>".$tram->Codigo . " fue Enviado a su Asesor</b>";
+   
+  echo "El proyecto ".$tram->Codigo ." ha sido enviado al Asesor con el formato ya revisado.";
 }
 
 
