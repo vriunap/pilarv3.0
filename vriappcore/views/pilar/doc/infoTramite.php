@@ -75,7 +75,7 @@
 		if( $row->Tipo == 1 ) {
 
 			// Asesor
-			if( $row->Estado == 2 && $pos==4 ) {
+			if( $row->Estado == 2 && $pos==4 ) { //Modificacion unuv1.0 - Estado aprobacion y/o rechazo proyecto
 				// OJO: controlar Jurado no dejar al miembro elegido
 				$menus = "<button onclick=\"loadCorrs('docentes/corrProys',$row->Id)\" class='btn btn-sm btn-success'> Aprobación </button>";
 			}

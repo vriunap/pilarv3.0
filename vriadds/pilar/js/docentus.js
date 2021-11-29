@@ -50,6 +50,7 @@ function closeDlg(url)
 	lodPanel( 'panelView', url );
 }
 
+//modificacion unuv1.0 - Estado aceptacion y/o rechazo proyecto
 function grabEvent( type, level )
 {
 	jVRI("#lisPan").html("<b>Procesando...</b>");
@@ -61,6 +62,15 @@ function grabEvent( type, level )
 		}
 	});
 }
+
+
+//modificacion unuv1.0 - Estado rechazo de proyecto
+function rechazarProyecto(  ){	
+
+	jVRI("#lisPan").load( "docentes/rechazarProyecto", new FormData(cora) );
+	jVRI("#lisPan").html("<b>Procesando...</b>");	
+}
+
 
 
 function contarwords() {
