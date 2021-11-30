@@ -4,6 +4,7 @@
     if (!$IdCarrera) {
     	$Carrera="No se ha seleccionado ninguna escuela profesional.";
 	}
+	$sess = $this->gensession->GetSessionData(PILAR_CORDIS); //agregado unuv1.0 - estado sorteo
 ?>
 <h3>Proyectos de Tesis :: <small><?php  echo $Carrera; ?></small></h3>
 <div class="col-md-12">
@@ -45,6 +46,11 @@
 						$estado="En revisión por el Asesor";
 						break;
 					case 3:
+						//Agregado unuv1.0 - Estado sorteo de jurados
+						if($sess->userLevel==4)
+						{ 
+							$opt.=" |  <a href='javascript:void(0)' onclick=popLoad(\"cordinads/execSorteo/$row->Id\",$nro) class='btn btn-xs btn-warning'> Sorteo</a>";
+						}
 						// $opt .= " | <button onclick='popLoad(\"admin/execSorteo/$row->Id\",$nro)' class='btn btn-xs btn-warning'> Sorteo </button>";
 						$estado="Sorteo de Jurados"; 
 						break;
@@ -84,3 +90,26 @@
 		</tbody>
 	</table>
 </div>
+
+<!--Agregado unuv1.0 - sorteo de jurado------->
+<div id="dlgPan" class="modal" role="dialog">
+<div class="modal-dialog modal-md">
+  <br><br><br><br><br>
+  <div class="modal-content">
+	<div class="modal-header" style="background: #920738; color:white">
+	  <button class="close" data-dismiss="modal" style="color:white">&times;</button>
+	  <h4 class="modal-title"> Coordinador </h4>
+	</div>
+  <form name="fX" id="fX" method="post">
+	<div class="modal-body" id="vwCorrs" style="font-size:13px">
+		<!-- <div class="row"></div> -->
+	</div>
+  </form>
+	<div class="modal-footer">
+		<button class="btn btn-success" id="popOk" onclick="popProcede('cordinads/popExec',new FormData(fX))"> Procesar </button>
+		<button onclick="lodPanel('panelCord','cordinads/vwProyectos')" class="btn btn-danger" data-dismiss="modal"> Cerrar </button>
+	</div>
+  </div>
+</div>
+</div>
+<!-- /MODAL  -->
