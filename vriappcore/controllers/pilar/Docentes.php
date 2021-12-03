@@ -290,6 +290,10 @@ class Docentes extends CI_Controller {
 	// funciones AJAX
 	//----------------------------------------------------------------------------------------
     //modificacion unuv1.0 - Estado aceptacion y/o rechazo proyecto
+    //modificacion unuv1.0 - Estado revision 1
+    //modificacion unuv1.0 - Estado revision 2
+    //modificacion unuv1.0 - Estado revision 3
+    //modificacion unuv1.0 - Estado dictamen
 	public function corrProys( $idtram=0, $height )
 	{
 		$this->gensession->IsLoggedAccess();
@@ -333,7 +337,7 @@ class Docentes extends CI_Controller {
 			echo "<button type='button' class='btn btn-danger' data-dismiss='modal'> [x] Salir </button>";
 		}
 
-		if( $tram->Estado == 4 ) {
+		if( $tram->Estado == 4 || $tram->Estado == 5 || $tram->Estado == 6 ) {     //modificacion unuv1.0 - Estado revision 1,2
 
             $pos = $this->dbPilar->inPosJurado( $tram, $sess->userId );
             $chk = ($pos==1)? $dets->vb1 : (($pos==2)? $dets->vb2 : (($pos==3)? $dets->vb3:0));
@@ -341,7 +345,7 @@ class Docentes extends CI_Controller {
             // $chk = ($pos==1)? $dets->vb1 : (($pos==2)? $dets->vb2 : (($pos==3)? $dets->vb3:(($pos==4)? $dets->vb4:0)));
 
 
-            $eve = "onclick='if(confirm(\"Esta acción cerrará el proceso de correcciones y las envia al tesista.\")) grabEvent($tram->Id,41)'";
+            $eve = "onclick='if(confirm(\"Esta acción cerrará el proceso de observaciones y las envia al tesista.\")) grabEvent($tram->Id,41)'";
 
 			// aqui evento grabar correcciones
 			//
@@ -351,16 +355,24 @@ class Docentes extends CI_Controller {
                  echo    "<input type=hidden name='idoc' value='$sess->userId'>";
                  echo    "<textarea id='korec' name='korec' type='text' class='form-control' rows=4 placeholder='Ingrese una corrección, no mas de 5 lineas' required></textarea>";
                  echo    "<br>";
+                 echo    " <p class='text-success'> <b>Nota 1:</b> En caso tenga observacione o cuando termine de realizar las observaciones no se olvide de finalizar </p>";
+                 echo    " <p class='text-danger'> <b>Nota 2:</b> En caso no tenga observaciones el proyecto, dar en finalizar y se considera aprobado por Ud.</p> <br>";
                  echo    "<center>";
-                 echo    "<button type='submit' class='btn btn-success'> Grabar Corrección </button> | ";
-                 echo    "<button $eve type='button' class='btn btn-warning'> Finalizar Corrección </button> | ";
+                 echo    "<button type='submit' class='btn btn-success'> Añadir Observacion </button> | ";
+                 echo    "<button $eve type='button' class='btn btn-warning'> Finalizar Observacion </button> | ";
                  echo    "<button type='button' class='btn btn-danger' data-dismiss='modal'> Cerrar Ventana </button>";
                  echo    "</center>";
                  echo  "</form>";
                 //echo "<br><img class='img-responsive' src='http://vriunap.pe/vriadds/vri/web/convocatorias/comunicadoenero.png'</h4>";
             }
+            else if($chk==2) //agregado unuv1.0 - para el docente que aprobo la tesis
+            {
+                echo "<h4> Ud. Ya aprobo el proyecto de tesis </h4>";
+                echo  "<button type='button' class='btn btn-danger' data-dismiss='modal'> [X] Salir  </button>";
+
+            }
             else {
-                echo "<h4> Ud. ha finalizado las revisiones </h4>";
+                echo "<h4> Ud. ha finalizado las observaciones </h4>";
                 echo "<button type='button' class='btn btn-danger' data-dismiss='modal'> [x] Cerrar Ventana </button>";
             }
 
@@ -368,12 +380,14 @@ class Docentes extends CI_Controller {
 			echo  "<div id='lisCorr' style='overflow-y:auto; height:$hgt; margin-top: 10px; padding-top: 5px; border-top: 4px solid orange'>";
 
 			// mostrar las puñeteras correcciones joder !
+            $this->listarCorrecs( $tram->Id, $sess->userId, 3); //agregado unuv1.0 
+            $this->listarCorrecs( $tram->Id, $sess->userId, 2 );//agregado unuv1.0 
 			$this->listarCorrecs( $tram->Id, $sess->userId, 1 );
 			echo  "</div>";
 		}
 
 
-		if( $tram->Estado == 5 ) {
+		if( $tram->Estado == 7 ) {
 
 			// etapa de dictaminacion del proyecto
 			//
@@ -393,7 +407,9 @@ class Docentes extends CI_Controller {
 			echo  "<div id='lisCorr' style='overflow-y:auto; height:$hgt; margin-top: 10px; padding-top: 5px; border-top: 4px solid orange'>";
 
 			// mostrar las puñeteras correcciones joder !
-			$this->listarCorrecs( $tram->Id, $sess->userId, 1 );
+			$this->listarCorrecs( $tram->Id, $sess->userId, 3 );//agregado unuv1.0
+            $this->listarCorrecs( $tram->Id, $sess->userId, 2 );//agregado unuv1.0
+            $this->listarCorrecs( $tram->Id, $sess->userId, 1 );//agregado unuv1.0
 			echo  "</div>";
 		}
 
@@ -425,6 +441,10 @@ class Docentes extends CI_Controller {
 	}
 
     //modificacion unuv1.0 - Estado aceptacion y/o rechazo proyecto
+     //modificacion unuv1.0 - Revision 1
+     //modificacion unuv1.0 - Revision 2
+      //modificacion unuv1.0 - Revision 3
+    //modificacion unuv1.0 - estado dictaminacion
 	public function grabEvent( $idtram, $event )
 	{
 		$this->gensession->IsLoggedAccess();
@@ -436,13 +456,13 @@ class Docentes extends CI_Controller {
 		//---------------------------------------------------------------- -------
 		// aprobar o deaprobar proyecto
 		//---------------------------------------------------------------- -------
-		if( $event == 50 or $event == 51 ) {
+		if( $event == 50 or $event == 51 ) { //unuv1.0 - estado dictaminacion
 
-			$calif = ($event==50? -1 : 1);
+			$calif = ($event==50? -1 : 2);
 			$posis = $this->dbPilar->inPosJurado( $tram, $sess->userId );
-			$dets = $this->dbPilar->inTramDetIter( $idtram, 2 );
+			$dets = $this->dbPilar->inLastTramDet( $idtram); //
 
-			$msg = "<br>Procesando Proyecto : <b>$tram->Codigo</b> con <b>$calif</b>"
+			$msg = "<br>Procesando Proyecto : <b>$tram->Codigo</b>"
 			     . "<br>Orden de Jurado : $posis"
 			     . "<br>Iteracion : $dets->Iteracion";
 
@@ -499,20 +519,41 @@ class Docentes extends CI_Controller {
             }
         }
 
-        if( $event == 40 or $event == 41 ) {
-
+        if( $event == 40 or $event == 41 ) { //Estado revision 1,2
+            $iteracion=1; //agregado unuv1.0
 			$posis = $this->dbPilar->inPosJurado( $tram, $sess->userId );
-			$dets = $this->dbPilar->inTramDetIter( $idtram, 1 );
+            if($tram->Estado ==5) //agregado revision 2
+            {
+                $iteracion=2;
+            }
+            if($tram->Estado ==6)
+            {
+                $iteracion=3;
+            }
+			$dets = $this->dbPilar->inTramDetIter( $idtram, $iteracion);
+
 
 			$msg = "<br>Procesando Proyecto : <b>$tram->Codigo</b>"
-			     . "<br>Orden de Jurado : $posis"
+			     //. "<br>Orden de Jurado : $posis"
 			     . "<br>Iteracion : $dets->Iteracion";
 
-			echo "$msg <hr>";
+			echo "$msg ";
 
-			// realizar la acción
-			$this->dbPilar->Update( "tesTramsDet", array("vb$posis" => 1), $dets->Id );
-			$this->logTramites( $tram->Id, "Fin de Correcciones Jurado $posis", $msg );
+			// agregado unuv1.0 - 
+            $corr = $this->dbPilar->inNCorrecs( $idtram, $sess->userId, $iteracion);//verificar si el docente realizo alguna observacion
+
+            if($corr == 0)
+            {                
+                $this->dbPilar->Update( "tesTramsDet", array("vb$posis" => 2), $dets->Id );  
+                echo "<br> <b>Ud. Aprobo el proyecto </b>"; 
+
+            }
+            else
+            {   
+                $this->dbPilar->Update( "tesTramsDet", array("vb$posis" => 1), $dets->Id );
+            }
+			//$this->dbPilar->Update( "tesTramsDet", array("vb$posis" => 1), $dets->Id );
+			$this->logTramites( $tram->Id, "Fin de Observaciones Jurado $posis", $msg );
 		}
         if( $event == 69) {
 
@@ -726,7 +767,7 @@ class Docentes extends CI_Controller {
            // echo "<br><img class='img-responsive' src='vriadds/vri/web/convocatorias/comunicadoenero.png'</h4>";
 
         } else {
-            echo "<h4> Ud. ha finalizado las revisiones </h4>";
+            echo "<h4> Ud. ha finalizado las observaciones </h4>";
             echo "<button type='button' class='btn btn-danger' data-dismiss='modal'> [x] Cerrar Ventana </button>";
         }
 
@@ -743,6 +784,9 @@ class Docentes extends CI_Controller {
 		echo "</div>";
 	}
 
+    //modificacion unuv1.0 - Estado revision 1
+    //modificacion unuv1.0 - Estado revision 2
+      //modificacion unuv1.0 - Estado revision 3
 	public function corrGraba( )
 	{
 		$this->gensession->IsLoggedAccess();
@@ -757,7 +801,19 @@ class Docentes extends CI_Controller {
 		if( !$tram ){ echo "No tram"; return; }
 
 		// iteracion de acuerdo al tramite hack
-		$iteracion = ($tram->Estado >= 6)? 4 : 1;
+		//$iteracion = ($tram->Estado >= 6)? 4 : 1;
+        $iteracion =1;
+        if($tram->Estado == 5) //agregado unuv1.0
+        {
+            $iteracion=2;
+        }
+        if ($tram->Estado == 6){ //agregado unuv1.0
+            $iteracion=3;
+        }
+        if($tram->Estado>=7)
+        {
+            $iteracion =4;
+        }
 
 		$this->dbPilar->Insert( "tblCorrects", array(
 				'Iteracion' => $iteracion,  ///// 1, 4,
@@ -768,21 +824,32 @@ class Docentes extends CI_Controller {
 				'Fecha' => mlCurrentDate()
 			) );
 
-		$this->listarCorrecs( $tram->Id, $sess->userId, $iteracion );  //4 );
+        $this->listarCorrecs( $tram->Id, $sess->userId, 3);//agregado unuv1.0
+         $this->listarCorrecs( $tram->Id, $sess->userId, 2);  //agregado unuv1.0
+         $this->listarCorrecs( $tram->Id, $sess->userId, 1 ); 
 	}
 
 
 	// se invoca en Estados (4) (5) (12)
 	//
+    //modificacion unuv1.0 - Estado revision 2
 	private function listarCorrecs( $idTram, $userId, $iter )
 	{
 		$corr = $this->dbPilar->getSnapView( "tblCorrects",
 						"Iteracion=$iter AND IdTramite=$idTram AND IdDocente=$userId",
 						"ORDER BY Id DESC"
 				   );
-
+        $alerta ="info"; //agregado unuv1.0
+        if($iter==2)
+        {
+            $alerta="warning";
+        }
+        if($iter==3)
+        {
+            $alerta="success";
+        }
 		foreach( $corr->result() as $row ) {
-			echo '<div class="alert alert-info" style="margin-bottom: 8px; padding: 6px">';
+			echo '<div class="alert alert-'.$alerta.'" style="margin-bottom: 8px; padding: 6px">';
 			echo "<strong>$row->Fecha</strong>:<br>" . secureString($row->Mensaje);
 			echo "</div>";
 		}

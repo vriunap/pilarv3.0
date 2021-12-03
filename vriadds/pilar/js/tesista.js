@@ -62,6 +62,7 @@ function lodShifs( id )
 }
 
 // enviar pdf correcs
+
 function grabaCorrBorr()
 {
     $("#plock").show();
@@ -110,6 +111,9 @@ function cargaBorr()
 }
 
 // enviar pdf correcs
+//unuv1.0 - estado revision 1
+//unuv1.0 - estado revision 2
+//unuv1.0 - estado revision 3
 function grabaCorr()
 {
     $("#plock").show();

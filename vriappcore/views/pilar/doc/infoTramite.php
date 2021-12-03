@@ -20,8 +20,10 @@
         "proy nuevo",
         "para Asesor",
         "para Sorteo",
-        "en Revisión",
-        "en Dictámen",
+        "en Revisión (1)",//agregado unuv1.0
+        "en Revisión (2)", //agregado unuv1.0
+        "en Revisión (3)",//agregado unuv1.0
+        "en Dictamen",
         "P. Aprobado",    // 6
         "tram borr",   // 10
         "borr nuevo",  // 11
@@ -32,6 +34,8 @@
     $proceclr = array(
         "btn-default",
         "btn-primary",
+        "btn-success",
+        "btn-success",
         "btn-success",
         "btn-success",
         "btn-warning",
@@ -65,7 +69,7 @@
         $menus = "";
         $estado = "";
 		//-----------------------------------------------------------------------------------------------------
-        if( $row->Estado >= 1 && $row->Estado <= 6 ) {
+        if( $row->Estado >= 1 && $row->Estado <= 8 ) {
             $btnclr = $proceclr[ $row->Estado-1 ];
             $estado = $procesos[ $row->Estado-1 ];
             $estado = "<button class='btn btn-xs $btnclr'> $estado </button>";
@@ -81,15 +85,30 @@
 			}
 
 			// revision de proyectos
+            //unuv1.0 - Estado revision 1 
 			if( $row->Estado == 4 ) {
-				$menus = "<button onclick=\"loadCorrs('docentes/corrProys',$row->Id)\" class='btn btn-sm btn-info'> Revisar PDF </button>";
+				$menus = "<button onclick=\"loadCorrs('docentes/corrProys',$row->Id)\" class='btn btn-sm btn-info'> Revisar PDF </button>"; 
                 if($pos==4){
                     $menus = "<button class='btn btn-sm btn-default'> En Revisión por Jurados</button>";
                 }
 			}
+            //agregado unuv1.0 - estado revision 2
+            if( $row->Estado == 5 ) {
+                $menus = "<button onclick=\"loadCorrs('docentes/corrProys',$row->Id)\" class='btn btn-sm btn-warning'> Revisar PDF </button>";
+                if($pos==4){
+                    $menus = "<button class='btn btn-sm btn-default'> En Revisión por Jurados 2</button>";
+                }
+            }
+
+            if( $row->Estado == 6 ) {
+                $menus = "<button onclick=\"loadCorrs('docentes/corrProys',$row->Id)\" class='btn btn-sm btn-warning'> Revisar PDF </button>";
+                if($pos==4){
+                    $menus = "<button class='btn btn-sm btn-default'> En Revisión por Jurados 2</button>";
+                }
+            }
 
 			// dictaminación de proyecto
-			if( $row->Estado == 5 ) {
+			if( $row->Estado == 7 ) {
 
 				$calif = 0;
 				if( $pos == 1 ) $calif = $det->vb1;
@@ -97,17 +116,22 @@
 				if( $pos == 3 ) $calif = $det->vb3;
 				if( $pos == 4 ) $calif = $det->vb4;
 
-				if( $calif < 0 ) $tipo = "Desaprobado";
-				elseif( $calif > 0 ) $tipo = "Aprobado";
+				if( $calif < 0 ) $tipo = "Proyecto Desaprobado";
+				elseif( $calif > 0 ) $tipo = "Proyecto Aprobado";
 
 				if( $calif == 0 )
-					$menus = "<button onclick=\"loadCorrs('docentes/corrProys',$row->Id)\" class='btn btn-sm btn-warning'> Dictaminar </button>";
+                {
+                    if($pos!=4)
+                        {
+                            $menus = "<button onclick=\"loadCorrs('docentes/corrProys',$row->Id)\" class='btn btn-sm btn-warning'> Dictaminar </button>";
+                        }
+                }
 				else
 					$menus = "<button class='btn btn-sm btn-default'> $tipo </button>";
 			}
 
 			// visualizacion de Acta
-			if( $row->Estado >= 6 ) {
+			if( $row->Estado >= 8 ) {
 				$menus .= "<a target=_blank href='../pilar/tesistas/actaProy/$row->Id' class='btn btn-sm btn-default'><span class='glyphicon glyphicon-list-alt'></span>Acta</a>";
 			}
 		}
@@ -182,7 +206,7 @@
         }
 
         $dias='';
-        if( $row->Estado==5 ){
+        if( $row->Estado==7 ){
             $diasRes=5-mlDiasTranscHoy($row->FechModif);
             $dias = ($diasRes<0)?"<p class='text-danger'>Fuera de Plazo de Dictamen</p>":"<p class='text-success'> $diasRes Días Restantes</p>";
         }
@@ -190,20 +214,29 @@
         if( $row->Estado==6 ){
             $dias = "";
         }
+        if( $row->Estado==2 ){
+            // 
+            $diasRes=7-mlDiasTranscHoy($row->FechModif);
+            $dias = ($diasRes<0)?"<p class='text-danger'>Fuera de Plazo de Asesoria</p>":"<p class='text-success'> $diasRes Días Restantes</p>";
+        }
 
-        if($row->Estado==12 OR $row->Estado==4){
+        if($row->Estado==12 OR $row->Estado==4 or $row->Estado==5 or $row->Estado==6){
 
             $c1 = $this->dbPilar->inNCorrecs($row->Id,$sess->userId,1);
+            $posis = $this->dbPilar->inPosJurado( $row, $sess->userId ); //Agregado unuv1.0
             $c4 = $this->dbPilar->inNCorrecs($row->Id,$sess->userId,4);
+            $corre=$this->dbPilar->getOneField("tesTramsDet","vb$posis","IdTramite=$row->Id ORDER BY Iteracion DESC"); //agregado revision 1
 
-            $diasRes = 12 - mlDiasTranscHoy($row->FechModif);
+            $diasRes = 15 - mlDiasTranscHoy($row->FechModif);
             //$dias = ($diasRes<0)?"<p class='text-danger'> Fuera de Plazo</p>":"<p class='text-success'> $diasRes Días Restantes</p>";
             $dias = ($diasRes<0)? "":"<p class='text-success'> $diasRes Días Restantes</p>";
 
-            if( $row->Estado==4  && $c1>0 ) $dias = "<span class='text-success'> Correcciones realizadas </span>";
+            if( $row->Estado==4  && $corre>0 ) $dias = "<span class='text-success'> Observaciones realizadas </span>";            
+            if( $row->Estado==5  && $corre>0 ) $dias = "<span class='text-success'> Observaciones realizadas </span>"; //agregado unuv1.0
+            if( $row->Estado==6 && $corre>0 ) $dias = "<span class='text-success'> Observaciones realizadas </span>";
             if( $row->Estado==12 && $c4>0 ) $dias = "<span class='text-success'> Correcciones realizadas </span>";
 
-            $dias .= (($det->vb1 + $det->vb2 + $det->vb3)==3)? "<small>Completado" : "";
+            $dias .= (($det->vb1 + $det->vb2 + $det->vb3)==3)? "<small>" : "";
         }
         // Para tener mejor vizualización y Control del Docente
         $escuela = $this->dbRepo->inCarrera("$row->IdCarrera");

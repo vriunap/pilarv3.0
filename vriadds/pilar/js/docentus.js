@@ -37,6 +37,9 @@ function loadCorrs( ulink, idt )
 	$('#dlgCorrs').modal( {backdrop: 'static', keyboard: false} );
 }
 
+//modificacion unuv1.0 - Estado revision 1
+//modificacion unuv1.0 - Estado revision 2
+//modificacion unuv1.0 - Estado revision 3
 function grabCorrs()
 {
 	jVRI("#lisCorr").html( "Indexando..." );
@@ -51,6 +54,9 @@ function closeDlg(url)
 }
 
 //modificacion unuv1.0 - Estado aceptacion y/o rechazo proyecto
+//modificacion unuv1.0 - Estado revision 1
+//modificacion unuv1.0 - Estado revision 2
+//modificacion unuv1.0 - Estado revision 3
 function grabEvent( type, level )
 {
 	jVRI("#lisPan").html("<b>Procesando...</b>");

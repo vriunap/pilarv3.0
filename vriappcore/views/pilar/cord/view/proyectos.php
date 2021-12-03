@@ -56,13 +56,33 @@
 						break;
 					case 4:
 						$opt="<a href='javascript:void(0)' onclick=\"jsLoadModalCord($row->Id,'cordinads/vwProyectosMemos/')\" class='btn btn-info btn-xs'>Memo</a>";
-						$estado="Revisón por Jurados";
+						if($sess->userLevel==4){
+							$opt.= " |  <button onclick='popLoad(\"cordinads/execAprobPy/$row->Id\",$nro)' class='btn btn-xs btn-warning'> Dictaminar </button>";
+						}	//agregado unuv1.0 - Estado revision 1			 
+						$estado="Revisón por Jurados (1)";
 						break;
-					case 5:
-						$opt="";
-						$estado="Dictaminación de Proyecto";
+					case 5: //agregado unuv1.0 - estado revision 2
+						$opt="<a href='javascript:void(0)' onclick=\"jsLoadModalCord($row->Id,'cordinads/vwProyectosMemos/')\" class='btn btn-info btn-xs'>Memo</a>";
+						if($sess->userLevel==4){
+							$opt.= " |  <button onclick='popLoad(\"cordinads/execAprobPy/$row->Id\",$nro)' class='btn btn-xs btn-warning'> Dictaminar </button>";
+						}	//agregado unuv1.0 - Estado revision 2			 
+						$estado="Revisón por Jurados (2)";
+						break;	
+					case 6: //agregado unuv1.0 - estado revision 3
+						$opt="<a href='javascript:void(0)' onclick=\"jsLoadModalCord($row->Id,'cordinads/vwProyectosMemos/')\" class='btn btn-info btn-xs'>Memo</a>";
+						if($sess->userLevel==4){
+							$opt.= " |  <button onclick='popLoad(\"cordinads/execAprobPy/$row->Id\",$nro)' class='btn btn-xs btn-warning'> Dictaminar </button>";
+						}	//agregado unuv1.0 - Estado revision 3			 
+						$estado="Revisón por Jurados (3)";
 						break;
-					case 6:
+					case 7: //agregado unuv1.0 - estado dictamen
+						if($sess->userLevel==4){
+						$opt.= " |  <button onclick='popLoad(\"cordinads/execAprobPy/$row->Id\",$nro)' class='btn btn-xs btn-warning'> Dictaminar </button>"; 
+									//$opt = "  <button onclick='popLoad(\"cordinads/execCancelPy/$row->Id\",$nro)' class='btn btn-xs btn-danger'> Rechazar </button>";  
+						}
+						$estado="En Dictamación";
+						break;
+					case 8:
 						$opt="<a href='".base_url("pilar/tesistas/actaProy/$row->Id")."' target=_blank class='btn btn-success btn-xs'>Acta de Aprobación</a>";
 						$estado="Proyecto Aprobado";
 						break;

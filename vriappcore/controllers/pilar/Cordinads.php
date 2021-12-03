@@ -452,21 +452,24 @@ public function memosGen( $IdTramite )
 
    $tram=$this->dbPilar->getSnapRow("tesTramites","Id=$IdTramite");
    $codigop=$this->dbPilar->getOneField("tesTramites","Codigo","Id=$memo->IdTramite");
-   $carrera=$this->dbRepo->inCarrera($memo->IdCarrera);
-   $proyecto=$this->dbPilar->getOneField("tesTramsDet","Titulo","IdTramite='$memo->IdTramite' ORDER BY Iteracion DESC");
-   $nmemo=$memo->Ordinal;
+  $carrera=$this->dbRepo->inCarrera($memo->IdCarrera);
+  $facultad=$this->dbRepo->inFacultad($memo->IdCarrera);
+  $idFac = $this->dbRepo->inIdFacultad($memo->IdCarrera);
+  $proyecto=$this->dbPilar->getOneField("tesTramsDet","Titulo","IdTramite='$memo->IdTramite' ORDER BY Iteracion DESC");
+  $nmemo=$memo->Ordinal;
    $anio=$memo->Anio;
    $fecha=$memo->Fecha;
-   if($tram->Estado==4 OR $tram->Estado==12 or $tram->Estado==13){
-      if($tram->Estado==4){
+   $fechaM = mlFechaNorm( $memo->Fecha );
+   if($tram->Estado>=4 OR $tram->Estado==12 or $tram->Estado==13){
+      if($tram->Estado>=4){
          $quienes=array($tram->IdJurado1,$tram->IdJurado2,$tram->IdJurado3);
          $asunto="REVISIÓN DE PROYECTO DE TESIS";
          $str = "Por medio del presente comunicarle que Ud. ha sido sorteado para la revisión "
          . "del Proyecto de Tesis registrado en Plataforma con el còdigo: $codigop, "
          . "presentado y registrado para la Escuela Profesional de: $carrera. "
-         . "con fecha $fecha."
+         . "con fecha $fechaM."
          . "La cual deberá dar tràmite revisando y subiendo sus correcciones "
-         . "haciendo uso de su cuenta en Plataforma.\n\n"
+         . "haciendo uso de su cuenta en la Plataforma. PILAR\n\n"
          . "Ud. tiene un plazo máximo de 15 dias para la revisión via OnLine, "
          . "recuerde que el documento PDF se ha enviado a su cuenta en la "
          . "Plataforma PILAR"
@@ -512,10 +515,11 @@ public function memosGen( $IdTramite )
          . "Atentamente."; 
       }
 // Cargo
-      $pdf->AddPage();
+     // $pdf->AddPage();
+     $pdf->AddPageEx2('P','A4',1,10, $facultad , $carrera, $idFac);
       $pdf->SetDrawColor( 170, 170, 170 );
       $pdf->SetFont('Arial','B',13);
-      $textmemo = sprintf( "MEMORANDO CIRCULAR Nro %03d-%04d-PILAR-VRI-UNAP", $nmemo, $anio );        
+      $textmemo = sprintf( "MEMORANDO CIRCULAR Nro %03d-%04d-PILAR-VRI-UNU", $nmemo, $anio );        
       $pdf->Cell( 170, 2, toUTF($textmemo), 0, 1, 'L' ); 
       $pdf->Cell( 170, 1, "___________________________________________________", 0, 1, 'L' ); 
       $pdf->Ln(5);  
@@ -525,14 +529,14 @@ public function memosGen( $IdTramite )
       $pdf->Cell( 30, 9, toUTF("ASUNTO"), 0, 0, 'L' );
       $pdf->Cell( 150, 9, toUTF(": $asunto"), 0, 1, 'L' );
       $pdf->Cell( 30, 9, toUTF("FECHA"), 0, 0, 'L' );
-      $pdf->Cell( 150, 9, toUTF(": $fecha"), 0, 1, 'L' );
+      $pdf->Cell( 150, 9, toUTF(": $fechaM"), 0, 1, 'L' );
       $pdf->Cell( 170, 9,'_______________________________________________________________________', 0, 1, 'L' );
       $pdf->MultiCell( 170,7,toUTF($str),0,'J');
       $pdf->Ln(50);
       $pdf->SetFont( "Arial", "", 6 );
-      $pdf->Cell( 30, 2, toUTF("/ Vicerectorado de Investigación"), 0, 1, 'L' ); 
-      $pdf->Cell( 30, 2, toUTF("/ Plataforma PILAR"), 0, 1, 'L' ); 
-      $pdf->Cell( 30, 2, toUTF("/ Cordinación de Investigación $carrera"), 0, 1, 'L' ); 
+      $pdf->Cell( 30, 2, toUTF("/ VICERECTORADO DE INVESTIGACION"), 0, 1, 'L' ); 
+      $pdf->Cell( 30, 2, toUTF("/ PLATAFORMA PILAR"), 0, 1, 'L' ); 
+      $pdf->Cell( 30, 2, toUTF("/ GRADOS Y TITULOS DE LA ESCUELA PROFESIONAL $carrera"), 0, 1, 'L' ); 
 // Memos;
       for ($i=0; $i < count($quienes); $i++) {   
       $grado=$this->dbRepo->inGrado($quienes[$i]);       
@@ -543,7 +547,7 @@ public function memosGen( $IdTramite )
 
          $pdf->SetDrawColor( 170, 170, 170 );
          $pdf->SetFont('Arial','B',13);
-         $textmemo = sprintf( "MEMORANDO CIRCULAR Nro %03d-%04d-PILAR-VRI-UNAP", $nmemo, $anio );        
+         $textmemo = sprintf( "MEMORANDO CIRCULAR Nro %03d-%04d-PILAR-VRI-UNU", $nmemo, $anio );        
          $pdf->Cell( 170, 7, toUTF($textmemo), 0, 1, 'L' );
          $pdf->Cell( 170, 1, "___________________________________________________", 0, 1, 'L' ); 
          $pdf->Ln(5);
@@ -560,13 +564,89 @@ public function memosGen( $IdTramite )
          $pdf->SetFont( "Arial", "", 6 );
          $pdf->Cell( 30, 2, toUTF("/ Vicerectorado de Investigación"), 0, 1, 'L' ); 
          $pdf->Cell( 30, 2, toUTF("/ Plataforma PILAR"), 0, 1, 'L' ); 
-         $pdf->Cell( 30, 2, toUTF("/ Cordinación de Investigación $carrera"), 0, 1, 'L' ); 
+         $pdf->Cell( 30, 2, toUTF("/ Grados y Titulos - $carrera"), 0, 1, 'L' ); 
       }
       $pdf->Output();
    }else{
       echo "Algo no está Bien ... Contáctate con el Administrador!";
    }
 }
+
+//agregado unuv1.0 - Estado revision 1,2,3
+//agregado unuv1.0 - Estado dictamen
+
+public function execAprobPy( $idtram=0 ) // pasar6
+{
+  $this->gensession->IsLoggedAccess( PILAR_CORDIS );
+  if( !$idtram ) return;
+
+  $tram = $this->dbPilar->inProyTram( $idtram );
+  if( !$tram ) return;
+
+  $dets = $this->dbPilar->inProyDetail( $idtram );
+  $dias = mlDiasTranscHoy( $tram->FechModif );
+
+  echo "Codigo de Proyecto: <b>$tram->Codigo</b>  (E: $tram->Estado)";
+  echo "<br><b>$dias dias</b> en dictaminación  <br>";
+
+  /* .............Bet.........................
+    1. Agregado la tabla 
+    2. Creado la funcion MostrarEstado() 
+    3. Una condicion cuando es 4ta iteracion : Dictaminacion
+  */
+  echo "<table class='table table-responsive table-bordered'>
+          <tr>
+            <th scope='col'></th>
+            <th scope='col'>Presidente</th>
+            <th scope='col'>Segundo Miembro</th>
+            <th scope='col'>Tercer Miembro</th>
+            <th scope='col'>Fecha subida Proy.</th>
+          </tr>";
+          foreach( $dets->result() as $row ) 
+          {
+            if($row->Iteracion==4)
+            {
+              $most='Dictaminación';
+            }
+            else 
+            {
+              $most='Observación('.$row->Iteracion.')';
+            }
+            echo "<tr>";
+              echo "<td><b>$most</b> </td>";
+              echo "<td>".$this->MostrarEstado($row->vb1)."</td>";
+              echo "<td>".$this->MostrarEstado($row->vb2)."</td>";
+              echo "<td>".$this->MostrarEstado($row->vb3)."</td>";
+              echo "<td>$row->Fecha</td>";
+            echo "</tr>";   
+          }
+  echo "</table>";
+    // solo el primero
+  $row = $dets->row();
+  
+  echo "<input type=hidden name=evt value='51'>";
+  echo "<input type=hidden name=idtram value='$idtram'>";    
+}
+
+//agregado unuv1.0 - Estado revision 1
+public function MostrarEstado($esta){
+   if($esta==0){
+     return "Sin revisar";
+   }
+   else if($esta==1)
+   {
+     return "Observado";
+   }
+   else if($esta==-1)
+   {
+     return "Desaprobado";
+   }
+   else{
+     return "Aprobado";        
+   }  
+   return 0;    
+ }
+
 //  Lineas y Docentes
 public function lineasReg()
 {
@@ -1624,8 +1704,10 @@ public function execSorteo( $idtram=0 )
  }
 
  // Agregado unuv1.0 - Sorteo de jurados
+ // Modificacion unuv1.0 - Estado revision 1 (31)
+ // Modificacion unuv1.0 - Estado dictamen
  public function popExec( )
-   {
+{
       $this->gensession->IsLoggedAccess( PILAR_CORDIS );
         $sess = $this->gensession->GetData( PILAR_CORDIS );
 
@@ -1642,16 +1724,107 @@ public function execSorteo( $idtram=0 )
             /*case 10 : $this->inRechaza($tram,$sess);   break;  //rechazo del coordinador ..................bet
             case 12 : $this->inRechaDire($tram,$sess); break;  // exceso //Comentado unuv1.0 */
             case 31 : $this->inDoSorteo($tram,$sess);    break;
-          /*  case 51 : $this->inPasar6($tram,$sess);    break;   // aprobacion proyecto
-            case 50 : $this->inArchiva($tram,$sess);   break;   // 5 archivar
+            case 51 : $this->inPasar6($tram,$sess);    break;   
+           /* case 50 : $this->inArchiva($tram,$sess);   break;   // 5 archivar
             case 40 : $this->inCancel4($tram,$sess);   break;   // Notificar o Borrar //Comentado unuv1.0 */
 
             default: echo "VRI: Undefined Hook";
         }
-   }
+}
+
+//Agregado unuv1.0 - Estado revision 1
+//Agregado unuv1.0 - Estado dictamen
+private function inPasar6( $tram, $sess )
+    {
+        $dets = $this->dbPilar->inProyDetail( $tram->Id );
+
+        // solo el primero (descendente)
+        $row = $dets->row();
+        //echo "--".$row->vb1.' -'.$row->vb2.' --- '.$row->vb3;
+        //echo "recoger id y ver que hacer...";
+        // actualizar datos
+        //
+        if($row->vb1==0 || $row->vb2==0  || $row->vb3==0){
+          echo "No se puede Procesar, uno de los jurados todavia no revisa el proyecto de tesis.....";
+          return;
+        }
+        if($row->vb1==1 || $row->vb2==1  || $row->vb3==1){
+          echo "No se puede Procesar,uno de los jurados ha realizado observaciones.....";
+          return;
+        }
+
+        if($row->vb1==2 && $row->vb2==2  && $row->vb3==2){
+
+          $this->dbPilar->Update( 'tesTramites', array(
+                'Estado'    => 8,
+                'FechModif' => mlCurrentDate()
+            ) , $tram->Id );
+          $titulo='Aprobación de Proyecto';
+
+          $msg = "<h4> Felicitaciones </h4><br>"
+             . "Su proyecto <b>$tram->Codigo</b>, ha sido aprobado ya puede visualizarlo"
+             . " y descargarlo desde su cuenta de la <b>Plataforma PILAR</b>.";
+          $msg1 = "<h4> Proyecto Aprobado</h4><br>"
+             . "El proyecto <b>$tram->Codigo</b>, ha sido aprobado. ";
+        }
+        else{
+          $fechPy = mlFechaNorm( $tram->FechRegProy );
+          $titulo='Desaprobación de Proyecto';
+          $this->dbPilar->Update( "tesTramites", array('Tipo'=>0), $tram->Id );
+           $msg = "El Proyecto de Tesis con código <b>$tram->Codigo</b> <br>\n"
+             . "presentado el <b>$fechPy</b> con </b><br>titulado: <b>".$row->Titulo."</b>.<br><br>\n\n"
+             . "Ha sido desaprobado, por lo que se procedera a archivar el presente trámite.<br><br>"
+             . "Por la presente le comunicamos que queda habilitada la cuenta de Plataforma para el tesista y asi para realizar un nuevo trámite.\n"
+             ; 
+           $msg1= $msg; 
+        }
+
+        if($row->vb1==-1 || $row->vb2==-1  || $row->vb3==-1){
+         echo "Por favor comunicarse con soporte PILAR ";
+         return;
+         }
+        
+
+        // insertar la tercera iteración
+        //
+        /*$this->dbPilar->Insert( 'tesTramsDet', array(
+                'Iteracion' => 5,
+                'IdTramite' => $row->IdTramite,
+                'Archivo'   => $row->Archivo,
+                'Titulo'    => $row->Titulo,
+                'Fecha'     => mlCurrentDate(),
+                'Obs' => $row->Obs,
+                'vb1' => $row->vb1,
+                'vb2' => $row->vb2,
+                'vb3' => $row->vb3,
+                'vb4' => $row->vb4
+            ) );*/
+
+             ;
+        $this->logTramites( $sess->userId, $tram->Id, $titulo, $msg );
+         //------------------Correo a los tesistas -------------
+       
+          if($tram->IdTesista2 !=0)
+            {
+              $mail = $this->dbPilar->inCorreo( $tram->IdTesista1);
+              $mail2 = $this->dbPilar->inCorreo( $tram->IdTesista2);
+              $this->logCorreo( $tram->IdTesista1,0, $mail, $titulo, $msg );
+              $this->logCorreo( $tram->IdTesista2,0, $mail2, $titulo, $msg );
+            }
+          else
+            {
+              $mail = $this->dbPilar->inCorreo( $tram->IdTesista1);
+              $this->logCorreo( $tram->IdTesista1,0, $mail,$titulo, $msg );
+            }
+       //---------------------FIN----------------------------      
+        echo $msg1;
+    }
 
 
-public function inDoSorteoX( $rowTram ){
+
+
+
+   public function inDoSorteoX( $rowTram ){
   $j1 = mlSecurePost( "j1" );
   $j2 = mlSecurePost( "j2" );
   $j3 = mlSecurePost( "j3" );
@@ -1697,7 +1870,7 @@ public function inDoSorteo($rowTram, $sess){
 
   $msg = "<h4>Proyecto enviado a Revisión</h4><br>"
   . "Su Proyecto de Tesis: <b>$rowTram->Codigo</b> ha sido enviado a los miembros de su Jurado. "
-  . "Será revisado en un plazo de 1 dias habiles mediante la <b>Plataforma PILAR</b>."
+  . "Será revisado en un plazo de 15 dias habiles mediante la <b>Plataforma PILAR</b>."
   ;
   if($rowTram->IdTesista2 !=0)
   {
@@ -1730,7 +1903,7 @@ else
   $msg = "<h4>Revisión Electrónica</h4><br>"
   . "Por la presente se le comunica que se le ha enviado a su cuenta de Docente en la "
   . "<b>Plataforma PILAR</b> el proyecto de tesis con el siguiente detalle:<br><br>   "
-  . "Memo Circular: <b>$Mostrarnro-VRI-UNAP</b><br>"
+  . "Memo Circular: <b>$Mostrarnro-VRI-UNU</b><br>"
   . "Codigo : <b> $rowTram->Codigo </b><br>"
   . "Título : <b> $det->Titulo </b><br><br>"
   . "Ud. tiene un plazo de 15 dias hábiles para realizar las revisiones mediante la Plataforma."

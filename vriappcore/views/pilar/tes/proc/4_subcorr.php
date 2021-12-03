@@ -51,8 +51,30 @@
 
 			$extra = ($i==1) ? "in active" : "";
 			echo "<div id='tab$i' class='tab-pane fade $extra pre-scrollable' style='height: 320px'>";
+            //unuv1.0 agregado en caso el docente haya realizo la aprobacion del proyecto
+            if($i==1)
+            {
+                if($detTram->vb1==2)
+                {
+                    echo "<p><b>Aprobo, sin observaciones</b> </p>";
+                }
+            }
+            if($i==2)
+            {
+                if($detTram->vb2==2)
+                {
+                    echo "<p><b>Aprobo, sin observaciones</b> </p>";
+                }
+            }
+            if($i==3)
+            {
+                if($detTram->vb3==2)
+                {
+                    echo "<p><b>Aprobo, sin observaciones</b> </p>";
+                }
+            }
 
-			foreach( $arrCorr[$i]->result() as $row ) {
+            foreach( $arrCorr[$i]->result() as $row ) {
 				$fecha = mlFechaNorm( $row->Fecha );
 				echo "<p><b>[ $fecha ]</b> : $row->Mensaje </p>";
 			}
@@ -71,7 +93,7 @@
 		$totCorrs3 = $arrCorr[3]->num_rows();
 
 		// controlar vb
-		if( $detTram->vb1 + $detTram->vb2 + $detTram->vb3 == 3 ) {
+		if( $detTram->vb1 >0 && $detTram->vb2 >0 && $detTram->vb3 >0 ) {
 
 		} else {
 
@@ -79,9 +101,9 @@
 			if(  $totCorrs1==0 or $totCorrs2==0 or $totCorrs3==0 )
 			{
 				echo "<br> <b>Verificación de Correcciones:</b>";
-				echo "<br>Presidente      : <b> " .($totCorrs1? "Ok":""). "</b>";
-				echo "<br>Primer Miembro  : <b> " .($totCorrs2? "Ok":""). "</b>";
-				echo "<br>Segundo Miembro : <b> " .($totCorrs3? "Ok":""). "</b>";
+				echo "<br>Presidente      : <b> " .($detTram->vb1==0? '' : ($detTram->vb1==1? 'Observado' : ($detTram->vb1==2?'Aprobado' : -1))). "</b>";
+				echo "<br>Primer Miembro  : <b> " .($detTram->vb2==0? '' : ($detTram->vb2==1? 'Observado' : ($detTram->vb2==2?'Aprobado' : -1)))."</b>";
+				echo "<br>Segundo Miembro : <b> " .($detTram->vb3==0? '' : ($detTram->vb3==1? 'Observado' : ($detTram->vb3==2?'Aprobado' : -1)))."</b>";    
 
 				return;
 			}

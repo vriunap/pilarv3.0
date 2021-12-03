@@ -76,7 +76,25 @@ class GenSexPdf extends FPDF {
             $this->Line( $this->LeftMargin, 287, $this->RightMargin, 287 );
 
         //$this->Cell(0,10, toUTF('Página - ').$this->PageNo(), 0, 0, 'C');
-        $this->Cell(170,10, toUTF('[Oficina de Plataforma de Investigación y Desarrollo ]'), 0, 0, 'C');
+       // $this->Cell(170,10, toUTF('[Oficina de Plataforma de Investigación y Desarrollo ]'), 0, 0, 'C');
+    }
+
+    //Agregado unuv1.0 - estado acta de proyecto
+    function AddPageEx2( $orient='', $size='', $head=1, $foot=10, $fac, $car, $idFac)
+    {   
+        $this->numhead = $head;
+        
+       
+        $this->numfoot = $foot;
+
+        $this->fac  = $fac;
+        $this->car  = $car;
+        $this->idFac = $idFac;
+        //$this->tip  = $tip;
+        //$this->fech = $fech;
+
+        $this->AddPage( $orient, $size );
+        $this->DefOrientation = $orient;
     }
 
     // composed function isn't derived
@@ -86,24 +104,28 @@ class GenSexPdf extends FPDF {
         $this->SetFont('Arial','B',9);
 
         $this->Image('absmain/imgs/unap.png', $this->LeftMargin,  10, 20);
-        $this->Image('absmain/imgs/vri.png' , $this->RightMargin-19, 10, 18);
+        $this->Image('absmain/imgs/8.png' , $this->RightMargin-19, 10, 18); //modificado unuv1.0
 
         //$this->Ln(1);
+        //$this->SetFont('Arial','B',10);
+        $this->Cell( $this->width, 6, toUTF("UNIVERSIDAD NACIONAL DE UCAYALI"), 0, 1,'C',0);
+        //agregado unuv1.0
         $this->SetFont('Arial','B',10);
-        $this->Cell( $this->width, 6, toUTF("UNIVERSIDAD NACIONAL DEL ALTIPLANO - PUNO"), 0, 1,'C',0);
-
-        $this->SetFont('Arial','B',13);
         $this->SetTextColor(140,140,140);
-        $this->Cell( $this->width, 6, toUTF("VICERRECTORADO DE INVESTIGACIÓN"), 0, 1,'C',0);
+        $this->Cell( $this->width, 6, toUTF("FACULTAD DE $this->fac"), 0, 1,'C',0);
 
-        $this->SetFont('Arial','',14);
+        /*$this->SetFont('Arial','B',13);
+        $this->SetTextColor(140,140,140);
+        $this->Cell( $this->width, 6, toUTF("VICERRECTORADO DE INVESTIGACIÓN"), 0, 1,'C',0);//comentado unuv1.0*/
+
+        $this->SetFont('Arial','',10);
         $this->SetTextColor(100,100,100);
         //$this->Cell( $this->width, 6, toUTF("Plataforma de Investigación Universitaria Integrada a la Labor Académica"), 0, 1,'C',0);
-        $this->Cell( $this->width, 6, toUTF("PLATAFORMA PILAR"), 0, 1,'C',0);
+        $this->Cell( $this->width, 6, toUTF("ESCUELA PROFESIONAL DE $this->car"), 0, 1,'C',0);
 
         $this->SetTextColor(0,0,0);
-        $this->SetFont('Arial','',7);
-        $this->Cell( $this->width, 5, toUTF("Av. Sesquicentenario Nº 1150 - Teléfono: (051)-365054"), 0, 1,'C',0);
+        $this->SetFont('Arial','',6);
+        $this->Cell( $this->width, 5, toUTF("Carretera Federico Basadre Km 6200 - Pucallpa - Ucayali"), 0, 1,'C',0);
 
         $this->SetDrawColor(70,70,70);
         $this->Line( $this->LeftMargin, 35, $this->RightMargin, 35 );

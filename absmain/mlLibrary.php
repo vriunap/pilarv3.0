@@ -249,7 +249,8 @@ function CodeQR( $pdf, $xpos, $ypos, $code, $siz=152 )
 function mlQrRotulo( $pdf, $x, $y, $codigo )
 {
     $codigof = toUTF("Código: $codigo");
-    $titulo  = "VRI UNA Puno - ".date("Y");
+    $titulo  = "VRI UNU - ".date("Y");
+    
     $taman   = 150;
     $rectAnch = 32;
     if( strlen($codigo) > 14 ){
@@ -276,9 +277,9 @@ function mlQrRotulo( $pdf, $x, $y, $codigo )
     // texto pie de pagina
     $pdf->SetFont( "Arial", "", 7 );
     $pdf->Text( $x, $y+39, toUTF("Vicerrectorado de Investigación") );
-    $pdf->Text( $x, $y+42, toUTF("Telefono: 051-365054") );
-    $pdf->Text( $x, $y+45, toUTF("e-mail: vriunap@gmail.com") );
-    $pdf->Text( $x, $y+48, toUTF("web: http://vriunap.pe") );
+    //$pdf->Text( $x, $y+42, toUTF("Telefono: 051-365054") );
+    $pdf->Text( $x, $y+45, toUTF("e-mail: soporte_pilar@unu.edu.pe") );
+    $pdf->Text( $x, $y+48, toUTF("web: http://pilar.unu.edu.pe/unu/pilar") );
 }
 
 ?>

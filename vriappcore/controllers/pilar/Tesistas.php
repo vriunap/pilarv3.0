@@ -249,6 +249,8 @@ class Tesistas extends CI_Controller {
 
     // evaluar el proyecto y cada estado
     //modificado unuv1 --(3.7)
+    //modificacion unuv1.o - Estado revision 2
+    //modificacion unuv1.o - Estado revision 3
     public function tesProyecto()
     {
         $this->gensession->IsLoggedAccess();
@@ -272,27 +274,35 @@ class Tesistas extends CI_Controller {
 		$dets = $this->dbPilar->inLastTramDet( $tram->Id );
 
 		// sumar 3 revisiones para correcciones
-		if( $tram->Estado == 4 ) {
+		if( $tram->Estado == 4 || $tram->Estado == 5 || $tram->Estado==6) {
             $link = base_url( "repositor/docs/$dets->Archivo" );
             echo "Aqui puedes ver tu <b>proyecto</b> en Revisión: <a href='$link' target=_blank class='btn btn-warning'> Ver/Descargar Proyecto de Tesis </a><br>";
             // echo "<br><img class='img-responsive' src='http://vriunap.pe/vriadds/vri/web/convocatorias/comunicadoenero.png'</h4>";
-
+            $iter=1;
+            if($tram->Estado==5) //aumentado bet
+            { 
+                $iter=2; //echo "-------------- 2 da observaciones de jurados --------------------------";
+            }
+            if($tram->Estado==6) //aumentado bet
+            { 
+                $iter=3; //echo "-------------- 3 da observaciones de jurados --------------------------";
+            }
 			$this->load->view( "pilar/tes/proc/4_subcorr", array(
                             'sess'    => $sess,
 			 		        'detTram' => $dets,
 			 		        'arrCorr' => array(
 			 				// enviamos un array organizado de correcciones
-			 				1 => $this->dbPilar->inCorrecs( $tram->Id, 1 ),
-			 				2 => $this->dbPilar->inCorrecs( $tram->Id, 2 ),
-			 				3 => $this->dbPilar->inCorrecs( $tram->Id, 3 ),
-                            4 => $this->dbPilar->inCorrecs( $tram->Id, 4 )
+			 				1 => $this->dbPilar->inCorrecs( $tram->Id, 1,$iter),
+			 				2 => $this->dbPilar->inCorrecs( $tram->Id, 2,$iter ),
+			 				3 => $this->dbPilar->inCorrecs( $tram->Id, 3,$iter ),
+                            4 => $this->dbPilar->inCorrecs( $tram->Id, 4,$iter )
 			 	    ) ) );
 
 			return;
 		}
 
         // mostrar acte de aprobación
-        if( $tram->Estado >= 6 ) {
+        if( $tram->Estado >= 8 ) {
             $link2 = base_url( "repositor/docs/$dets->Archivo" );
 			$link = base_url( "pilar/tesistas/actaProyIn" );
             $det = $this->dbPilar->inLastTramDet( $tram->Id );
@@ -321,10 +331,8 @@ class Tesistas extends CI_Controller {
             case '4':
                 $esta = "En Revisión (E: $tram->Estado)";
                 break;
-            case '5':
+            case '7':
                 $esta = "En Dictaminación";
-                break;
-            case '6':
                 break;
             default:
                 break;
@@ -369,6 +377,7 @@ class Tesistas extends CI_Controller {
     }
 
     // Modificado unuv1.0 --(4.1.1)
+    ///modificado unuv1.0 - esatdo proyecto aprobado
     public function tesBorrador()
     {
         $this->gensession->IsLoggedAccess();
@@ -379,12 +388,12 @@ class Tesistas extends CI_Controller {
         // no hay tramite disponble nuevo tramite
         if( $tram == null ) return;
 
-        if($tram->Tipo == 1 && $tram->Estado < 6)
+        if($tram->Tipo == 1 && $tram->Estado < 8)
         {
             echo "<br><br><center><h3>  Lo sentimos ! <br> Usted aún no cumple los requisitos para este proceso (Borrador de Tesis). </h3></center>";
         }
         // Anuncio para tesistas sin activacion de tram Borr
-        if( $tram->Tipo == 1 && $tram->Estado == 6 ) {
+        if( $tram->Tipo == 1 && $tram->Estado == 8 ) {
 
             // $det = $this->dbPilar->inLastTramDet( $tram->Id );
             $det = $this->dbPilar->inTramDetIter($tram->Id, 3);
@@ -394,7 +403,7 @@ class Tesistas extends CI_Controller {
             echo "<center><img class='img-responsive' style='height:70px;' src='".base_url('vriadds/pilar/imag/pilar-tes.png')."'/> </center>";
             echo "<center><h2 class='text'>¿Presentación de Borrador de Tesis?</h2>";
             echo "<h4> Su proyecto tiene $dias dia(s) de Ejecución de un total de 90 mínimos. </h4> </center>";
-            echo "<p>Antes de continuar con el proceso usted deberá : (a) Completar el tiempo mínimo.(b) Poseer el grado académico de Bachiller. Si cumple con los requisitos (a) y (b) está apto para proseguir con su trámite, de lo contrario deberá esperar hasta cumplir lo estipulado. <br> <div class='alert alert-warning'><b>Nota :</b> La información registrada será responsabilidad del usuario y tienen caracter de <b>Declaración Jurada</b>, de lo contrario estará sujeto a las sanciones que determine la Universidad Nacional del Altiplano de Puno. </p></div>";
+            echo "<p>Antes de continuar con el proceso usted deberá : <br>(a) Completar el tiempo mínimo. <br>(b) Poseer el grado académico de Bachiller.<br> Si cumple con los requisitos (a) y (b) está apto para proseguir con su trámite, de lo contrario deberá esperar hasta cumplir lo estipulado. <br> <div class='alert alert-warning'><b>Nota :</b> La información registrada será responsabilidad del usuario y tienen caracter de <b>Declaración Jurada</b>, de lo contrario estará sujeto a las sanciones que determine la Universidad Nacional del Altiplano de Puno. </p></div>";
 
             $consulta=$this->dbPilar->getOneField('tesTramsBach',"Id","Estado=1 AND IdTesista=$sess->userId");
 
@@ -713,6 +722,7 @@ class Tesistas extends CI_Controller {
 
 
     // ver acta proy
+    //modificacion unuv1.0 - estado aprobacion de proyecto
     public function actaProy( $idTram=0 )
     {
         // libre nada de sesiones
@@ -720,28 +730,34 @@ class Tesistas extends CI_Controller {
 
         $tram = $this->dbPilar->inProyTram($idTram);
         if( !$tram ){ echo "Inexistente"; return;}
-        if( $tram->Estado < 6 ){ echo "No Aprobado"; return;}
+        if( $tram->Estado < 8 ){ echo "No Aprobado"; return;}
+
+        //Agregado unuv1.0 
+        $Carrera = $this->dbRepo->inCarrera($tram->IdCarrera);
+        $facultad = $this->dbRepo->inFacultad($tram->IdCarrera);
+        $idFac = $this->dbRepo->inIdFacultad($tram->IdCarrera);
+		$dets = $this->dbPilar->inLastTramDet($idTram);
+        //fin
 
 		// ACTA iteracion 3 :: no la ultima.
 		//
-
-        $dets = $this->dbPilar->inTramDetIter($idTram, 3);
 
         // ni se te ocurra cambiarlo, por la fecha en la iteracion 3
 
         $pdf = new GenSexPdf();
 
         //$pdf->AddPage();
-        $pdf->AddPageEx( 'P', '', 2 );
+        $pdf->AddPageEx2( 'P','A4',1,1, $facultad , $Carrera, $idFac);
+       // $pdf->AddPageEx( 'P', '', 2 );
         $pdf->SetMargins( 18, 40, 20 );
 
-        $pdf->Ln( 25 );
-        $pdf->SetFont( "Times", 'B', 15 );
+        $pdf->Ln( -5 );
+        $pdf->SetFont( "Times", 'B', 16 );
 
-        $pdf->Cell( 2,  9, "" );
-        $pdf->Cell( 28, 9, $tram->Codigo, 1, 0, 'C' );
-        $pdf->BarCode39( 150, 34, $tram->Codigo );
-        mlQrRotulo( $pdf, 19, 220, $tram->Codigo );
+        $pdf->Cell( 2,  0, "" );
+        $pdf->Cell( 28, 10, $tram->Codigo, 1, 0, 'C' );
+        $pdf->BarCode39( 150, 40, $tram->Codigo );
+        mlQrRotulo( $pdf, 19, 235, $tram->Codigo);
 
 
 
@@ -750,10 +766,10 @@ class Tesistas extends CI_Controller {
         $pdf->Cell( 174, 5, toUTF("ACTA DE APROBACIÓN DE PROYECTO DE TESIS"), 0, 1, 'C' );
 
 
-        $dia = (int) substr( $dets->Fecha, 8, 2 );
-        $mes = mlNombreMes( substr($dets->Fecha,5,2) );
-        $ano = (int) substr( $dets->Fecha, 0, 4 );
-        $hor = substr( $dets->Fecha, 11, 8 );
+        $dia = (int) substr( $tram->FechModif, 8, 2 );
+        $mes = mlNombreMes( substr($tram->FechModif,5,2) );
+        $ano = (int) substr( $tram->FechModif, 0, 4 );
+        $hor = substr( $tram->FechModif, 11, 8 );
 
 
         // revisa modo de aprobacion
@@ -828,8 +844,8 @@ class Tesistas extends CI_Controller {
 
 
         $strBloq = "Para dar fe de este proceso electrónico, el Vicerrectorado de Investigación de la Universidad "
-                 . "Nacional del Altiplano - Puno, mediante la Plataforma de Investigación se le asigna la presente "
-                 . "constancia y a partir de la presente fecha queda expedito para la ejecución de su PROYECTO DE INVESTIGACIÓN DE TESIS.";
+        . "Nacional de Ucayali - Pucallpa, mediante la Plataforma de Investigación se le asigna la presente "
+        . "acta y a partir de la presente fecha queda expedito para la ejecución de su PROYECTO DE INVESTIGACIÓN DE TESIS.";
 
         $pdf->Ln(5);
         $pdf->SetFont( "Arial", "", 10 );
@@ -837,9 +853,10 @@ class Tesistas extends CI_Controller {
 
         $pdf->Ln(8);
         $pdf->SetFont( "Arial", "B", 11 );
-        $pdf->MultiCell( 174, 5.5, toUTF("Puno, $mes de $ano"), 0, 'R' );
+        $pdf->MultiCell( 174, 5.5, toUTF("Pucallpa, $mes de $ano"), 0, 'R' );
 
-        $pdf->Image( 'vriadds/pilar/imag/aprofirma.jpg', 75, 230, 80 );
+        
+        //$pdf->Image( 'vriadds/pilar/imag/aprofirma.jpg', 75, 230, 80 ); comentado unuv1.0 -aprobacion de proyecto
 
         $pdf->Output();
     }
@@ -1177,6 +1194,10 @@ class Tesistas extends CI_Controller {
 
 
 	// correcciones Proyecto
+    //unuv1.0 - estado revision 1
+    //unuv1.0 - estado revision 2
+       //unuv1.0 - estado revision 3
+          //unuv1.0 - estado dictaminacion
     public function execInCorr()
     {
         $this->gensession->IsLoggedAccess();
@@ -1206,20 +1227,55 @@ class Tesistas extends CI_Controller {
         // 7. log de correos
 
         $tram = $this->dbPilar->inTramByTesista($sess->userId);
+        $msg = "<br>El tesista ha subido el proyecto corregido en el trámite:<br><br>"
+             . "Codigo: <b>$tram->Codigo</b><br> "
+             . "Título de Proyecto : <b>$titul</b> <br><br>  "
+             . "A partir de la fecha tiene un plazo de 15 días calendarios "
+             . " para realizar la verificar las correciones y/o observalas."  ;
+
+        $msgtesista = "<br>Ud. ha subido el proyecto corregido en el trámite:<br><br>"
+             . "Codigo: <b>$tram->Codigo</b><br> "
+             . "Título de Proyecto : <b>$titul</b> <br><br>  "
+             . "A partir de la fecha tiene un plazo de 15 días calendarios "
+             . " para la verifacion de su proyecto."  ;
 
 
         // check if we had a prevoius activation
-        if( $tram->Tipo == 1 && $tram->Estado >= 5 ) return;
+        if( $tram->Tipo == 1 && $tram->Estado >= 7 ) return;
+        $estado=5;
+        $iteracion=2;
+        $titulomen='Subida de Correcion';
+        
+        if($tram->Estado==5){ //agregado unuv1.0 - estado revision 2
+            $estado=6;
+            $iteracion=3;
 
+        }
+        if($tram->Estado==6){//subida de dictamen
+            $estado=7;
+            $iteracion=4;
+             $titulomen='Dictaminación de Proyecto';
+             $msg = "<br>El tesista ha subido el proyecto corregido en el trámite:<br><br>"
+                . "Codigo: <b>$tram->Codigo</b><br> "
+                . "Título de Proyecto : <b>$titul</b> <br><br>  "
+                . "A partir de la fecha tiene un plazo de 5 días calendarios "
+                . " para realizar la <b>Dictaminación del Proyecto."  ;
 
+            $msgtesista = "<br>Ud. ha subido el proyecto corregido en el trámite:<br><br>"
+                . "Codigo: <b>$tram->Codigo</b><br> "
+                . "Título de Proyecto : <b>$titul</b> <br><br>  "
+                . "A partir de la fecha tiene un plazo de 5 días calendarios "
+                . " se realizará la <b>Dictaminación del Jurado Evaluador."  ;
+
+        }
         $this->dbPilar->Update( 'tesTramites', array(
-                'Estado'    => 5,
+                'Estado'    => $estado,
                 'FechModif' => mlCurrentDate()
             ), $tram->Id );
 
 
         $this->dbPilar->Insert( 'tesTramsDet', array(
-            'Iteracion' => 2,
+            'Iteracion' => $iteracion,
             'IdTramite' => $tram->Id,
             'Archivo'   => $archi,
             'Titulo'    => $titul,
@@ -1237,32 +1293,107 @@ class Tesistas extends CI_Controller {
         ));
 
 
-        $msg = "<br>El tesista ha subido Correcciones en el trámite:<br><br>"
+
+        if($tram->Estado==4)//agregado unuv1.0
+        {
+            $pos1=0;$pos2=0;$pos3=0;
+            $det = $this->dbPilar->inTramDetIter($tram->Id, 1);
+            if($det->vb1==2 ){$pos1=2;}
+            if($det->vb2==2 ){ $pos2=2;}
+            if($det->vb3==2 ){ $pos3=2;}
+
+            $dets = $this->dbPilar->inTramDetIter( $tram->Id,2);
+            $this->dbPilar->Update( "tesTramsDet", array(
+                            'vb1'    => $pos1,
+                            'vb2'    => $pos2,
+                            'vb3'    => $pos3
+                        ), $dets->Id);
+        }
+        if($tram->Estado==5)
+        { //cuando el docente ya hara realizo aprobacion, asi va seguir el docente
+            $pos1=0;$pos2=0;$pos3=0;
+            $det = $this->dbPilar->inTramDetIter($tram->Id, 2);
+            if($det->vb1==2 ){$pos1=2;}
+            if($det->vb2==2 ){ $pos2=2;}
+            if($det->vb3==2 ){ $pos3=2;}
+
+            $dets = $this->dbPilar->inTramDetIter( $tram->Id,3);
+            $this->dbPilar->Update( "tesTramsDet", array(
+                            'vb1'    => $pos1,
+                            'vb2'    => $pos2,
+                            'vb3'    => $pos3
+                        ), $dets->Id);
+        }
+
+         if($tram->Estado==6)
+        { //cuando el docente ya realizo aprobacion asi va seguir
+            $pos1=0;$pos2=0;$pos3=0;
+            $det = $this->dbPilar->inTramDetIter($tram->Id, 3);
+            if($det->vb1==2 ){$pos1=2;}
+            if($det->vb2==2 ){ $pos2=2;}
+            if($det->vb3==2 ){ $pos3=2;}
+
+            $dets = $this->dbPilar->inTramDetIter( $tram->Id,4);
+            $this->dbPilar->Update( "tesTramsDet", array(
+                            'vb1'    => $pos1,
+                            'vb2'    => $pos2,
+                            'vb3'    => $pos3
+                        ), $dets->Id);
+        }
+
+
+       /* $msg = "<br>El tesista ha subido Correcciones en el trámite:<br><br>"
              . "Codigo: <b>$tram->Codigo</b><br> "
              . "Título de Proyecto : <b>$titul</b> <br><br>  "
              . "A partir de la fecha en un plazo de 5 días hábiles (sin feriados) "
              . "se realizará la <b>Dictaminación del Jurado Evaluador</b>. "
-             . "Se procede con el registro y envio de las notificaciones."  ;
-
+             . "Se procede con el registro y envio de las notificaciones."  ; //comenatdo unuv1.0*/
+        
 
         // agregar tramite
         $this->logTramites( $sess->userId, $tram->Id, "Subida de Corrección", $msg );
 
         // grabar y enviamos mail en LOG correos
-        $this->logCorreo( $tram->Id, $sess->userMail, "Subida de Corrección", $msg );
+       // $this->logCorreo( $tram->Id, $sess->userMail, "Subida de Corrección", $msg ); comentado unuv1.0
 
+        //------------------Correo a los tesistas -------------
+        if($tram->IdTesista2 != 0)
+          {
+            $mail = $this->dbPilar->inCorreo( $tram->IdTesista1);
+            $mail2 = $this->dbPilar->inCorreo( $tram->IdTesista2);
+            $this->logCorreo( $tram->IdTesista1, $mail, $titulomen, $msgtesista );
+            $this->logCorreo( $tram->IdTesista2,$mail2, $titulomen, $msgtesista );
+          }
+        else
+          {
+            $mail = $this->dbPilar->inCorreo($tram->IdTesista1);
+            $this->logCorreo($tram->IdTesista1, $mail, $titulomen, $msgtesista );
+          }
+        //---------------------FIN----------------------------       
 
 		// enviar correos a profesores OJO
-		/// $this->correoProfes($tram);
+		/// $this->correoProfes($tram);        
 		$corr1 = $this->dbRepo->inCorreo( $tram->IdJurado1 );
 		$corr2 = $this->dbRepo->inCorreo( $tram->IdJurado2 );
 		$corr3 = $this->dbRepo->inCorreo( $tram->IdJurado3 );
 		$corr4 = $this->dbRepo->inCorreo( $tram->IdJurado4 );
 
-		$this->logCorreo( $tram->Id, $corr1, "Dictaminación de Proyecto de Tesis", $msg );
-		$this->logCorreo( $tram->Id, $corr2, "Dictaminación de Proyecto de Tesis", $msg );
-		$this->logCorreo( $tram->Id, $corr3, "Dictaminación de Proyecto de Tesis", $msg );
-		$this->logCorreo( $tram->Id, $corr4, "Dictaminación de Proyecto de Tesis", $msg );
+		if($pos1!=2){
+            $this->logCorreo( $tram->Id, $corr1, $titulomen, $msg );
+        }
+        
+        if($pos2!=2){
+            $this->logCorreo( $tram->Id, $corr2, $titulomen, $msg );
+        }
+
+        if($pos3!=2){
+            $this->logCorreo( $tram->Id, $corr3, $titulomen, $msg );
+        }        
+        
+      /*  $this->logCorreo( $tram->Id, $corr1, $titulomen, $msg );
+		$this->logCorreo( $tram->Id, $corr2, $titulomen, $msg );
+		$this->logCorreo( $tram->Id, $corr3, $titulomen, $msg );
+		$this->logCorreo( $tram->Id, $corr4, $titulomen, $msg );*/
 
         // finalmente
         echo $msg . "<br><b>hecho !</b>";

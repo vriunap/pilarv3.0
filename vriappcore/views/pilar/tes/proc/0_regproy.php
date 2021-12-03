@@ -36,26 +36,33 @@
             <button class="btn btn-default indi_group bg-2" onclick="cargaProy(2)"> Proyecto Grupal</button> <!--(3.9.0)-->
         </div>
 
-        <div class="col-md-12">
+        <div class="col-md-12">           
             <hr>
-            <?php
-                foreach( $prev->result() as $row ){
+            <?php if($prev->num_rows()>0)
+            {
+                ?>
+                <center><h5 class="titulo"> Tramites Presentados </h5></center> 
+                <?php                  
+                    foreach( $prev->result() as $row ){
 
-                    $mode = ($row->Tipo == -2)? "danger" : "warning";
+                        $mode = ($row->Tipo == -2)? "warning" : "warning";
 
-                    $dets = $this->dbPilar->inTramDetIter($row->Id, 3);
-                    $dets = ($dets==null)? $this->dbPilar->inTramDetIter($row->Id) : $dets;
+                        $dets = $this->dbPilar->inLastTramDet($row->Id, 3);
+                        $dets = ($dets==null)? $this->dbPilar->inTramDetIter($row->Id) : $dets;
 
-                    $dias = mlDiasTranscHoy( $dets->Fecha );
+                        $dias = mlDiasTranscHoy( $dets->Fecha );
 
-                    echo "<div class='alert alert-$mode'>";
-                    if( $row->Tipo == -2 )
-                        echo "Trámite <b>$row->Codigo : (Caducado)</b>: Por haber excedido el tiempo de ejecución, transcurrieron <b>$dias de 730</b> (2 años) dias desde $dets->Fecha";
-                    if( $row->Tipo == -1 )
-                        echo "Trámite <b>$row->Codigo</b> : Ha sido <b>desaprobado</b> y archivado al contar con dos Jurados en desacuerdo con sus correcciones.";
-                    echo "</div>";
-                }
-            ?>
+                        echo "<div class='alert alert-success'>";
+                         if( $row->Tipo == 0 )
+                            echo "Trámite <b>$row->Codigo : (Rechazado)</b>: iteracion: ".$dets->Iteracion." , desde $dets->Fecha";
+                        if( $row->Tipo == -2 )
+                            echo "Trámite <b>$row->Codigo : (Caducado)</b>: Por haber excedido el tiempo de ejecución, transcurrieron <b>$dias de 730</b> (2 años) dias desde $dets->Fecha";
+                        if( $row->Tipo == -1 )
+                            echo "Trámite <b>$row->Codigo</b> : Ha sido <b>desaprobado</b> y archivado al contar con dos Jurados en desacuerdo con sus correcciones.";
+                        echo "</div>";
+                    }
+            }
+                ?>
         </div>
     </div>
 

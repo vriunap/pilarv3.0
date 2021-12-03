@@ -152,4 +152,15 @@ class DbRepo extends PedrixAdo
         if( ! $data ) return null;
         return $this->getOneField( "vwDocentes", "Id", "DatosNom LIKE '%$data%' " );
     }
+    //Agregado unuv1.0 - estado acta de aprobacion
+    function inIdFacultad( $id )
+    {
+        $row = $this->getSnapRow( "dicCarreras", "Id=$id" );
+        if( ! $row ) return null;
+
+        $row = $this->getSnapRow( "dicFacultades", "Id=$row->IdFacultad" );
+        if( ! $row ) return null;
+
+        return $row->Id;
+    }
 }
