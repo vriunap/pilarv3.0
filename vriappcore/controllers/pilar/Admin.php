@@ -899,18 +899,15 @@ class Admin extends CI_Controller {
         //echo "<hr>";
 
         ///$autors = $this->dbPilar->inTesistas($tram->Id);
-        $dets = $this->dbPilar->inTramDetIter($idtram,2);
+        $dets = $this->dbPilar->inLastTramDet($idtram);
 
-        $fechPy = mlFechaNorm( $tram->FechRegProy );
-        $fechCo = mlFechaNorm( $dets->Fecha );
+        $fechPy = $tram->FechRegProy;
+        $fechCo = $dets->Fecha ;
 
 
         // mensaje editable
-        $msg = "El Proyecto de Tesis con código <b>$tram->Codigo</b> <br>\n"
-             . "presentado el <b>$fechPy</b> con correcciones subidas el <b>$fechCo</b><br>titulado: <b>$dets->Titulo</b>.<br><br>\n\n"
-             . "Ha sido desaprobado por dos de sus jurados, por lo que se procedera a archivar el presente trámite.<br><br>"
-             . "Por la presente le comunicamos que queda habilitada la cuenta de Plataforma para el tesista y asi para realizar un nuevo trámite.\n"
-             ;
+        $msg="";
+        
 
 
         // detallaremos evento interno Ev31
@@ -919,7 +916,7 @@ class Admin extends CI_Controller {
 
         echo "<div class='form-group'>";
         echo    "<label for='comment'>Mensaje a enviar:</label>";
-        echo    "<textarea class='form-control' rows=8 name='msg'>$msg</textarea>";
+        echo    "<textarea class='form-control' rows=8 name='msg' id='msg'>$msg</textarea>";
         echo "</div>";
     }
 
@@ -1534,6 +1531,121 @@ class Admin extends CI_Controller {
         echo "<input type=hidden name=idtram value='$idtram'>";
     }
 
+    //agregado unuv1.0 - Recuperacion de contraseñas tesista
+    public function panelListaTesista()
+    {
+        $this->gensession->IsLoggedAccess( PILAR_ADMIN );
+
+        $facul = mlSecurePost( "epss" );
+        $filtro='';
+        if($facul!=''){
+            $filtro='IdFacultad='.$facul;
+        }
+        $tdocen = $this->dbPilar->getSnapView( "vxdattesistas",$filtro);
+        $tuniver = $this->dbRepo->getSnapView( "dicuniversidades","", "ORDER BY Nombre ");
+
+        $this->load->view( "pilar/admin/repoTesista", array (
+                'tcateg' => $this->dbRepo->getTable( "dicCategorias" ),
+                'tfacus' => $this->dbRepo->getTable( "dicFacultades" ),
+                'tdocen' => $tdocen,
+                'tuniversidad' =>  $tuniver,
+                'facul'  => $facul
+            ) );
+    }
+    //agregado unuv1.0 - Recuperacion de contraseñas tesista
+    public function RestaurarContrase( $codigo=0)
+    {
+       $this->gensession->IsLoggedAccess( PILAR_ADMIN );
+        $expr = $codigo;
+        $nuevacon = mlSecureRequest('contra')  ;
+       
+        if( ! $expr ) return;
+
+        if( $row = $this->dbPilar->getSnapRow("tblTesistas","Id='$expr'") ) 
+        {
+           $this->dbPilar->Update( 'tbltesistas', array(
+                'Clave'    => sqlPassword($nuevacon)
+            ), $expr);           
+
+              $msg = "Hola $row->Nombres <br><br>"
+              ."Solicitó un restablecimiento de contraseña para el ingreso a la Plataforma PILAR <br> "
+             . "Contraseña por defecto : <b>$nuevacon</b><br><br>"
+             . "Nota : Se recomienda modificar su contraseña. 
+                <br>"  ;
+
+           $this->logLogin( $row->Id, "Restablecer Contaseña" );
+           $this->logCorreos( 0,$row->Id, $row->Correo, "Restablecer Contaseña", $msg );
+
+            echo "Se notifico al correo del tesista la contraseña por defecto.";
+        }
+        else{       
+        echo "Error no existe tesista, por favor revisar la base de datos. ";  
+         }             
+    }
+
+    //agregado unuv1.0 - Recuperacion de contraseñas tesista
+    public function logLogin( $idUser, $obs )
+    {
+        $this->load->library('user_agent');
+
+        $agent = 'Unknowed UA';
+        if ($this->agent->is_browser())
+        {
+            $agent = $this->agent->browser().' '.$this->agent->version();
+        }
+        elseif ($this->agent->is_robot())
+        {
+            $agent = $this->agent->robot();
+        }
+        elseif ($this->agent->is_mobile())
+        {
+            $agent = $this->agent->mobile();
+        }
+
+        //-----------------------------------------------------
+        // echo $agent ." // ". $this->agent->platform();
+        //-----------------------------------------------------
+        $this->dbPilar->Insert( "logLogins", array(
+                'Tipo'    => 'A',
+                'IdUser'  => $idUser,
+                'Accion'  => $obs,
+                'IP'      => mlClientIP(),
+                'OS'      => $this->agent->platform(),
+                'Browser' => $agent,
+                'Fecha'   => mlCurrentDate()
+            ) );
+    }
+
+   //agregado unuv1.0 - Recuperacion de contraseñas tesista
+    private function logCorreos( $idDocente,$IdTesista, $correo, $titulo, $mensaje )
+    {
+        if( !$correo ) return;
+
+        $this->dbPilar->Insert (
+            'logCorreos', array(
+            'IdDocente' => $idDocente,
+            'IdTesista' => $IdTesista,
+            'Fecha'   => mlCurrentDate(),
+            'Correo'  => $correo,
+            'Titulo'  => $titulo,
+            'Mensaje' => $mensaje
+        ) );
+        
+        $this->genmailer->mailPilar( $correo, $titulo, $mensaje );
+    }
+
+     //agregado unuv1.0 - Listar sus accesos a PILAR
+    public function Acceso( $codigo)
+    {
+
+       $this->gensession->IsLoggedAccess( PILAR_ADMIN );
+        $expr = $codigo;
+       
+        if( ! $expr ) return;
+
+        $data['logintesistas'] = $this->dbPilar->getResultSet( "vxZumLoginTes", "Tipo='T' and IdUser =$expr order by Id desc LIMIT 5" );
+        echo json_encode($data);
+    }     
 
     private function inSorteo( $rowTram, $sess )
     {
@@ -1703,18 +1815,29 @@ class Admin extends CI_Controller {
 
     public function inArchiva( $tram, $sess )
     {
+        $dets = $this->dbPilar->inLastTramDet($tram->Id);
+
+        $fechPy = $tram->FechRegProy;
+        $fechCo = $dets->Fecha ;
+
         //$msg = mlSecurePost("msg");
         $msg = $_POST["msg"];
+        $msg1 = "El Proyecto de Tesis con código <b>$tram->Codigo</b> <br>\n"
+             . "presentado el <b>$fechPy</b> con correcciones subidas el <b>$fechCo</b><br>titulado: <b>$dets->Titulo</b>.<br><br>\n\n"
+             . "Ha sido Anulado segun $msg , por lo que se procedera a archivar el presente trámite.<br><br>"
+             . "Por la presente le comunicamos que queda habilitada la cuenta de Plataforma para el tesista y asi para realizar un nuevo trámite.\n"
+             ;
+
 
         // archivarlo en historial
-        $this->logTramites( $sess->userId, $tram->Id, "Desaprobación de Proyecto", $msg );
+        $this->logTramites( $sess->userId, $tram->Id, "Desaprobación de Proyecto",$msg1 );
 
         // enviamos al tesista y a los jurados
-		$this->logCorreo( $tram->Id, $this->dbPilar->inCorreo($tram->IdTesista1), "Desaprobación de Proyecto", $msg );
-        $this->logCorreo( $tram->Id, $this->dbRepo->inCorreo($tram->IdJurado1) , "Desaprobación de Proyecto", $msg );
-        $this->logCorreo( $tram->Id, $this->dbRepo->inCorreo($tram->IdJurado2) , "Desaprobación de Proyecto", $msg );
-        $this->logCorreo( $tram->Id, $this->dbRepo->inCorreo($tram->IdJurado3) , "Desaprobación de Proyecto", $msg );
-        $this->logCorreo( $tram->Id, $this->dbRepo->inCorreo($tram->IdJurado4) , "Desaprobación de Proyecto", $msg );
+		$this->logCorreo( $tram->Id, $this->dbPilar->inCorreo($tram->IdTesista1), "Desaprobación de Proyecto", $msg1 );
+        $this->logCorreo( $tram->Id, $this->dbRepo->inCorreo($tram->IdJurado1) , "Desaprobación de Proyecto", $msg1 );
+        $this->logCorreo( $tram->Id, $this->dbRepo->inCorreo($tram->IdJurado2) , "Desaprobación de Proyecto", $msg1 );
+        $this->logCorreo( $tram->Id, $this->dbRepo->inCorreo($tram->IdJurado3) , "Desaprobación de Proyecto", $msg1);
+        $this->logCorreo( $tram->Id, $this->dbRepo->inCorreo($tram->IdJurado4) , "Desaprobación de Proyecto", $msg1 );
 
         // actualizamos el estado del tramite
         $this->dbPilar->Update( "tesTramites", array('Tipo'=>0), $tram->Id );

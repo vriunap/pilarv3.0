@@ -21,6 +21,7 @@ function lodPanel( urlink )
     $("#panelView").load( urlink );
 }
 
+
 //unuv1.0 - estado sorteo de jurado
 function popProcede( urlink, arg )
 {

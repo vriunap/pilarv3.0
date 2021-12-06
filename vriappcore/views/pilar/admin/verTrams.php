@@ -156,7 +156,7 @@
 			if( $row->Estado == 4 ) {
 
                 $menus .= " | <button onclick='popLoad(\"admin/execCorrec/$row->Id\",$nro)' class='btn btn-xs btn-primary'> Correcs </button>";
-
+                $menus .=  "<button onclick='popLoad(\"admin/execCancelPy/$row->Id\",$nro)' class='btn btn-xs btn-danger'> Archivar </button>" ;
                 if( $diasp > 60 ) {
 
                     $menus .= " | <button onclick='popLoad(\"admin/execRech4/$row->Id\",$nro)' class='btn btn-xs btn-danger'> Cancelar </button>";

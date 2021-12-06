@@ -10,6 +10,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="<?=base_url('vriadds/lightajax.js');?>"></script>
     <script src="<?=base_url('vriadds/pilar/manager.js');?>"></script>
+
+	<!-- agregado 04/10/2021-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script> 
 </head>
 
 <body>

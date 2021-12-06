@@ -60,6 +60,10 @@ class Tesistas extends CI_Controller {
             echo '[{"error":true, "msg":"Su clave es incorrecta"}]';
             return;
         }
+        if($row->Activo == 0){ //agregado unuv1.0
+            echo '[{"error":true, "msg":"Su cuenta esta desactivada por favor comunicarse al correo soporte_pilar@unu.edu.pe"}]';
+            return;
+        }
 
         //----------------------------------------------------------------
         // como todo esta correcto creamos la sesion usuario general
@@ -204,11 +208,42 @@ class Tesistas extends CI_Controller {
     {
         $this->gensession->IsLoggedAccess();
         $sess = $this->gensession->GetData();
+        //agregado unuv1..0 - recuperacion de contraseña tesista
+        $row = $this->dbPilar->getSnapRow("tblTesistas","Id='$sess->userId'"); //busca datos del tesista
+        if($row->Clave == sqlPassword("TesistaUNU")) //creado 06/10/2021
+        { 
+            $this->load->view("pilar/tes/header", array('sess'=>$sess) );
+            $this->load->view("pilar/tes/RecuperarPass");
+         }
+        else
+        {
+            $this->load->view("pilar/tes/header", array('sess'=>$sess) );
+            $this->load->view("pilar/tes/menu");
+            $this->load->view("pilar/tes/panelWork");
+            $this->load->view("pilar/tes/footer");
+        }  
+    }
 
-        $this->load->view("pilar/tes/header", array('sess'=>$sess) );
-        $this->load->view("pilar/tes/menu");
-        $this->load->view("pilar/tes/panelWork");
-        $this->load->view("pilar/tes/footer");
+    //Agregado unuv1.0 - recuperacion de contraseña tesista
+    public function CambiarPass()
+    {
+        $this->gensession->IsLoggedAccess();
+        $sess = $this->gensession->GetData();
+        if(!$sess){ echo "Por favor Logearse para poder realizar la modificación ";}        
+        $passCambio = mlSecurePost( "passCambio" );
+        $passCambio2 = mlSecurePost( "passCambio2" );       
+        if($passCambio == $passCambio2)
+        {
+            $this->dbPilar->Update( "tbltesistas", array(
+                'Clave'    =>sqlPassword($passCambio) 
+            ), $sess->userId);
+            $msg='Se realizo exitosamente el cambio de contraseña :   <br><b> Su nueva contraseña es :'.$passCambio.'</b>';
+            $this->logCorreo( $sess->userId, $sess->userMail, "Cambio de contraseña", $msg );
+            $this->logLogin( $sess->userId, "Cambio de contraseña" );
+            echo "";
+            return;
+        }
+        echo "La nuevas contraseñas no coinciden ";
     }
 
     public function lineasTes()

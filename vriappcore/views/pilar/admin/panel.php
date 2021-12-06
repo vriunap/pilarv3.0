@@ -1,5 +1,5 @@
     <!-- menu -->
-    <div class="col-md-12 panel-trabajo">
+    <div class="col-md-12 panel-trabajo"  style="background-color: white">
 
         <!-- Panel de Navegación -->
         <!--
@@ -91,7 +91,7 @@
           <ul class="nav nav-pills bderecha">
             <a onclick="lodPanel('admin/panelBusqa')" href="javascript:void(0)" class="list-group-item"><span class="glyphicon glyphicon-search"></span> <b>Búsquedas</b> </a>
             <a onclick="lodPanel('admin/panelOnBor')" href="javascript:void(0)" class="list-group-item"><span class="glyphicon glyphicon-search"></span> Activar Borrador </a>
-            <a href="#" class="list-group-item disabled" ><span class="glyphicon glyphicon-sunglasses"></span> Datos Tesista</a>
+            <a onclick="lodPanel('admin/panelListaTesista')" class="list-group-item" ><span class="glyphicon glyphicon-sunglasses"></span> Datos Tesista</a> <!--agregado unuv1.0 - Recuperacion de contraseña - tesista -->
 
             <a href="#" class="list-group-item disabled" ><span class="glyphicon glyphicon-book"></span> Reporte Tesista</a>
           </ul>
