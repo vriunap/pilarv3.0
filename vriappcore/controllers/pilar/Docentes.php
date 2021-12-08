@@ -82,6 +82,8 @@ class Docentes extends CI_Controller {
                 return;
             }
 
+
+
             // 5 - jefaturas :: 6 - Ordinarios
             if( $row->Activo <= 4 ) {
                 $estado = $this->dbRepo->getOneField( "dicEstadosDoc", "Nombre", "Id=$row->Activo" );
@@ -216,12 +218,45 @@ class Docentes extends CI_Controller {
             $this->logout();
             return;
         }
+        //agregado unuv1..0 - recuperacion de contraseña tesista
+        $row = $this->dbRepo->getSnapRow("tbldocentes","Id='$sess->userId'"); //busca datos del tesista
+        if($row->Clave == sqlPassword("Usu@rioUNU")) //creado 06/10/2021
+        { 
+            $this->load->view('pilar/doc/header');
+            $this->load->view("pilar/doc/RecuperarPass");
+         }
+        else
+        {
+            $this->load->view('pilar/doc/header');
+            $this->load->view('pilar/doc/menu', array('sess'=>$sess) );
+            $this->load->view('pilar/doc/panel');
+        }  
 
 
-        $this->load->view('pilar/doc/header');
-        $this->load->view('pilar/doc/menu', array('sess'=>$sess) );
-        $this->load->view('pilar/doc/panel');
+       
         //print_r( $_SESSION );
+    }
+
+    //Agregado unuv1.0 - recuperacion de contraseña docente
+    public function CambiarPass()
+    {
+        $this->gensession->IsLoggedAccess();
+        $sess = $this->gensession->GetData();
+        if(!$sess){ echo "Por favor Logearse para poder realizar la modificación ";}        
+        $passCambio = mlSecurePost( "passCambio" );
+        $passCambio2 = mlSecurePost( "passCambio2" );       
+        if($passCambio == $passCambio2)
+        {
+            $this->dbRepo->Update( "tbldocentes", array(
+                'Clave'    =>sqlPassword($passCambio) 
+            ), $sess->userId);
+            $msg='Se realizo exitosamente el cambio de contraseña :   <br><b> Su nueva contraseña es :'.$passCambio.'</b>';
+            $this->logCorreo( $sess->userId, $sess->userMail, "Cambio de contraseña", $msg );
+            $this->logLogin( $sess->userId, "Cambio de contraseña" );
+            echo "";
+            return;
+        }
+        echo "La nuevas contraseñas no coinciden ";
     }
 
 

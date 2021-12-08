@@ -1,11 +1,20 @@
-<div class="row">
-    <div class="col-md-9">
-        <b> <?php echo $estado . " - [ $rowDoc->Apellidos $rowDoc->Nombres ]"; ?> </b>
-        - <small>( <?php echo $rowDoc->Edad>150? "Ingrese FechNacim" : $rowDoc->Edad ?> ) - [Id:<?=$rowDoc->Id?>] </small>
-        <hr>
+<center><h3> Modificar Docente </h3></center>
+<div class="row" style="border: 1px solid #C0C0FF; padding: 10px">
 
+    <div class="col-md-12">
+        <div class="col-md-11">
+            <b> <?php echo $estado . " - [ $rowDoc->Apellidos $rowDoc->Nombres ]"; ?> </b>
+            - <small>( <?php echo $rowDoc->Edad>150? "Ingrese FechNacim" : $rowDoc->Edad ?> ) - [Id:<?=$rowDoc->Id?>] </small>
+        </div>
+        <div class="col-md-1">
+            <a onclick="lodPanel('admin/panelLista')" class="btn btn-danger btn-block" href="javascript:void(0)" ><span class="glyphicon glyphicon-off"></span> Salir </a>           
+        </div>
+    </div>
+    <div class="col-md-12">
+        <hr>
         <form class="form-horizontal" name="fomdoc" method=post onsubmit="sndLoad('admin/execEditDocRepo',new FormData(fomdoc))">
         <fieldset>
+            <div class="col-md-6">
             <!-- Select input-->
             <div class="form-group">
               <label class="col-md-3 control-label"> <i>Categoria</i> </label>
@@ -94,10 +103,7 @@
                 <div class="col-md-9">
                     <input name="resolCon" id="resolCon" type="text" class="form-control input-md" value="<?=$rowDoc->ResolCon?>">
                 </div>
-            </div>
-            <hr>
-
-
+            </div>            
             <!-- Text input-->
             <div class="form-group">
                 <label class="col-md-3 control-label"> DNI </label>
@@ -112,6 +118,8 @@
                     <input name="codigo" type="text" class="form-control input-md" value="<?=$rowDoc->Codigo?>">
                 </div>
             </div>
+            </div>
+            <div class="col-md-6">
             <!-- Text input-->
             <div class="form-group">
                 <label class="col-md-3 control-label"> Apellidos </label>
@@ -214,11 +222,12 @@
                     <input type="submit" class="btn btn-success col-xs-12" value="Grabar Edición">
                 </div>
             </div>
+        </div>
         </fieldset>
         </form>
     </div>
 
-    <div class="col-md-3">
+    <!--<div class="col-md-1">
         <b>DATOS PARTICULARES</b><hr>
         <?PHP
             if( !$rowDoc->DNI ){
@@ -233,7 +242,7 @@
                 echo "<img width=100% src='$media->huella' class='img-responsive'>";
             }
         ?>
-    </div>
+    </div>-->
 
 </div>
 

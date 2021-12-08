@@ -603,19 +603,31 @@ class Admin extends CI_Controller {
     {
         $this->gensession->IsLoggedAccess( PILAR_ADMIN );
 
+        $facul = mlSecurePost( "epss" );
+        $filtro='';
+        if($facul!=''){
+            $filtro='AND IdFacultad='.$facul;
+        }
+        $tdocen = $this->dbRepo->getSnapView( "vwDocentes", "Edad<=150 ".$filtro." ORDER BY IdCarrera, Edad DESC ");
+        $tuniver = $this->dbRepo->getSnapView( "dicuniversidades","", "ORDER BY Nombre ");
+
         $this->load->view( "pilar/admin/repoDocen", array (
                 'tcateg' => $this->dbRepo->getTable( "dicCategorias" ),
                 'tfacus' => $this->dbRepo->getTable( "dicFacultades" ),
-                'tdocen' => $this->dbRepo->getSnapView( "vwDocentes", "Edad<=150 ORDER BY IdCarrera, Edad DESC" )
+                'tdocen' => $tdocen,
+                'tuniversidad' =>  $tuniver,
+                'facul'  => $facul
             ) );
     }
-
+    //modificado unuv1-0 - mantenimiento docente
     public function getLeData( $dni="" )
     {
         $this->gensession->IsLoggedAccess( PILAR_ADMIN );
 
         if( ! $dni ) return;
-        echo $this->genapi->getDataBasic( $dni );
+       // echo $this->genapi->getDataBasic( $dni ); - Comentado por Bet
+        $res =$this->dbRepo->getSnapRow( "tblcandidatosdocentes", "dni=$dni" );
+        echo json_encode($res);
     }
 
     public function panelPilar()
@@ -852,7 +864,6 @@ class Admin extends CI_Controller {
         print_r( $ci->router->fetch_class() );
         */
     }
-
     //
     // rechazar proyecto de tesis por mal formato
     //
@@ -1583,6 +1594,37 @@ class Admin extends CI_Controller {
          }             
     }
 
+    //agregado unuv1.0 - Recuperacion de contraseñas Docente
+    public function RestaurarContraseDocente( $codigo=0)
+    {
+       $this->gensession->IsLoggedAccess( PILAR_ADMIN );
+        $expr = $codigo;
+        $nuevacon = mlSecureRequest('contra')  ;
+       
+        if( ! $expr ) return;
+
+        if( $row = $this->dbRepo->getSnapRow("tbldocentes","Id='$expr'") ) 
+        {
+           $this->dbRepo->Update( 'tbldocentes', array(
+                'Clave'    => sqlPassword($nuevacon)
+            ), $expr);           
+
+              $msg = "Hola $row->Nombres <br><br>"
+              ."Solicitó un restablecimiento de contraseña para el ingreso a la Plataforma PILAR <br> "
+             . "Contraseña por defecto : <b>$nuevacon</b><br><br>"
+             . "Nota : Se recomienda modificar su contraseña. 
+                <br>"  ;
+
+           $this->logLogin( $row->Id, "Restablecer Contaseña Docente" );
+           $this->logCorreos( 0,$row->Id, $row->Correo, "Restablecer Contaseña Docente", $msg );
+
+            echo "Se notifico al correo del Docente la contraseña por defecto.";
+        }
+        else{       
+        echo "Error no existe Docente, por favor revisar la base de datos. ";  
+         }             
+    }
+
     //agregado unuv1.0 - Recuperacion de contraseñas tesista
     public function logLogin( $idUser, $obs )
     {
@@ -2255,7 +2297,7 @@ class Admin extends CI_Controller {
         $idTram = mlGetGlobalVar( "pCodTram", null );
     }
 
-
+    //modificado unuv1.0 - Mantenimiento Docente
     public function dataDocen( $id=0 )
     {
         $this->gensession->IsLoggedAccess( PILAR_ADMIN );
@@ -2265,8 +2307,8 @@ class Admin extends CI_Controller {
         $rowDoc = $this->dbRepo->getSnapRow( "vwDocentes", "Id=$id" );
         if( !$rowDoc ) return;
 
-        $media = $this->genapi->getDataPer( $rowDoc->DNI );
-
+        //$media = $this->genapi->getDataPer( $rowDoc->DNI ); Comentado por bet
+         $media =$this->dbRepo->getSnapRow( "tblcandidatosdocentes", "dni=$rowDoc->DNI" );
         // compatible con tblEstadoDocente
         //
         if( $rowDoc->Activo  < 0 )  $estado = "Fallecido" ;
@@ -2296,17 +2338,19 @@ class Admin extends CI_Controller {
 
 	// activacion de docentes
 	//
-    public function listDocRepo( )
+    //modificado unuv1.0 - Mantenimiento Docente
+    public function listDocRepo( $codigo)
     {
-        $this->gensession->IsLoggedAccess( PILAR_ADMIN );
-        $expr = mlSecurePost("expr");
+
+       $this->gensession->IsLoggedAccess( PILAR_ADMIN );
+        $expr = $codigo;
 
         if( !$expr ) return;
 		$filtro = is_numeric($expr)? "DNI LIKE '$expr%'" : "DatosPers LIKE '%$expr%'";
 
         // listado por grupos de nombres
         //
-        $rowDoc = $this->dbRepo->getSnapView( "vwDocentes", $filtro );
+        $rowDoc = $this->dbRepo->getSnapView( "vwDocentes", "Id=$codigo" );
         if( $rowDoc->num_rows() >= 2 ){
             $nro = 0;
             echo "<table class='table table-striped table-bordered' style='font-size: 12px'>";
@@ -2331,7 +2375,7 @@ class Admin extends CI_Controller {
 
 
 	// editar datos de docentes e historia de cambios
-	//
+	//Modificacion unuv1.0 - Mantenimiento Docente
 	public function execEditDocRepo()
 	{
 		$this->gensession->IsLoggedAccess( PILAR_ADMIN );
@@ -2367,7 +2411,7 @@ class Admin extends CI_Controller {
 		$rowDoc = $this->dbRepo->getSnapRow( "tblDocentes", "Id='$idDoc'" );
 
 
-		echo "Procesando...";
+		//echo "Procesando...";
 		if( $cambest == "si" ) {
 
 			$this->dbRepo->Insert( "tblLogDocentes", array(
@@ -2434,8 +2478,58 @@ class Admin extends CI_Controller {
 	}
 
 
+   //Agregar unuv1.0 - Mantenimiento Docente
+    public function DocenteGrados($iddocen)
+    {
+        $this->gensession->IsLoggedAccess( PILAR_ADMIN );
+        $graDoc = $this->dbPilar->getTable("docEstudios","IdDocente=$iddocen");
+        
+        foreach( $graDoc->result() as $row ) 
+            {              
+              echo "<tr>";
+                echo "<td> $row->AbrevGrado   </td>";
+                echo "<td>$row->Mencion</td>";
+                echo "<td>$row->Universidad</td>";
+                echo "<td>$row->Fecha</td>";
+                echo "<td>$row->Archivo</td>";
+              echo "</tr>";   
+            }    
+
+    }
+    //Agregar unuv1.0 - Mantenimiento Docente
+    public function AgregarGrados()
+    {
+        $this->gensession->IsLoggedAccess( PILAR_ADMIN );
+
+        $iddoce = mlSecurePost( "doc" );
+        $universidad = mlSecurePost( "universidad" );
+        $abrev = mlSecurePost( "abrev" );
+        $fecha = mlSecurePost( "fecha" );
+        $mencion = mlSecurePost( "mencion" );
+        $nomarch = mlSecurePost( "nomarch" );
+
+        $Doc = $this->dbRepo->getTable("tblDocentes","Id=$iddoce");
+        if( !$Doc ) return;
+
+        $nombresAbrev = array( 1 => 'DR.',
+                               2 => 'MG.',
+                               3 => 'ING.',
+                               4 => 'BACH.');
+        $nombreUni = $this->dbRepo->getSnapRow("dicuniversidades","Id=$universidad");
+        $this->dbPilar->Insert("docEstudios", array(
+            'IdDocente'  => $iddoce,     
+            'Universidad' => $nombreUni->Nombre,    
+            'IdGrado'      => $abrev,  
+            'AbrevGrado' => $nombresAbrev[$abrev],
+            'Mencion' => $mencion,
+            'Archivo' => '--',
+            'Fecha' => $fecha
+        )); 
+        echo $iddoce;
+    }
+
 	// ingresar nuevo docente en repositior pass 123
-	//
+	//Modificado unuv1.0 - mantenimiento Docente
 	public function execNewDocRepo()
 	{
 		$this->gensession->IsLoggedAccess( PILAR_ADMIN );
@@ -2490,16 +2584,25 @@ class Admin extends CI_Controller {
 			) );
 
 
-		$msg = "<h4>Bienvenido</h4><br>"
-			 . "Sr(a). <b>$nombes $apells</b> <br>"
-             . "Ud. ha sido agregado como Docente y Jurado a la <b>Plataforma PILAR</b>."
-             ;
+            $msg = "<h4>Bienvenido</h4>"
+            . "Sr(a). <b>$nombes $apells</b> <br>"
+            . "Ud. ha sido agregado como Docente y Jurado a la <b>Plataforma PILAR</b>.";
+
+       $msg1 = "<h4>Bienvenido</h4>"
+            . "Sr(a). <b>$nombes $apells</b> <br>"
+            . "Ud. ha sido agregado como Docente y Jurado a la <b>Plataforma PILAR</b>."
+            . "<br><br><b>Datos de su Cuenta:</b><br>"
+                . "  * usuario: $correo<br>"
+                . "  * contraseña: $clave<br>"
+           . "<br> Nota: Se recomienda cambiar la contraseña una vez ingresada a la Plataforma PILAR."
+            ;
 
 
-		// grabar en LOG de correos y envio mail.
-		$this->logCorreo( 0, $correo, "Inscripcion de Docente Nuevo", $msg );
 
-		echo $msg;
+       // grabar en LOG de correos y envio mail.
+       $this->logCorreo( 0, $correo, "Inscripcion de Docente Nuevo", $msg1 );
+
+       echo "Se ha creado al docente como parte de PILAR";
 	}
 
     public function listCboCarrs( $idFacu=0, $marcado=0 )
