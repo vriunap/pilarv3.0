@@ -132,7 +132,7 @@ class Web extends CI_Controller {
             [DIPL_FEC] => 27/12/2012
             [RESO_FEC] => 27/12/2012
             [ESSUNEDU] => 0
-            [UNIV] => UNIVERSIDAD NACIONAL DEL ALTIPLANO
+            [UNIV] => Universidad Nacional de Ucayali
             [PAIS] => PERU
             [COMENTARIO] => -
             [TIPO] => N

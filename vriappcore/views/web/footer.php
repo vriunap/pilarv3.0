@@ -5,9 +5,9 @@
 						<div class="col-xs-12 col-sm-6 col-md-4 footer-info">
 
 							<div class="footer-item paddington30 bg-3">
-								<a href="principal.html" id="footer-logo" class="site-logo">Universidad Nacional del Altiplano</a>
+								<a href="principal.html" id="footer-logo" class="site-logo">Universidad Nacional de Ucayali</a>
 
-								<p id="footer-slogan">Universidad Nacional del Altiplano</p>
+								<p id="footer-slogan">Universidad Nacional de Ucayali</p>
 
 									Mail - 1: <a href="mailto:vriunap@gmail.com">viceinvestigacion@unap.edu.pe</a><br>
 									Mail - 2: <a href="mailto:vriunap@gmail.com">dginvestigacion@unap.edu.pe</a>

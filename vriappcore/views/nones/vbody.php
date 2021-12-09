@@ -202,7 +202,7 @@
     <small>
     <b>Oficina de Plataforma, Investigación y Desarrollo</b> <br>
     Vicerrectorado de Investigación <br>
-    Universidad Nacional del Altiplano - Puno
+    Universidad Nacional de Ucayali - PUCALLPA
     </small>
 </center>
 -->

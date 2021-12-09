@@ -90,7 +90,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" rel="home" href="#" title="Universidad Nacional del Altiplano | Vicerrectorado de Investigación">
+            <a class="navbar-brand" rel="home" href="#" title="Universidad Nacional de Ucayali | Vicerrectorado de Investigación">
             </a>
         </div>
 
@@ -140,7 +140,7 @@
                  <h1>TESIS EN TRES MINUTOS 
                  (3MT® UNA-PUNO)</h1>
                  <section>
-                La Universidad Nacional del Altiplano ( UNA – Puno) y el Vicerrectorado de Investigación, convocan al segundo concurso de exposición y presentación de trabajos de tesis en idioma inglés, denominado “Tesis en 3 Minutos” (3MT® UNA-Puno), buscando premiar a los tesistas de pregrado que expliquen mejor al público no especializado la importancia de su trabajo de investigación y su aporte en la solución de problemas de la sociedad, con lo que se pretende contribuir en la formación de los futuros investigadores egresados de nuestra Universidad.
+                La Universidad Nacional de Ucayali ( UNA – Puno) y el Vicerrectorado de Investigación, convocan al segundo concurso de exposición y presentación de trabajos de tesis en idioma inglés, denominado “Tesis en 3 Minutos” (3MT® UNA-Puno), buscando premiar a los tesistas de pregrado que expliquen mejor al público no especializado la importancia de su trabajo de investigación y su aporte en la solución de problemas de la sociedad, con lo que se pretende contribuir en la formación de los futuros investigadores egresados de nuestra Universidad.
 
                 Este concurso, en su nombre original, Three Minutes Thesis 3MT® ha sido desarrollado por la Universidad de Queensland (UQ) Australia, desde el año 2008, debido a su éxito ha sido replicado en varias otras universidades y ha dado origen a una versión internacional e interinstitucional del mismo concurso.
                  </section>

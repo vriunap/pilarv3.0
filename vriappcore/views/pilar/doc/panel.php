@@ -3,7 +3,7 @@
 			<div class="col-md-12">
 			<h1 class="titulo">PILAR</h1>
 			<div class="col-md-12 docente-inicio">
-			<p>La Universidad Nacional de Ucayali mediante RESOLUCIÓN Nº377-2020-UNU-CU-R <b>“Convenio Específico de Cooperación Interinstitucional entre la Universidad Nacional de Ucayali y la Universidad Nacional del Altiplano de Puno Nº007-2020/UNU-UNA”</b> pone a disposición la Plataforma <i>PILAR</i>  
+			<p>La Universidad Nacional de Ucayali mediante RESOLUCIÓN Nº377-2020-UNU-CU-R <b>“Convenio Específico de Cooperación Interinstitucional entre la Universidad Nacional de Ucayali y la Universidad Nacional de Ucayali de Puno Nº007-2020/UNU-UNA”</b> pone a disposición la Plataforma <i>PILAR</i>  
             para Docentes, Tesistas y Coordinadores; contando con la información disponible para realizar la
             subida, calificacion, revisión y posterior dictaminación de proyectos de investigación de pregrado
             conducentes a la obtención del título profesional. </p>

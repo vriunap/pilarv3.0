@@ -93,7 +93,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" rel="home" href="#" title="Universidad Nacional del Altiplano | Vicerrectorado de Investigación">
+            <a class="navbar-brand" rel="home" href="#" title="Universidad Nacional de Ucayali | Vicerrectorado de Investigación">
             </a>
         </div>
 
@@ -145,7 +145,7 @@
                  <section>
                  Este concurso, en su nombre original, Three Minutes Thesis 3MT® ha sido desarrollado por la Universidad de Queensland (UQ) Australia, desde el año 2008, debido a su éxito ha sido replicado en varias otras universidades y ha dado origen a una versión internacional e interinstitucional del mismo concurso.
 
-                 El concurso organizado por el Vicerrectorado de Investigación de la Universidad Nacional del Altiplano se llevó acabo el primero de Junio del 2017 en el Auditorio Magno de la Ciudad Universitaria
+                 El concurso organizado por el Vicerrectorado de Investigación de la Universidad Nacional de Ucayali se llevó acabo el primero de Junio del 2017 en el Auditorio Magno de la Ciudad Universitaria
 
                  </section>
 

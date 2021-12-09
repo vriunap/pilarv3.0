@@ -1014,7 +1014,7 @@ class Docentes extends CI_Controller {
         $pdf->Ln(5);
 
 
-        $str = "SEÑOR VICERRECTOR DE INVESTIGACIÓN DE LA UNIVERSIDAD NACIONAL DEL ALTIPLANO - PUNO.";
+        $str = "SEÑOR VICERRECTOR DE INVESTIGACIÓN DE LA Universidad Nacional de Ucayali - PUCALLPA.";
 
         $pdf->SetFont( "Arial", "", 12 );
         $pdf->MultiCell( 165, 7, toUTF($str), 0, 'L' );
@@ -1049,7 +1049,7 @@ class Docentes extends CI_Controller {
 
         $pdf->Ln(5);
         $pdf->SetFont( "Arial", "", 11 );
-        $pdf->MultiCell( 165, 7, toUTF("Cumpliendo con lo solicitado, esta cuenta será utilizada únicamente para trabajos académicos o de investigación de la Universidad Nacional del Altiplano, por lo que acepto los reglamentos , condiciones* y políticas de uso de software, de lo contrario me someto a las auditorías y sanciones correspondientes. "), 0, 'J' );
+        $pdf->MultiCell( 165, 7, toUTF("Cumpliendo con lo solicitado, esta cuenta será utilizada únicamente para trabajos académicos o de investigación de la Universidad Nacional de Ucayali, por lo que acepto los reglamentos , condiciones* y políticas de uso de software, de lo contrario me someto a las auditorías y sanciones correspondientes. "), 0, 'J' );
 
         $pdf->Ln(7);
         $pdf->SetFont( "Arial", "", 11 );
@@ -1135,7 +1135,7 @@ class Docentes extends CI_Controller {
         $pdf->Ln(5);
 
 
-        $str = "EL VICERRECTORADO DE INVESTIGACIÓN DE LA UNIVERSIDAD NACIONAL DEL ALTIPLANO - PUNO.";
+        $str = "EL VICERRECTORADO DE INVESTIGACIÓN DE LA Universidad Nacional de Ucayali - PUCALLPA.";
 
         $pdf->SetFont( "Arial", "", 12 );
         $pdf->MultiCell( 165, 7, toUTF($str), 0, 'J' );
@@ -1247,7 +1247,7 @@ class Docentes extends CI_Controller {
         $pdf->Ln(5);
 
 
-        $str = "EL VICERRECTORADO DE INVESTIGACIÓN DE LA UNIVERSIDAD NACIONAL DEL ALTIPLANO - PUNO.";
+        $str = "EL VICERRECTORADO DE INVESTIGACIÓN DE LA Universidad Nacional de Ucayali - PUCALLPA.";
 
         $pdf->SetFont( "Arial", "", 12 );
         $pdf->MultiCell( 165, 7, toUTF($str), 0, 'J' );

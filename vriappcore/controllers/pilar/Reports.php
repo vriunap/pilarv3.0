@@ -934,7 +934,7 @@ public function comunicadoAmpCon(){
     . "<center> <img src='".base_url("vriadds/pilar/imag/pilar-head.jpg")."' height=60 ></img></center>"
     . "<div style='clear: both'></div>"
     . "<br> <p> $msg </p> <br><hr style='border:1px dotted #C0C0C0'> "
-    . "<p style='font-size:10px;font-weight:bold'> Universidad Nacional del Altiplano - Puno <br>"
+    . "<p style='font-size:10px;font-weight:bold'> Universidad Nacional de Ucayali - PUCALLPA <br>"
     . "Vicerrectorado de Investigación - VRI <br>Plataforma de Investigación y Desarrollo </p> </div></div>"
     . "</center> </body>";
 
@@ -1197,7 +1197,7 @@ public function RecuerdaFedu(){
         $cat=$this->dbRepo->getOneField("tblDocentes","IdCategoria","Id=$row->IdDoc");
         $cod=$this->dbRepo->getOneField("tblDocentes","Codigo","Id=$row->IdDoc");
         $avan=$this->dbFedu->getOneField("docInformes","Periodo","IdProy=$row->IdProy ORDER BY Id DESC");
-        $msg="Señor(a) $name <br>Docente de la UNA - Puno, <br> <br> Por medio del presente se le informa que deberá realizar su informe de avance del proyecto registrado para FEDU en el siguiente enlace: <a href='http://vriunap.pe/fedu'>http://vriunap.pe/fedu</a>, como máximo hasta el 18/09/2019 23:59:00 Hrs.<br><br>
+        $msg="Señor(a) $name <br>Docente de la UNA - PUCALLPA, <br> <br> Por medio del presente se le informa que deberá realizar su informe de avance del proyecto registrado para FEDU en el siguiente enlace: <a href='http://vriunap.pe/fedu'>http://vriunap.pe/fedu</a>, como máximo hasta el 18/09/2019 23:59:00 Hrs.<br><br>
             <br><b>Nota: </b><ul>
             <li>Recuerde que su proyecto actual deberá finalizar el 31 de Diciembre de 2019.</li>
             <li>Click en el enlace para descargar la directiva FEDU <a href='http://vriunap.pe/fedu/includefile/docs/reglamento_FEDU.pdf'>DESCARGAR</a></li>

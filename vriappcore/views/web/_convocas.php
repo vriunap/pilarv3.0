@@ -93,7 +93,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" rel="home" href="#" title="Universidad Nacional del Altiplano | Vicerrectorado de Investigación">
+            <a class="navbar-brand" rel="home" href="#" title="Universidad Nacional de Ucayali | Vicerrectorado de Investigación">
             </a>
         </div>
 

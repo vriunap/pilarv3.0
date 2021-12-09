@@ -1,6 +1,6 @@
 <!--
 --  Vicerrectorado de Investigación
---  Universidad Nacional del Altiplano
+--  Universidad Nacional de Ucayali
 --  ----------------------------------
 --
 --  Sitio Web Setiembre 2020 - version SSL/TLS
@@ -322,7 +322,7 @@
             <div class="col-sm-12 col-md-3 p-3">
                 <div class="footer-item">
                     <a href="" id="footer-logo" class="site-logo"> <img src="/vriadds/vri/web/logo_footer.png"> </a>
-                    <p id="footer-slogan">Universidad Nacional del Altiplano</p>
+                    <p id="footer-slogan">Universidad Nacional de Ucayali</p>
                     Mail - 1: viceinvestigacion@unap.edu.pe <br>
                     Mail - 2: dginvestigacion@unap.edu.pe
                     <div class="social-btn fondo-bottom">
@@ -410,7 +410,7 @@
         <div class="container text-center">
             <small> <b>Oficina de Plataforma de Investgación y Desarrollo</b> </small> <br>
             <small> Vicerrectorado de Investigación </small> <br>
-            <small> Universidad Nacional del Altiplano </small>
+            <small> Universidad Nacional de Ucayali </small>
             <p class="m-0 text-light">UNAP &copy; VRI <?=date("Y")?> </p>
         </div>
     </footer>

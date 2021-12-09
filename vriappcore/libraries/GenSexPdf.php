@@ -1,3 +1,4 @@
+
 <?php if ( ! defined('BASEPATH')) exit('No se permite el acceso directo al script');
 
 
@@ -142,7 +143,7 @@ class GenSexPdf extends FPDF {
     function Header3()
     {
         $this->SetFont('Arial','',7);
-        $this->Cell( 110, 4,'UNIVERSIDAD NACIONAL DEL ALTIPLANO - PUNO', 0, 0, "C", 0 );  $this->Cell( 80, 4,'' );  $this->Cell( 80, 4,'OFICINA DE RECURSOS HUMANOS', 0, 1, "C", 0 );
+        $this->Cell( 110, 4,'Universidad Nacional de Ucayali - PUCALLPA', 0, 0, "C", 0 );  $this->Cell( 80, 4,'' );  $this->Cell( 80, 4,'OFICINA DE RECURSOS HUMANOS', 0, 1, "C", 0 );
         $this->Cell( 110, 4, toUTF("FACULTAD DE $this->fac"), 0, 0, "C", 0 );             $this->Cell( 80, 4,'' );  $this->Cell( 80, 4,'UNIDAD DE CONTROL DE ASISTENCIA', 0, 1, "C", 0 );
         $this->Cell( 110, 4, toUTF("ESCUELA PROFESIONAL DE $this->car"), 0, 1, "C", 0 );
 

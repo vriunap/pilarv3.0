@@ -1,3 +1,4 @@
+
 <div class="modal fade" id="msgPosterX" role="dialog">
     <div class="modal-dialog">
 
@@ -33,7 +34,7 @@ $(document).ready(function(){
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" rel="home" href="<?=base_url("pilar")?>" title="Universidad Nacional del Altiplano | Vicerrectorado de Investigación">
+            <a class="navbar-brand" rel="home" href="<?=base_url("pilar")?>" title="Universidad Nacional de Ucayali | Vicerrectorado de Investigación">
                 <img class="img-responsive" style="max-width:160px; margin-top: -15px;"
                      src="<?=base_url("vriadds/pilar/imag/logos-u-v-p.png");?>">
             </a>
@@ -127,7 +128,7 @@ $(document).ready(function(){
         <div id="dvDisplay" class="alert alert-custom">
         <?php if( ! $sess ) { ?>
             <p>
-                El Repositorio Institucional Digital de la Universidad Nacional del Altiplano Puno,
+                El Repositorio Institucional Digital de la Universidad Nacional de Ucayali,
                 tiene como objetivo facilitar y mejorar la visibilidad de la producción cientifica y académica
                 permitiendo el acceso abierto a sus contenidos y garantizando la preservación y
                 mantenimiento de dicha producción, asegurando el acceso de la comunidad universitaria.
@@ -171,7 +172,7 @@ $(document).ready(function(){
       <!-- end -->
 
       <div class="col-md-12 bg-vino footer">
-        Universidad Nacional del Altiplano<br>
+        Universidad Nacional de Ucayali<br>
         Vicerrectorado de Investigación<br>
         Dirección General de Invesatigación<br>
         &copy; Plataforma de Investigación y Desarrollo</a>

@@ -35,7 +35,7 @@ class GenMailer extends CI_Email
              . "<img style='float: left' src='http://vriunap.pe/absmain/imgs/sm_vri.png' height=55> &nbsp;&nbsp; "
              . "<div style='clear: both'></div>"
              . "<hr> <p> $msg </p> <br><hr style='border:1px dotted #C0C0C0'> "
-             . "<p style='font-size:10px;font-weight:bold'> Universidad Nacional del Altiplano - Puno <br>"
+             . "<p style='font-size:10px;font-weight:bold'> Universidad Nacional de Ucayali - PUCALLPA <br>"
              . "Vicerrectorado de Investigación<br>Dirección General de Investigación<br> <small>Plataforma de Investigación y Desarrollo </small> </p> </div></div>"
              . "</center> </body>";
 
@@ -69,7 +69,7 @@ class GenMailer extends CI_Email
              . "<img src='http://vriunap.pe/absmain/imgs/sm_vri.png' height=55> &nbsp;&nbsp; "
              . "<img src='http://vriunap.pe/absmain/imgs/fedu.jpg' height=54> "
              . "<hr> <p align='justify'> $msg </p> <br><hr style='border:1px dotted #C0C0C0'> "
-             . "<p style='font-size:10px;font-weight:bold'> Universidad Nacional del Altiplano - Puno <br>"
+             . "<p style='font-size:10px;font-weight:bold'> Universidad Nacional de Ucayali - PUCALLPA <br>"
              . "Vicerrectorado de Investigación<br>Dirección General de Investigación<br> <small>Plataforma de Investigación y Desarrollo </small> </p> </div></div>"
              . "</center> </body>";
 
@@ -111,7 +111,7 @@ class GenMailer extends CI_Email
 
         $this->from('pilar@unu.edu.pe', 'Plataforma PILAR - UNU');
         $this->to( $mailx );
-        $this->cc('soporte_pilar@unu.edu.pe');
+        $this->cc('');
 
         $this->subject( $title );
         $this->message( $this->frmMsgPilar($msg) );
@@ -178,7 +178,7 @@ class GenMailer extends CI_Email
         $msgx = '<div style="background: linear-gradient(152deg, rgba(63,94,251,1) 0%, rgba(161,70,252,1) 50%);'
               . 'text-align: center; padding: 15px; border-bottom: 16px solid rgb(200,200,200)"> <img src="https://vriunap.pe/vriadds/epiei/finesi_rotulo.png" width=550> </div><br>'
               . "<p> $msg </p> <br><hr style='border:1px dotted #C0C0C0'> "
-              . "<p style='font-size:10px;font-weight:bold'> Universidad Nacional del Altiplano - Puno <br>"
+              . "<p style='font-size:10px;font-weight:bold'> Universidad Nacional de Ucayali - PUCALLPA <br>"
               . "<b>Facultad de Ingenieria Estadísitica e Informática</b> </p> </div></div>"
               . "</center> </body>";
 

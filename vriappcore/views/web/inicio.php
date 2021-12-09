@@ -65,7 +65,7 @@
             <p style="font-size: 150%">
              Vicerrectorado de Investigación
             </p>
-            Universidad Nacional del Altiplano - Puno<br><br>
+            Universidad Nacional de Ucayali - PUCALLPA<br><br>
 
             <text-anuncio> La platafoma de investigación y desarrollo  se encuentra en actualización </textoanuncio> 
             </div>

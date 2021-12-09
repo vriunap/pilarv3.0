@@ -90,7 +90,7 @@ class Web extends CI_Controller {
         $pdf->SetFont( "Arial", "B", 16 );
 
         $pdf->Ln(1);
-        $pdf->Cell( 172, 8, "UNIVERSIDAD NACIONAL DEL ALTIPLANO - PUNO", 0, 1, "C" );
+        $pdf->Cell( 172, 8, "Universidad Nacional de Ucayali - PUCALLPA", 0, 1, "C" );
         $pdf->Cell( 172, 8, toUTF($facultad), 0, 1, "C" );
         $pdf->Cell( 172, 8, toUTF($carrerap), 0, 1, "C" );
 
@@ -122,7 +122,7 @@ class Web extends CI_Controller {
 
         $pdf->Ln(17);
         $pdf->SetFont( "Arial", "B", 16 );
-        $pdf->Cell( 172, 6, toUTF("UNA - PUNO"), 0, 1, "C" );
+        $pdf->Cell( 172, 6, toUTF("UNA - PUCALLPA"), 0, 1, "C" );
         $pdf->Cell( 172, 6, toUTF("2018"), 0, 1, "C" );
 
         CodeQR( $pdf, 180, 265, "VRI UNA PUNO", 100 );
@@ -134,7 +134,7 @@ class Web extends CI_Controller {
         $pdf->SetFont( "Arial", "B", 14 );
 
         $pdf->Ln(1);
-        $pdf->Cell( 172, 8, "UNIVERSIDAD NACIONAL DEL ALTIPLANO - PUNO", 0, 1, "C" );
+        $pdf->Cell( 172, 8, "Universidad Nacional de Ucayali - PUCALLPA", 0, 1, "C" );
         $pdf->Cell( 172, 8, toUTF($facultad), 0, 1, "C" );
         $pdf->Cell( 172, 8, toUTF($carrerap), 0, 1, "C" );
         $pdf->SetFont( "Arial", "", 5 );

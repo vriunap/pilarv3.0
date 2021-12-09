@@ -109,7 +109,7 @@ class Admin extends CI_Controller {
 
         echo "<body style='font-family: Arial; font-size: 11px'> <center>";
         echo "<b> Listado de Tesis Registrados en Repositorio Institucional </b> <br>";
-        echo "<b> UNIVERSIDAD NACIONAL DEL ALTIPLANO - PUNO </b> <br><br>";
+        echo "<b> Universidad Nacional de Ucayali - PUCALLPA </b> <br><br>";
 
         echo "<table class='table table-condensed' style='font-size: 12px'>";
         echo "<tr style='font-weight:bold'>";
@@ -183,7 +183,7 @@ class Admin extends CI_Controller {
             $pdf->Cell( 170, 10, toUTF("CONSTANCIA"), 0, 1, 'C' );
 
 
-            $str = "El Repositorio Institucional de la Universidad Nacional del Altiplano. "
+            $str = "El Repositorio Institucional de la Universidad Nacional de Ucayali. "
                  . "Hace constar que:";
 
             $pdf->Ln(5);

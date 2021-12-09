@@ -75,7 +75,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12 footer"> <br>
-            <b>UNIVERSIDAD NACIONAL DEL ALTIPLANO - PUNO</b> <br>
+            <b>Universidad Nacional de Ucayali - PUCALLPA</b> <br>
             Repositorio Institucional - VRI UNAP <br>
             <b>Plataforma y Desarrollo - 2017</b>
         </div>

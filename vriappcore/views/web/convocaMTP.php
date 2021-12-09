@@ -164,7 +164,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" rel="home" href="#" title="Universidad Nacional del Altiplano | Vicerrectorado de Investigación">
+            <a class="navbar-brand" rel="home" href="#" title="Universidad Nacional de Ucayali | Vicerrectorado de Investigación">
             </a>
         </div>
 
@@ -227,7 +227,7 @@
 
                  <h1>MI PROYECTO DE TESIS EN UN PÓSTER</h1>
                  <section>
-                El concurso "Mi proyecto de tesis en un póster" es un concurso de comunicación de la investigación desarrollado por el Vicerrectorado de Investigación de la Universidad Nacional del Altiplano, en
+                El concurso "Mi proyecto de tesis en un póster" es un concurso de comunicación de la investigación desarrollado por el Vicerrectorado de Investigación de la Universidad Nacional de Ucayali, en
 el que los participantes deberán consolidar las ideas de su tesis y presentarlas de manera gráfica y creativa en un póster.
                  </section>
 

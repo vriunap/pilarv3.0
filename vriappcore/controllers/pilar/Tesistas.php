@@ -438,7 +438,7 @@ class Tesistas extends CI_Controller {
             echo "<center><img class='img-responsive' style='height:70px;' src='".base_url('vriadds/pilar/imag/pilar-tes.png')."'/> </center>";
             echo "<center><h2 class='text'>¿Presentación de Borrador de Tesis?</h2>";
             echo "<h4> Su proyecto tiene $dias dia(s) de Ejecución de un total de 90 mínimos. </h4> </center>";
-            echo "<p>Antes de continuar con el proceso usted deberá : <br>(a) Completar el tiempo mínimo. <br>(b) Poseer el grado académico de Bachiller.<br> Si cumple con los requisitos (a) y (b) está apto para proseguir con su trámite, de lo contrario deberá esperar hasta cumplir lo estipulado. <br> <div class='alert alert-warning'><b>Nota :</b> La información registrada será responsabilidad del usuario y tienen caracter de <b>Declaración Jurada</b>, de lo contrario estará sujeto a las sanciones que determine la Universidad Nacional del Altiplano de Puno. </p></div>";
+            echo "<p>Antes de continuar con el proceso usted deberá : <br>(a) Completar el tiempo mínimo. <br>(b) Poseer el grado académico de Bachiller.<br> Si cumple con los requisitos (a) y (b) está apto para proseguir con su trámite, de lo contrario deberá esperar hasta cumplir lo estipulado. <br> <div class='alert alert-warning'><b>Nota :</b> La información registrada será responsabilidad del usuario y tienen caracter de <b>Declaración Jurada</b>, de lo contrario estará sujeto a las sanciones que determine la Universidad Nacional de Ucayali de Puno. </p></div>";
 
             $consulta=$this->dbPilar->getOneField('tesTramsBach',"Id","Estado=1 AND IdTesista=$sess->userId");
 
@@ -739,7 +739,7 @@ class Tesistas extends CI_Controller {
 
 
         $strBloq = "Para dar fe de este proceso electrónico, el Vicerrectorado de Investigación de la Universidad "
-                 . "Nacional del Altiplano - Puno, mediante la Plataforma de Investigación se le asigna la presente "
+                 . "Nacional del Altiplano - PUCALLPA, mediante la Plataforma de Investigación se le asigna la presente "
                  . "constancia y a partir de la presente fecha queda expedito para la ejecución de su PROYECTO DE INVESTIGACIÓN DE TESIS.";
 
         $pdf->Ln(5);

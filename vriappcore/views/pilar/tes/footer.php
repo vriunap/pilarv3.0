@@ -1,5 +1,5 @@
 	<footer class="col-md-12">
-		<p class="text-right footer"> <?php echo "Tiempo de Carga: ".$this->benchmark->elapsed_time();?><br> &copy; Plataforma de Investigación y desarrollo <br> Vicerrectorado de Investigación <br> Universidad Nacional del Altiplano - Puno</p>
+		<p class="text-right footer"> <?php echo "Tiempo de Carga: ".$this->benchmark->elapsed_time();?><br> &copy; Plataforma de Investigación y desarrollo <br> Vicerrectorado de Investigación <br> Universidad Nacional de Ucayali - PUCALLPA</p>
 	</footer>
 		</div>
 </body>

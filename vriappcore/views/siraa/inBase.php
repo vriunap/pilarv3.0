@@ -118,7 +118,7 @@
 
           <div class="col-lg-4 col-md-6 footer-info">
             <h3>SIRAA 2019</h3>
-            <p>El presente foro internacional interuniversidades está bajo la organización de la Universidad Nacional del Altiplano de Puno, para la coordinación del Evento podemos usar los datos de contacto .</p>
+            <p>El presente foro internacional interuniversidades está bajo la organización de la Universidad Nacional de Ucayali de Puno, para la coordinación del Evento podemos usar los datos de contacto .</p>
           </div>
 
           <div class="col-lg-4 col-md-6 footer-links">
@@ -135,7 +135,7 @@
             <h4>Contacto</h4>
             <p>
               C.U. Puno<br>
-              Av. Floral Nº 1153 - Puno<br>
+              Av. Floral Nº 1153 - PUCALLPA<br>
               Puno - Perú<br>
               <strong>Telefono:</strong> +51 (051) 599430<br>
               <strong>Correo:</strong> - <br>
@@ -160,7 +160,7 @@
         &copy; Seminario Internacional: Resistencia a antibióticos: Amenaza global a la salud pública
       </div>
       <div class="credits">
-        <strong>Universidad Nacional del Altiplano Puno 2019</strong>
+        <strong>Universidad Nacional de Ucayali 2019</strong>
       </div>
     </div>
   </footer><!-- #footer -->
