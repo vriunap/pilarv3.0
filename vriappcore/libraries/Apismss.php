@@ -17,13 +17,13 @@ class Apismss {
         //     $this->password = $password;
         // }
         function __construct() {
-            $this->email = 'frd.torres@hotmail.com';
-            $this->password = 'adminfrd'; 
+            $this->email = 'betxy_rojas@unu.edu.pe';
+            $this->password = 'pilarunu'; 
         }
 
         public function delete($iddelete){
             $config = Configuration::getDefaultConfiguration();
-            $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTUzNzIyMjc0OSwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjUzMDUwLCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.mzWLDernjz4_ShVAuwYWud7B6TK7twvi7vEa_6Tb-oA');
+            $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTYzOTA3MTQ3NSwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjkxOTA2LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.sBSNu3_hmJxOEAzmRIp6pb-NbXQVkqBmUdogtIi2_mM');
             $apiClient = new ApiClient($config);
             $messageClient = new MessageApi($apiClient);
             // Cancel SMS Message
@@ -37,21 +37,21 @@ class Apismss {
                 ]);
                 print_r($canceledMessaged);
         }
-
+       
         public function sendMsj($celu,$tipo){
             $config = Configuration::getDefaultConfiguration();
-            $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTUzNzIyMjc0OSwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjUzMDUwLCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.mzWLDernjz4_ShVAuwYWud7B6TK7twvi7vEa_6Tb-oA');
+            $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTYzOTA3MTQ3NSwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjkxOTA2LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.sBSNu3_hmJxOEAzmRIp6pb-NbXQVkqBmUdogtIi2_mM');
             $apiClient = new ApiClient($config);
             $messageClient = new MessageApi($apiClient);
-            if($tipo==1)$mensaje="UNA VRI PILAR \nSeñor docente se le hace recuerdo que deberá de ingresar a la plataforma PILAR, se necesita su revisión.\nPuede acceder en http://vriunap.pe/pilar \n\n".date("d-m-Y");
-            if($tipo==2)$mensaje="UNA VRI PILAR \nSeñor docente exsiste PROYECTOS que requieren de su DICTAMEN URGENTE, ingrese a la plataforma PILAR..\nDirección web : http://vriunap.pe/pilar \n".date("d-m-Y");
+            if($tipo==1)$mensaje="UNU - PILAR \nEstimad@ Docente se le hace recuerdo que deberá de ingresar a la plataforma PILAR, ya que existen PROYECTOS que necesitan de su revisión.\nPuede acceder en http://pilar.unu.edu.pe/unu/pilar \n\n".date("d-m-Y");
+            if($tipo==2)$mensaje="UNU - PILAR \nEstimad@ docente existen PROYECTOS que requieren de su DICTAMEN URGENTE, ingrese a la plataforma PILAR..\nDirección web : http://vriunap.pe/pilar \n".date("d-m-Y");
             if($tipo==3)$mensaje="UNA VRI PILAR \nSeñor docente CONFIRME su participación en el programa LASPAU en la.\nDirección web : http://vriunap.pe/pilar \n".date("d-m-Y");
             if($tipo==4)$mensaje="UNA VRI PILAR \nPostulación CONFIRMADA.<br> Bienvenido al programa LASPAU.\nDirección web : http://vriunap.pe/pilar \n".date("d-m-Y");
             $sendMessages = $messageClient->sendMessages([   
                 new SendMessageRequest([
                     'phoneNumber' => "$celu",
                     'message' => $mensaje,
-                    'deviceId' => 102114
+                    'deviceId' => 126565
                 ]) 
             ]);
             return $sendMessages[0]['status'];
@@ -59,7 +59,7 @@ class Apismss {
 
         public function sendFeduMSJ($celu){
             $config = Configuration::getDefaultConfiguration();
-            $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTUzNzIyMjc0OSwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjUzMDUwLCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.mzWLDernjz4_ShVAuwYWud7B6TK7twvi7vEa_6Tb-oA');
+            $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTYzOTA3MTQ3NSwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjkxOTA2LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.sBSNu3_hmJxOEAzmRIp6pb-NbXQVkqBmUdogtIi2_mM');
             $apiClient = new ApiClient($config);
             $messageClient = new MessageApi($apiClient);
             $mensaje="UNA VRI PILAR FEDU \nSeñor docente se le hace recuerdo que NO realizó el informe de avance de su proyecto registrado en FEDU, puede realizarlo en las próximas 12 Horas en http://vriunap.pe/fedu caso contrario no se realizará la bonificiación correspondiente.\n\n".date("d-m-Y");
@@ -107,6 +107,21 @@ class Apismss {
         function sendMessageToNumber($to, $message, $device, $options=[]) {
             $query = array_merge(['number'=>$to, 'message'=>$message, 'device' => $device], $options);
             return $this->makeRequest('/api/v3/messages/send','POST',$query);
+        }
+
+        public function sendMessageToNumber2($celu,$mensaje){
+            $config = Configuration::getDefaultConfiguration();
+            $config->setApiKey('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTYzOTA3MTQ3NSwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjkxOTA2LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.sBSNu3_hmJxOEAzmRIp6pb-NbXQVkqBmUdogtIi2_mM');
+            $apiClient = new ApiClient($config);
+            $messageClient = new MessageApi($apiClient);           
+            $sendMessages = $messageClient->sendMessages([   
+                new SendMessageRequest([
+                    'phoneNumber' => "$celu",
+                    'message' => $mensaje,
+                    'deviceId' => 126565
+                ]) 
+            ]);
+            return $sendMessages[0]['status'];
         }
 
         function sendMessageToManyNumbers ($to, $message, $device, $options=[]) {

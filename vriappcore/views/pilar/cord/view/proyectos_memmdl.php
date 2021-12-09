@@ -3,7 +3,7 @@
 	$det=$this->dbPilar->getSnapRow("tesTramsDet","IdTramite=$tram->Id");
 	$opciones=  
 	"
-		<a href='javascript:void(0)' target=_blank class='btn btn-success btn-xs'><span class='glyphicon glyphicon-send'></span> Notificar Docente</a>
+		
 	";
 	$docu="<a href='".base_url("pilar/cordinads/memosGen/$tram->Id")."' target=_blank class='btn btn-info btn-xs'><span class='glyphicon glyphicon-print'></span> Imprimir Memo</a>";
 	// <a href='mundo' target=_blank class='btn btn-info btn-xs'><span class='glyphicon glyphicon-book'></span> Memo</a>
@@ -28,17 +28,17 @@
 				<tr>
 					<td>Presidente de Jurado</td>
 					<td><?php echo "[ $det->vb1 ]";?></td>
-					<td><?php echo $opciones;?></td>
+					<td><?php echo "<a href='".base_url("pilar/cordinads/notificarDocente/$tram->IdJurado1")."' target=_blank class='btn btn-success btn-xs'><span class='glyphicon glyphicon-send'></span> Notificar Docente</a>";?></td>
 				</tr>
 				<tr>
 					<td>Primer Miembro</td>
 					<td><?php echo "[ $det->vb2 ]";?></td>
-					<td><?php echo $opciones;?></td>
+					<td><?php echo "<a href='".base_url("pilar/cordinads/notificarDocente/$tram->IdJurado2")."' target=_blank class='btn btn-success btn-xs'><span class='glyphicon glyphicon-send'></span> Notificar Docente</a>";?></td>
 				</tr>
 				<tr>
 					<td>Segundo Miembro</td>
 					<td><?php echo "[ $det->vb3 ]";?></td>
-					<td><?php echo $opciones;?></td>
+					<td><?php echo "<a href='".base_url("pilar/cordinads/notificarDocente/$tram->IdJurado3")."' target=_blank class='btn btn-success btn-xs'><span class='glyphicon glyphicon-send'></span> Notificar Docente</a>";?></td>
 				</tr>
 			</tbody>
 		</table>

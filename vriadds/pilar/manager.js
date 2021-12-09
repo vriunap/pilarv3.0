@@ -31,6 +31,15 @@ function popProcede( urlink, arg )
     $("#nr"+item).fadeOut();
 }
 
+function popLoad( urlink, itm )
+{
+    item = itm;
+    jVRI("#vwCorrs").html( lodmsg );
+	jVRI("#vwCorrs").load( urlink );
+    $("#popOk").prop("disabled",false);
+	$("#dlgPan").modal();
+}
+
 function listDocRepo()
 {
     jVRI("#tblist").load( "admin/listDocRepo", new FormData(frmbusq) );

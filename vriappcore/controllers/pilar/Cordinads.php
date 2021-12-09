@@ -1384,24 +1384,32 @@ public function listPyDire( $idtram=0 )
 public function notiCelu($cel,$tip)
 {
  $this->load->library('apismss');
-
- $deviceID = 89014;
+ $deviceID = 126565;
  $number   = "0051$cel";
  if($tip==1){
-   $mensaje  = "UNAP VRI PILAR \nSr. Docente le llegó un nuevo proyecto en calidad de ASESOR de tesis, puede revisarlo en la plataforma PILAR en http://vriunap.pe/pilar,  \n\n".date("d-m-Y")."\nVicerrectorado de Investigación.";
+   $mensaje  = "UNU -PILAR \nEstimad@ Docente le llegó un nuevo proyecto en calidad de ASESOR de tesis, puede revisarlo en la plataforma PILAR en http://pilar.unu.edu.pe/unu/pilar,  \n\n".date("d-m-Y")."\nPlataforma PILAR.";
 }
-if($tip==3){
-   $mensaje  = "UNAP VRI PILAR \nSr. Docente usted fué SORTEADO como JURADO de tesis, puede revisarlo en la plataforma PILAR en http://vriunap.pe/pilar,  \n\n".date("d-m-Y")."\nVicerrectorado de Investigación.";
+else if($tip==3){
+   $mensaje  = "UNU PILAR \nEstimad@ Docente usted fué SORTEADO como JURADO de tesis, puede revisarlo en la plataforma PILAR en http://pilar.unu.edu.pe/unu/pilar  \n\n".date("d-m-Y")."\nPILAR.";
 }else{
-   $mensaje  = "UNAP VRI PILAR \nSr. Docente se le recuerda revisar, la plataforma PILAR en http://vriunap.pe/pilar y verificar los proyectos y borradores pendientes.\n\n".date("d-m-Y")."\nVicerrectorado de Investigación.";
+   $mensaje  = "UNU PILAR \nEstimad@ Docente se le recuerda revisar, la plataforma PILAR en http://pilar.unu.edu.pe/unu/pilar y verificar los proyectos y borradores pendientes.\n\n".date("d-m-Y")."\nPILAR.";
 }
-$result   = $this->apismss->sendMessageToNumber($number,$mensaje,$deviceID);
+$result   = $this->apismss->sendMessageToNumber2($number,$mensaje);
 
 if ($result) {
    return "Mensaje Enviado al $number";
 }else{
    return  "Error al enviar mensaje : $number";
 }
+}
+
+public function notificarDocente($idjurado)
+{
+   $this->gensession->IsLoggedAccess( PILAR_CORDIS );
+
+   $celu = $this->dbRepo->inCelu( $idjurado );   
+   $this->notiCelu($celu,2);
+   echo "<div class='col-md-12'><h3><img class='img-responsive' src='".base_url("vriadds/pilar/imag/sms1.png")."'> El mensaje de texto fue enviado correctamente</img></h3>"; ; 
 }
 
     //---------------------------------------------------------------------------------------
