@@ -97,7 +97,7 @@
         <div class="titulo">Reglamentos y Manuales</div>
         <div class="list-group">
           <ul class="nav nav-pills bderecha"> 
-            <a target="_blank" href="<?php echo base_url("vriadds/pilar/doc/PROPUESTA ACT. REG. GYT - PT - unuv1.0.pdf");?>" class="list-group-item blink"><span class="glyphicon glyphicon-book"></span> Reglamento Proyectos</span></a>
+          <a target="_blank" href="<?php echo base_url("vriadds/pilar/doc/ANEXO 1 - PROPUESTA ACT. REG. GYT - PT.pdf");?>" class="list-group-item blink"><span class="glyphicon glyphicon-book"></span> Reglamento Proyectos </a>
             <!--<a target="_blank" href="<?php echo base_url("vriadds/pilar/doc/resReglaBorrador.pdf");?>" class="list-group-item blink"><span class="glyphicon glyphicon-book"></span> Reglamento de Borrador</a>
             <a target="_blank" href="<?php echo base_url("web/etica");?>" class="list-group-item blink"><span class="glyphicon glyphicon-book"></span> Procedimientos Ética en Investigación  <span class="label label-warning"> Nuevo </span></a> // modificado unuv1.0 -->
             <hr>

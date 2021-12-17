@@ -39,7 +39,7 @@
 				$sess = $this->gensession->GetData();
 				$form=$this->dbRepo->getOneField("dicCarreras","RutaArchivo","Id=$sess->IdCarrera");
 			 ?>
-			<a href="<?php echo $form; ?>" 
+			<a target="_blank" href="<?php echo base_url("vriadds/pilar/doc/formatos/$form.pdf");?>"
 				class="list-group-item" 
 				style="color:white;background-color: #1a55bf;text-align: center; font-size: 16px;">
 				<span class="glyphicon glyphicon-plus-sign"></span> Descargar Formato: Proyecto de Tesis </a>
