@@ -18,7 +18,7 @@ include( "absmain/mlLibrary.php" );
 
 
 define( "PILAR_CORDIS", "AdmCoords" );
-define( "ANIO_PILAR", "2020" );
+define( "ANIO_PILAR", "2021" );
 
 
 class Cordinads extends CI_Controller { 
@@ -30,7 +30,7 @@ class Cordinads extends CI_Controller {
 *      (3) Notificó a un Docente que tiene proyectos pendientes
 *      (3) Revisar formato  y pasar el proyecto al director.
 *      (4) Validar Linea de Investigación
-*      (4) Rechazar Proyecto de Tesis por FORMATO
+*      (5) Rechazar Proyecto de Tesis por FORMATO
 *
 *      $operaciones=array(
       1   =>'Actualizó el estado de un docente',
@@ -38,6 +38,7 @@ class Cordinads extends CI_Controller {
       3   =>'Publica Sustentación',
       4   =>'Validar Linea de Investigación',
       5   =>'Acceso a Cuenta'
+      6   => 'Genero Acta de Sustentación'
 );
 *
 **************************************************************************/
@@ -70,11 +71,15 @@ public function index()
 
    $sess = $this->gensession->GetSessionData(PILAR_CORDIS);
    if( !$sess ){
-//echo "Err no sess";
+      //echo "Err no sess";
       redirect( base_url("pilar"), 'refresh');
       return;
    }
 
+   if( $sess->status==0 ){
+      $this->logout();
+      return;
+   }
 
 
    // Área de Administración del Administrador
@@ -135,6 +140,13 @@ public function vwProy2018(){
 public function vwDocentes(){
    $this->load->view('pilar/cord/view/docentes');
 }
+
+// Vista de Docentes Cordinador
+public function vwFedu(){
+   $this->load->view('pilar/cord/info/fedu');
+
+}
+
 // js Docente Info
 public function jsmdlDocInfo($idDoc){
    $this->load->view("pilar/cord/view/docentes_infomdl",array('IdDocente' =>$idDoc));
@@ -152,7 +164,7 @@ public function jsUpdateEstadoDoc()
    $just = mlSecurePost("just");
    $detalle = mlSecurePost("detalle");
 // Insertamos el Log de Cambio de Estaodo 
-   $this->logCordinads("C","1",$just,"($idDoc to $idStado )$detalle ");
+   $this->logCordinads("C","1","Cambio estado Docente : $just","($idDoc to $idStado )$detalle ");
 // Cambiamos el Estado de Docente
    $this->dbRepo->Update('tblDocentes',array('Activo'=>$idStado),$idDoc);
 // Log Estado Docentes
@@ -326,7 +338,9 @@ public function evaluaSusten($cod){
    } 
    if($this->dbPilar->getSnapRow("tesSustens","Codigo=$cod")){
       echo "La sustentación ya fue publicada";
+      return;
    }
+
    $idPy=$this->dbPilar->getOneField("tesTramites","Id","Codigo='$cod'");
    $proyecto=$this->dbPilar->inTitulo($idPy);
    $tesistas=$this->dbPilar->inTesistas($idPy);
@@ -336,6 +350,8 @@ public function evaluaSusten($cod){
    <input class='form-control' type='hidden' id='idBorr'name='idBorr' value='$idPy'>
    <input class='form-control' type='hidden' id='codBorr'name='codBorr' value='$cod'>
    <input class='form-control' type='text' id='nombresust' value='$tesistas' disabled>";
+
+   echo "<label>Sustentación :</label>";
 
    echo "<label>Fecha de Dictamen:</label>";
 
@@ -362,6 +378,108 @@ public function evaluaSusten($cod){
 
 
 }
+
+
+public function EvaluaActaSusten($idtram){
+   // $cod=mlSecurePost('cod');
+   $tesis=$this->dbPilar->getSnapRow("tesTramites","Id='$idtram'");
+   if(!$tesis){
+      echo "$idtram :: No corresponde";
+      return;
+   }
+   if($tesis->Estado<13){
+      echo "Este codigo no corresponde ::$idtram"; 
+      return;
+   } 
+
+   $idPy=$this->dbPilar->getOneField("tesTramites","Id","Id='$idtram'");
+   $proyecto=$this->dbPilar->inTitulo($idPy);
+   $tesistas=$this->dbPilar->inTesistas($idPy);
+
+   echo "<br><hr><form method='POST' class='form-horizontal' name='evalSusten' method='post' >
+   <h4>Generación de Acta de Exposición y Defensa </h4>
+
+   <p>Esta Operación será registrada a su nombre, por cuanto es importante describir la motivación para llevar este procedimiento . </p>
+
+   <label class='control-label'>Tesista :</label>  
+   <input class='form-control' type='hidden' id='idBorr'name='idBorr' value='$idPy'>
+   <input class='form-control' type='text' id='nombresust' value='$tesistas' disabled>";
+
+   echo "<label>Sustentación :</label>";
+
+   echo "<label class='control-label'> Motivo  / Grabación de Sala:</label>
+   <input type='text' class='form-control' id='motiv' name='motiv' placeholder=' El docente PEREZ PEREZ, JUAN  no ha asistido al acto de sustentación , cuya deliveración se encuentra grabada en el siguiente enlace' required>";
+
+   echo "<br><div class='col-md-4'></div><button type='button' class='btn btn-info' onclick=\"LoadForm('postSusten','cordinads/procesaActaSust  ',evalSusten)\">
+   <span class='glyphicon glyphicon-send'></span> Generar Acta 
+   </button>";
+   echo "<form></div>";
+   echo "</div>";
+
+   
+}
+
+ 
+public function procesaActaSust(){
+
+   $idtram = mlSecurePost("idBorr");
+   $motiv = mlSecurePost("motiv");
+
+   $dets = $this->dbPilar->inTramDetIter( $idtram, 5 );
+   $tram = $this->dbPilar->inProyTram( $idtram );
+   // $total = $dets->vb1 + $dets->vb2 +$dets->vb3+$dets->vb4;
+   $bum1=($dets->vb1!=-1?1:0);
+   $bum2=($dets->vb2!=-1?1:0);
+   $bum3=($dets->vb3!=-1?1:0);
+   $bum4=($dets->vb4!=-1?1:0);
+   $total = $bum1+$bum2+$bum3+$bum4;
+
+   if($total >= 3){
+      $total=0;
+      $boo1=($dets->vb1!=-1?$dets->vb1:0);
+      $boo2=($dets->vb2!=-1?$dets->vb2:0);
+      $boo3=($dets->vb3!=-1?$dets->vb3:0);
+      $boo4=($dets->vb4!=-1?$dets->vb4:0);
+      $total=$boo1+$boo2+$boo3+$boo4;
+
+       $ptj=($total>=6?"Aprobado con Distinción":($total>=3?"Aprobado":"Desaprobado"));
+       $dict=($total>=6?"2":($total>=3?"1":"0"));
+       $sust=$this->dbPilar->getSnaprow('tesSustensSolic',"IdTramite=$idtram");
+       $this->dbPilar->Update("tesSustensSolic",array('Estado'=>3),$sust->Id);
+       $this->dbPilar->Update("tesTramites",array('Tipo'=>3),$sust->Id);
+       $value=$this->dbPilar->getOneField('tesSustenAct',"Num"," IdTramite>0 ORDER BY Num DESC");
+       $num=($value?$value:0);
+       // 
+       $sustentado=$this->dbPilar->getSnapRow("tesSustenAct","IdTramite=$idtram");
+       if($sustentado){
+           echo "Acta registrada con anterioridad.";
+           return;              
+       }
+       // 
+       $this->dbPilar->Insert( "tesSustenAct", array(
+           'IdTramite'  => $tram->Id,  ///// 1, 4,
+           'IdCarrera'  => $tram->IdCarrera,
+           'Dictamen'   => $dict,
+           'Fecha'      => mlCurrentDate(),
+           'Num'        => $num+1,
+           'Obs'        => $ptj,
+           'ExtraObs'   => $motiv
+       ) );
+
+       $this->logCordinads("C","8","Genero Acta de Exposición y Defensa ","($tram->Id) Se generó el Acta de Sustentación ");
+       echo "Registrado en el historial del usuario de la Unidad.";
+
+
+   }else{
+      echo "Confirmar la Asistencia de almenos 03 miembros del jurado dictaminador.";
+   }
+
+   echo "Acta de Exposición y defensa generada desde la Unidad de Investigación.";
+
+   echo " <a href='javascript:void(0)' onclick=\"lodPanel('panelCord','cordinads/vwSustentacVir')\"class='btn btn-primary'><span class='glyphicon glyphicon glyphicon-calendar'></span> Listar Sustentaciones Virtuales</a>";
+
+}
+
 // Log de Actividades del Coordinador
 private function logCordinads($tipo, $IdOpe, $just, $detalle )
 {
@@ -586,7 +704,7 @@ public function login()
    if( ! $this->dbPilar->getSnapRow( "tblSecres", "Usuario='$user'" ) ) {
       echo '[{"error":true, "msg":"Este usuario no está registrado"}]';
       return;
-   }
+   } 
 
 // ahora si comprobar cuenta
    $row = $this->dbPilar->loginByUser( "tblSecres", $user, $pass );
@@ -595,7 +713,8 @@ public function login()
       return;
    }
 //public function SetCordLogin( $sessName, $userId, $userName, $userAlias,$userFacu,$userLevel=0 )
-   $this->gensession->SetCordLogin(PILAR_CORDIS,$row->Id,$row->Resp,$row->Id_Facultad,$row->UserLevel);
+   $this->gensession->SetCordLogin(PILAR_CORDIS,$row->Id,$row->Resp,$row->Id_Facultad,$row->UserLevel,$row->Estado);
+
    echo '[{"error":false, "msg":"OK, Redirecciónando al panel de trabajo."}]';
    // echo '[{"error":false, "msg":"OK, Estamos redireccionando..."}]';
    //redirect( base_url("pilar3/cordinads") );
@@ -642,35 +761,45 @@ public function selecrepo(){
          ));
          break;
       case 3:
-         echo "<link href='".base_url()."includefile/css/bootstrap.css' rel='stylesheet'type='text/css'>";
+      echo "<h3 style='color: rgba(15,81,117,1);'> <center><b>REPORTE CONSOLIDADO DE PROYECTOS</b></center><small><h3>";
+    echo "<center><h4>".$this->dbRepo->inCarrera($carre)."<h4></center>";      
+    echo "<div class='table-responsive' style='font-size:11px'><table class='table table-striped'>"
+    . "<tr><th>ORD</th>"
+    . "<th>COD</th>"
+    . "<th>TIP</th>"
+    . "<th>NOMBRES</th>"
+    . "<th>P2018</th><th>J1</th><th>J2</th><th>D</th><th>Tot2018</th>"
+    . "<th>P2019</th><th>J1</th><th>J2</th><th>D</th><th>Tot2019</th>"
+    . "<th>P2020</th><th>J1</th><th>J2</th><th>D</th><th>Tot2020</th>"
+    . "<th>P2021</th><th>J1</th><th>J2</th><th>D</th><th>Tot2021</th></tr>";
+    $table = $this->dbRepo->getSnapView( "vwDocentes", "IdCarrera=$carre AND Activo >=3 " );
+    $nro=1;
+    foreach ( $table->result() as $row ){
+    $conteo1=$this->conteoDoc($row->Id,'2018');
+    $conteo2=$this->conteoDoc($row->Id,'2019');  
+    $conteo3=$this->conteoDoc($row->Id,'2020');  
+    $conteo4=$this->conteoDoc($row->Id,'2021');
+    echo "<tr>";
+    echo "<td> <b>$nro</b> </td>";
+    echo "<td> $row->Codigo     </td>"; ;
+    echo "<td> $row->CategAbrev </td>";
+    echo "<td> $row->DatosPers  </td>";
+    echo " $conteo1";
+    echo " $conteo2";
+    echo " $conteo3";
+    echo " $conteo4";
 
-         echo "<h3 style='color: rgba(15,81,117,1);'> <center><b>REPORTE CONSOLIDADO DE PROYECTOS</b></center><small><h3>";
-         echo "<center><h4>".$this->dbRepo->inCarrera($carre)."<h4></center>";      
-         echo "<div class='table-responsive' style='font-size:11px'><table class='table table-striped'>"
-         . "<tr><th>ORD</th>"
-         . "<th>COD</th>"
-         . "<th>TIP</th>"
-         . "<th>NOMBRES</th>"
-         . "<th>Presi2018</th><th>J1</th><th>J2</th><th>D</th><th>Tot2018</th>"
-         . "<th>Presi2019</th><th>J1</th><th>J2</th><th>D</th><th>Tot2019</th></tr>";
-         $table = $this->dbRepo->getSnapView( "vwDocentes", "IdCarrera=$carre AND Activo >=3 " );
-         $nro=1;
-         foreach ( $table->result() as $row ){
-            $conteo1=$this->conteoDoc($row->Id,'2018');
-            $conteo2=$this->conteoDoc($row->Id,'2019');  
-            echo "<tr>";
-            echo "<td> <b>$nro</b> </td>";
-            echo "<td> $row->Codigo     </td>"; ;
-            echo "<td> $row->CategAbrev </td>";
-            echo "<td> $row->DatosPers  </td>";
-            echo " $conteo1";
-            echo " $conteo2";
-
-            echo "</tr>"; 
-            $nro++;
-         }
-         echo "</table>";
-         echo "NOTA: El reporte antes del 01 - 08 - 2017 contabiliza los proyectos rechazados, por la plataforma. A partir de esta fecha se quitaron del conteo.";
+    echo "</tr>"; 
+    $nro++;
+    }
+    echo "</table>";
+    echo "NOTA: El reporte antes del 01 - 08 - 2017 contabiliza los proyectos rechazados, por la plataforma. A partir de esta fecha se quitaron del conteo.";
+         break;
+      case 4:
+         $this->load->view("pilar/cord/report/4rpSustentaciones",array(
+            'IdCarrera'=>$carre,
+            'list'=>$this->dbPilar->getTable("tesSustens","IdCarrera='$carre' ORDER BY Fecha DESC"),
+         ));
          break;      
       default:
          echo "<br> Error .... !";
@@ -678,14 +807,14 @@ public function selecrepo(){
    }
 }
 
-function conteoDoc($idDoc,$anio){    
-   $j1=$this->dbPilar->getSnapView("tesTramites","Anio=$anio AND Estado >=2 AND IdJurado1=$idDoc")->num_rows();
-   $j2=$this->dbPilar->getSnapView("tesTramites","Anio=$anio AND Estado >=2 AND IdJurado2=$idDoc")->num_rows();
-   $j3=$this->dbPilar->getSnapView("tesTramites","Anio=$anio AND Estado >=2 AND IdJurado3=$idDoc")->num_rows();
-   $j4=$this->dbPilar->getSnapView("tesTramites","Anio=$anio AND Estado >=2 AND IdJurado4=$idDoc")->num_rows();
-   $tot=$j1+$j2+$j3+$j4;
-   return "<td>$j1</td><td>$j2</td><td>$j3</td><td>$j4</td><td> <b>$tot</b> </td>";
-}
+   private function conteoDoc($idDoc,$anio){    
+       $j1=$this->dbPilar->getSnapView("tesTramites","Anio=$anio AND Estado >=2 AND IdJurado1=$idDoc")->num_rows();
+       $j2=$this->dbPilar->getSnapView("tesTramites","Anio=$anio AND Estado >=2 AND IdJurado2=$idDoc")->num_rows();
+       $j3=$this->dbPilar->getSnapView("tesTramites","Anio=$anio AND Estado >=2 AND IdJurado3=$idDoc")->num_rows();
+       $j4=$this->dbPilar->getSnapView("tesTramites","Anio=$anio AND Estado >=2 AND IdJurado4=$idDoc")->num_rows();
+       $tot=$j1+$j2+$j3+$j4;
+       return "<td>$j1</td><td>$j2</td><td>$j3</td><td>$j4</td><td> <b>$tot</b> </td>";
+    }
 
 public function memoriaAnual(){  
    $this->load->view("pilar/head");
@@ -1113,8 +1242,8 @@ $this->load->view( "pilar/admin/verTrams", array (
 
 public function execRechaza( $idtram=0 ){
    $tram=$this->dbPilar->getSnapRow("tesTramites","Id=$idtram");
-   $msg = "<b>Saludos</b><br><br>\nSu proyecto ha sido rechazado, contiene los siguientes errores:\n"
-   . "<br><br><ul>\n<li> EL proyecto no cumple con el formato de la Escuela profesional.\n</ul><br>\nDeberá corregir y subir su proyecto a la brevedad posible.\n"
+   $msg = "<b>Saludos</b><br><br>\nSu trámite ha sido rechazado, contiene los siguientes errores:\n"
+   . "<br><br><ul>\n<li> EL documento no cumple con el formato de la Escuela profesional.\n</ul><br>\nDeberá corregir y subir su proyecto a la brevedad posible.\n"
    . "<br><b>Nota</b>: Revise el <a href='http://vriunap.pe/vriadds/pilar/doc/manual_tesistav3.pdf'>manual de tesista aquí.</a>";
 
    echo "  
@@ -1139,10 +1268,10 @@ public function execRechaza( $idtram=0 ){
    <br><br>
    </div>
    </form>
+   <button type='button'class='btn btn-success' id='modal-btn-si' onclick='popExeRechaza(\"$idtram\")'>GUARDAR</button>
    </div>
    <div class='modal-footer'>
-   <button type='button'class='btn btn-success' id='modal-btn-si' onclick='popExeRechaza(\"$idtram\")'>GUARDAR</button>
-   <button type='button' class='btn btn-danger' id='modal-btn-no' data-dismiss='modal'>CANCELAR</button>
+   <button type='button' class='btn btn-danger' id='modal-btn-no' data-dismiss='modal'>SALIR</button>
    </div>
    </div>";
 
@@ -1162,26 +1291,98 @@ private function inRechaza( $rowTram , $msg)
 {
    $tram = $this->dbPilar->inProyTram( $rowTram->Id );
    $sess = $this->gensession->GetSessionData(PILAR_CORDIS);
-   if( $tram->Estado >= 4 ) {
-      echo "Error: No es borrable";
-      return;
-   }
+      if( $tram->Estado == 1 or $tram->Estado ==3  or $tram->Estado == 11  ) {
+         echo $msg;
+            // $this->dbPilar->Delete( "tesTramites", $tram->Id );
+            // no borramos pero dejamos para consultas de eliminacion
+         if ($tram->Estado==1)$this->dbPilar->Update( "tesTramites", array('Tipo'=>0), $tram->Id );
+         if ($tram->Estado==3)$this->dbPilar->Update( "tesTramites", array('Tipo'=>0), $tram->Id );
+         if ($tram->Estado==11)$this->dbPilar->Update( "tesTramites", array('Estado'=>10), $tram->Id );
 
-   echo $msg;
-      // $this->dbPilar->Delete( "tesTramites", $tram->Id );
-      // no borramos pero dejamos para consultas de eliminacion
-   $this->dbPilar->Update( "tesTramites", array('Tipo'=>0,'Estado'=>0), $tram->Id );
-
-      // 
-      // envio de correo
-      //
-   $mail = $this->dbPilar->inCorreo( $tram->IdTesista1 );
-   $this->logCordinads('S', '5 ', "Retorna Proyecto : Corregir Formato", $msg );
-   $this->logCorreo( $tram->IdTesista1,0, $mail, "Corregir Formato Retornado", $msg );
-      // private function logCorreo( $idTes,$idDoc, $correo, $titulo, $mensaje )
-   $this->logTramites($sess->userId , $tram->Id, "Retorna Proyecto : Corregir Formato", $msg );
-   echo "<br><br> <b class='text-danger'>$tram->Codigo</b> fue Retornado...";
+         $mail = $this->dbPilar->inCorreo( $tram->IdTesista1 );
+         $this->logCordinads('S', '5', "Retorna Documento : Corregir Formato", $msg );
+         $this->logCorreo( $tram->IdTesista1,0, $mail, "Corregir Formato Retornado", $msg );
+         $maild = $this->dbRepo->inCorreo( $tram->IdJurado4 );
+         $this->logCorreo(0,$tram->IdJurado4 , $maild, "Corregir Formato Retornado", "Dirección de tesis : $tram->Codigo <br>".$msg );
+         $this->logTramites($sess->userId , $tram->Id, "Retorna Documento : Corregir Formato", $msg );
+         echo "<br><br> <b class='text-danger'>$tram->Codigo</b> fue Retornado...";
+          return;
+      }
+   echo "Error: El trámite no se puede borrar.";
+  
 }
+
+
+   //
+   // envia que revisen borrador los jurados completos
+   //
+   public function listBrDire( $idtram=0 )
+   {
+      $this->gensession->IsLoggedAccess( PILAR_CORDIS );
+      if( !$idtram ) return;
+
+      $tram = $this->dbPilar->inProyTram($idtram);
+      if(!$tram){ echo "No registro"; return; }
+
+      // solo los que estan en espera pasan
+      if( $tram->Estado != 11 ) {
+         echo "Error: su estado no era en espera, no enviado.";
+         return;
+      }
+
+      //
+      // pasamos estado a revision de borrador
+      //
+      $this->dbPilar->Update( "tesTramites", array(
+            'Estado'    => 12,
+            'FechModif' => mlCurrentDate()
+         ), $tram->Id );
+
+
+        // generamos el memo borrados revis
+        $nroMemo = $this->inGenMemo( $tram, 4 );
+
+        echo "Cod de Tramite: <b>$tram->Codigo</b><br>";
+        echo "Memo Circular: <b>$nroMemo</b><br>";
+
+
+      $msg = "<h4>Borrador enviado a Revisión</h4><br>"
+          . "Su Borrador de Tesis: <b>$tram->Codigo</b> ha sido enviado a los cuatro miembros de su Jurado. "
+          . "El mismo que será revisado mediante la <b>Plataforma PILAR</b>."
+          ;
+
+      $this->logTramites($sess->userId , $tram->Id, "Borrador Enviado a Revisión", $msg );
+      
+      $mail = $this->dbPilar->inCorreo( $tram->IdTesista1 );
+      $this->logCorreo( $tram->IdTesista1,0, $mail, "Borrador enviado a revisión", $msg );
+
+      // envio a jurados
+      //
+      $det = $this->dbPilar->inLastTramDet( $tram->Id );
+      $msg = "<h4>Revisión Electrónica</h4><br>"
+          . "Por la presente se le comunica que se le ha enviado a su cuenta de Docente en la "
+          . "<b>Plataforma PILAR</b> el borrador de tesis con el siguiente detalle:<br><br>   "
+          . "Memo Circular: <b>$nroMemo-VRI-UNAP</b><br>"
+          . "Tesista(s) : <b>" . $this->dbPilar->inTesistas($tram->Id) . "</b><br>"
+          . "Título : <b> $det->Titulo </b><br><br>"
+          . "Ud. tiene un plazo de 10 dias hábiles para realizar las revisiones mediante la Plataforma."
+          ;
+
+      $corr1 = $this->dbRepo->inCorreo( $tram->IdJurado1 );
+      $corr2 = $this->dbRepo->inCorreo( $tram->IdJurado2 );
+      $corr3 = $this->dbRepo->inCorreo( $tram->IdJurado3 );
+      $corr4 = $this->dbRepo->inCorreo( $tram->IdJurado4 );
+
+      $this->logCorreo( 0,$tram->IdJurado1, $corr1, "Revisión de Borrador de Tesis", $msg );
+      $this->logCorreo( 0,$tram->IdJurado2, $corr2, "Revisión de Borrador de Tesis", $msg );
+      $this->logCorreo( 0,$tram->IdJurado3, $corr3, "Revisión de Borrador de Tesis", $msg );
+      $this->logCorreo( 0,$tram->IdJurado4, $corr4, "Revisión de Borrador de Tesis", $msg );
+
+
+      //echo $tram->Codigo . " fue Enviado a su Director";
+      echo "Correos enviados correctamente<br>";
+        echo "El Borrador está en Revisión desde Hoy.<br>";
+   }
 
 public function listPyDire( $idtram=0 )
 {
@@ -1270,7 +1471,7 @@ public function execSorteo( $idtram=0 )
 <h4 class='modal-title text-primary' id='myModalLabel'>SORTEO DE JURADOS - PILAR </h4>
 </div>
 <div class ='modal-body' id='sortis'><h3 class='text-right text-danger' style:'margin-top:0px;'> Intento N°  <i id='cntSor'>$intentos</i></h3> <form name='sorT' id='sorT' method='post'>";
-    if($intentos>=5){
+    if($intentos>=6){
         echo "El proyecto ya cuenta con $intentos intentos, No puede ser Sorteado";
         exit(0);
     }
@@ -1545,6 +1746,7 @@ public function inDoSorteoX( $rowTram ){
 
    echo "$j1 / $j2 /$j3 /$j4  ";
 }
+
 public function inDoSorteo($idTram){
    $rowTram=$this->dbPilar->getSnapRow("tesTramites","Id=$idTram");
    $sess=$this->gensession->GetSessionData(PILAR_CORDIS);
@@ -1667,68 +1869,67 @@ public function inDoSorteo($idTram){
       $this->load->view("pilar/cord/info/bsqtesista");
    }
 
-   public function listBusqTesis()
-    {
-        // mostrar ampliación si tiene
-        // busqueda detallada del estado de tesistas
-        $this->gensession->IsLoggedAccess( PILAR_CORDIS );
-
-        $cod = mlSecurePost( "dni" );
-        $dat = $cod;
-        if( !$cod && !$dat ) return;
-
-        $idtes = 0;
-        $datas = 0;
-      if( $cod ) {
-         $trams = $this->dbPilar->inTramByCodigo( $cod );
+   public function listBusqTesis(){
+      // mostrar ampliación si tiene
+      // busqueda detallada del estado de tesistas
+      $this->gensession->IsLoggedAccess( PILAR_CORDIS );
+      $idCarr=mlGetGlobalVar('IdCarrera');
+      $dat = mlSecurePost( "dni" );
+      $datas=0;
+      if( $dat ) {
+         $trams = $this->dbPilar->inTramByCodigo( $dat );
          if( $trams ){
-             $datas = $this->dbPilar->getSnapRow( "vxDatTesistas", "Id=$trams->IdTesista1" );
-                $idtes = $trams->IdTesista1;
-            }
-      }
-      else {
-
-            if( is_numeric($dat) and strlen($dat)==6 ){
-
-                $datas = $this->dbPilar->getSnapRow( "vxDatTesistas", "Codigo='$dat'" );
+            $datas = $this->dbPilar->getSnapRow( "vxDatTesistas", "Id=$trams->IdTesista1" );
+            $idtes = $trams->IdTesista1;
+         }
+         else {
+            if( strlen($dat)==6 ){
+               $dati=is_integer($dat);
+                $datas = $this->dbPilar->getSnapRow( "vxDatTesistas", "Codigo LIKE '$dati'" );
                 $idtes = ($datas)? $datas->Id : 0;
-
-            } else {
-
-                $filto = is_numeric($dat)? "DNI LIKE '$dat%'" : "DatosPers LIKE '%$dat%'";
+            }else {
+                $filto = (is_numeric($dat))? "DNI LIKE '$dat%'" : "DatosPers LIKE '%$dat%'";
                 $datas = $this->dbPilar->getSnapRow( "vxDatTesistas", $filto );
                 $idtes = ($datas)? $datas->Id : 0;
             }
-
-            $trams = (!$datas)? null : $this->dbPilar->inTramByTesista( $datas->Id );
+         }
+         if ($datas) {
+            $trams = $this->dbPilar->inTramByTesista( $datas->Id );
+         }
       }
+      // if( !$trams ) {
+      //    echo "Sin registros";
+      //    return;
+      // }
 
-      if( !$trams && !$datas) {
-         echo "Sin registros";
+      // verificar que exista un trámite
+      $idTram = ($trams)? $trams->Id : 0;
+
+      $idecarera=$this->dbPilar->getOneField('tblTesistas','IdCarrera',"Id=$idtes");
+   // 
+      if ($idCarr != $idecarera ) { 
+
+         $carrera= $this->dbRepo->inCarrera($idCarr);
+         echo "<div class='alert alert-warning'><b class='text-danger'>NOTA:</b> <p>El código que ha buscado pertenece a la escuela <b> $carrera</b>, es necesario es necesario seleccionar una escuela profesional correcta para porder visualiazar los datos .<br><small>Esquina superior derecha.</small></p></div>";
          return;
       }
-
-        // verificar que exista un trámite
-        $idTram = ($trams)? $trams->Id : 0;
-
+      
       // renderizamos los resultados
-      $this->load->view( "pilar/cord/rslttesista", array(
-                'idtes' => $idtes,
+      $this->load->view( "pilar/cord/info/rslttesista", array(
+            'idtes' => $idtes,
             'tdata' => $datas,
             'ttram' => $trams,
-                'proyA' => $this->dbPilar->inTramDetIter($idTram,3),
-                'tamps' => $this->dbPilar->inAmpliacion($idTram),
+            'proyA' => $this->dbPilar->inTramDetIter($idTram,3),
+            'tamps' => $this->dbPilar->inAmpliacion($idTram),
             'tdets' => $this->dbPilar->inProyDetail( $trams? $trams->Id : 0 )
          ) );
-    }
-
+    
+}
    public function vwFormatos(){
       $this->load->helper(array('form', 'url'));
       $carrera=mlGetGlobalVar("IdCarrera");
-      $this->load->view("pilar/cord/info/formatos",array('error' => ' '));
+      $this->load->view("pilar/cord/info/formatos",array('error' => ''));
    }
-
-
 
    public function do_upload(){
       $config = array(
